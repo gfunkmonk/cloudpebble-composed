@@ -1,4 +1,4 @@
-# encoding: utf-8
+ encoding: utf-8
 # Django settings for cloudpebble project.
 
 import sys
@@ -347,8 +347,8 @@ MAILCHIMP_API_KEY = _environ.get('MAILCHIMP_API_KEY', None)
 MAILCHIMP_LIST_ID = _environ.get('MAILCHIMP_LIST_ID', None)
 
 AWS_ENABLED = 'AWS_ENABLED' in _environ
-AWS_ACCESS_KEY_ID = _environ.get('AWS_ACCESS_KEY_ID', 'AKIAJKYN4QTG6RJV7E5Q')
-AWS_SECRET_ACCESS_KEY = _environ.get('AWS_SECRET_ACCESS_KEY', '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')
+AWS_ACCESS_KEY_ID = _environ.get('AWS_ACCESS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY = _environ.get('AWS_SECRET_ACCESS_KEY', '')
 
 AWS_S3_SOURCE_BUCKET = _environ.get('AWS_S3_SOURCE_BUCKET', 'source.cloudpebble.net')
 AWS_S3_BUILDS_BUCKET = _environ.get('AWS_S3_BUILDS_BUCKET', 'builds.cloudpebble.net')
