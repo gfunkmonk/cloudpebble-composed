@@ -99,7 +99,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -347,8 +347,8 @@ MAILCHIMP_API_KEY = _environ.get('MAILCHIMP_API_KEY', None)
 MAILCHIMP_LIST_ID = _environ.get('MAILCHIMP_LIST_ID', None)
 
 AWS_ENABLED = 'AWS_ENABLED' in _environ
-AWS_ACCESS_KEY_ID = _environ.get('AWS_ACCESS_KEY_ID', None)
-AWS_SECRET_ACCESS_KEY = _environ.get('AWS_SECRET_ACCESS_KEY', None)
+AWS_ACCESS_KEY_ID = _environ.get('AWS_ACCESS_KEY_ID', 'AKIAJKYN4QTG6RJV7E5Q')
+AWS_SECRET_ACCESS_KEY = _environ.get('AWS_SECRET_ACCESS_KEY', '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')
 
 AWS_S3_SOURCE_BUCKET = _environ.get('AWS_S3_SOURCE_BUCKET', 'source.cloudpebble.net')
 AWS_S3_BUILDS_BUCKET = _environ.get('AWS_S3_BUILDS_BUCKET', 'builds.cloudpebble.net')

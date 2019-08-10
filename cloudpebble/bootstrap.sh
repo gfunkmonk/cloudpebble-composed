@@ -7,7 +7,7 @@ sudo sed -i -e 's#archive.ubuntu.com#mirrors.mit.edu#g' /etc/apt/sources.list
 # Install a bunch of things we want
 apt-get update
 apt-get install -y aptitude
-aptitude install -y python-pip mercurial git python-dev python-psycopg2 rabbitmq-server libmpc libevent-dev lighttpd \
+aptitude install -y python-pip mercurial git python-dev python-psycopg rabbitmq-server libmpc libevent-dev lighttpd \
                         python-software-properties cmake build-essential \
                         pkg-config libgnutls-dev libglib2.0-dev libpixman-1-dev libfdt-dev libev-dev
 
@@ -46,14 +46,14 @@ pushd /vagrant
 popd
 
 # We'll need this later
-wget --progress=bar:force -O arm-cs-tools.tar.bz2 http://assets.getpebble.com.s3-website-us-east-1.amazonaws.com/sdk/arm-cs-tools-ubuntu-universal.tar.gz
-sudo -u vagrant tar -xzf arm-cs-tools.tar.bz2
-rm arm-cs-tools.tar.bz2
+wget --progress=bar:force -O arm-cs-tools.tar.gz https://web.archive.org/web/20151018184925/http://assets.getpebble.com.s3-website-us-east-1.amazonaws.com/sdk/arm-cs-tools-ubuntu-universal.tar.gz
+sudo -u vagrant tar -xzf arm-cs-tools.tar.gz
+rm arm-cs-tools.tar.gz
 
 # Obtain SDK2.
 sudo -u vagrant mkdir sdk2
 pushd sdk2
-    wget --progress=bar:force -O sdk.tar.gz https://sdk.getpebble.com/download/2.8.1?source=cloudpebble
+    wget --progress=bar:force -O sdk.tar.gz https://web.archive.org/web/20171221154852/http://assets.getpebble.com.s3-website-us-east-1.amazonaws.com/sdk2/PebbleSDK-2.9.tar.gz
     sudo -u vagrant tar --strip 1 -xzf sdk.tar.gz
     rm sdk.tar.gz
     sudo -u vagrant ln -s ~/arm-cs-tools arm-cs-tools
@@ -63,9 +63,9 @@ popd
 # Obtain SDK3.
 sudo -u vagrant mkdir sdk3
 pushd sdk3
-    wget --progress=bar:force -O sdk.tar.gz https://s3.amazonaws.com/assets.getpebble.com/sdk3/release/sdk-core-3.8.1.tar.bz2
-    sudo -u vagrant tar --strip 1 -xzf sdk.tar.gz
-    rm sdk.tar.gz
+    wget --progress=bar:force -O sdk.tar.bz2 https://pebble.rip/SDKCores/sdk-core-4.3.tar.bz2
+    sudo -u vagrant tar --strip 1 -xjf sdk.tar.bz2
+    rm sdk.tar.bz2
     sudo -u vagrant ln -s ~/arm-cs-tools arm-cs-tools
     pip install -r requirements.txt
 popd
