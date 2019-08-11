@@ -1,7 +1,7 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=12.8.0 DJANGO_VERSION=1.8 NODEJS_CHECK_SIGNATURES=no
+ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=12.8.0 DJANGO_VERSION=1.11 NODEJS_CHECK_SIGNATURES=no
 
 #    C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
 # Node stuff.
@@ -29,25 +29,29 @@ RUN apt-get update && apt-get install -y \
     postgresql-client libpq-dev \
   --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-RUN pip install psycopg2 django=="$DJANGO_VERSION"
+RUN pip2 install psycopg2 django=="$DJANGO_VERSION"
 
 EXPOSE 8000
 
 # CloudPebble stuff
+RUN npm install -g bower && echo '{"allow_root": true}' > /root/.bowerrc
 #RUN npx bower instal && echo '{"allow_root": true}' > ~/.bowerrc
-RUN npm set progress=false && \
-    npm install --global --progress=false bower && \
-    echo '{ "allow_root": true }' > /root/.bowerrc
 
-#COPY package.json /www/package.json
-RUN npm install
+#RUN npm set progress=false && \
+#    npm install --global --progress=false bower && \
+#    echo '{ "allow_root": true }' > /root/.bowerrc
+
+COPY package.json /www/package.json
+#RUN npm install
+#RUN npm audit fix
 
 # Grab the toolchain
 RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
   tar -xf /tmp/arm-cs-tools.tar -C / && rm /tmp/arm-cs-tools.tar
 
 ADD requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+#RUN pip install --no-cache-dir -r /tmp/requirements.txt
+RUN pip2 install -r /tmp/requirements.txt
 
 ENV SDK_TWO_VERSION=3.0
 

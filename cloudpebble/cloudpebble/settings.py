@@ -1,4 +1,4 @@
- encoding: utf-8
+# -*- coding: utf-8 -*-
 # Django settings for cloudpebble project.
 
 import sys
@@ -156,11 +156,11 @@ BOWER_INSTALLED_APPS = (
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.3.1',
+    'html.sortable#~1.8.4',
     'alexgorbatchev/jquery-textext',
     'codemirror#5.20.0',
-    'bluebird#3.3.4',
-    'kanaka/noVNC#v0.5',
+    'bluebird#3.5.5',
+    'kanaka/noVNC#v1.0.0',
 )
 
 # Make this unique, and don't share it with anybody.
