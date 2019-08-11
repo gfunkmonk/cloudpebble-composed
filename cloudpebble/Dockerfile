@@ -1,7 +1,7 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=12.8.0 DJANGO_VERSION=1.6 NODEJS_CHECK_SIGNATURES=no
+ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=12.8.0 DJANGO_VERSION=1.8 NODEJS_CHECK_SIGNATURES=no
 
 #    C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
 # Node stuff.
@@ -36,7 +36,7 @@ EXPOSE 8000
 # CloudPebble stuff
 #RUN npx bower instal && echo '{"allow_root": true}' > ~/.bowerrc
 RUN npm set progress=false && \
-    npm install --global --progress=false bower00 && \
+    npm install --global --progress=false bower && \
     echo '{ "allow_root": true }' > /root/.bowerrc
 
 #COPY package.json /www/package.json

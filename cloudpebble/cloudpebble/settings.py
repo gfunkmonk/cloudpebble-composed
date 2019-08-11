@@ -150,15 +150,15 @@ STATICFILES_FINDERS = (
 )
 
 BOWER_INSTALLED_APPS = (
-    'https://github.com/krisk/Fuse.git#2ec2f2c40059e135cabf2b01c8c3f96f808b8809',
-    'jquery#~2.1.3',
+    'https://github.com/krisk/Fuse.git#a546cb3aa2a845e4f4cb2460ad94e0b92ccbe407',
+    'jquery#~3.4.1',
     'underscore',
     'backbone',
     'text-encoding',
     'jshint/jshint',
     'html.sortable#~0.3.1',
     'alexgorbatchev/jquery-textext',
-    'codemirror#4.2.0',
+    'codemirror#5.20.0',
     'bluebird#3.3.4',
     'kanaka/noVNC#v0.5',
 )
@@ -347,8 +347,8 @@ MAILCHIMP_API_KEY = _environ.get('MAILCHIMP_API_KEY', None)
 MAILCHIMP_LIST_ID = _environ.get('MAILCHIMP_LIST_ID', None)
 
 AWS_ENABLED = 'AWS_ENABLED' in _environ
-AWS_ACCESS_KEY_ID = _environ.get('AWS_ACCESS_KEY_ID', '')
-AWS_SECRET_ACCESS_KEY = _environ.get('AWS_SECRET_ACCESS_KEY', '')
+AWS_ACCESS_KEY_ID = _environ.get('AWS_ACCESS_KEY_ID', None)
+AWS_SECRET_ACCESS_KEY = _environ.get('AWS_SECRET_ACCESS_KEY', None)
 
 AWS_S3_SOURCE_BUCKET = _environ.get('AWS_S3_SOURCE_BUCKET', 'source.cloudpebble.net')
 AWS_S3_BUILDS_BUCKET = _environ.get('AWS_S3_BUILDS_BUCKET', 'builds.cloudpebble.net')

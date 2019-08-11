@@ -22,8 +22,6 @@ web:
     - PUBLIC_URL=http://192.168.99.100/
     - LIBPEBBLE_PROXY=wss://cloudpebble-ws.herokuapp.com/tool
     - PEBBLE_AUTH_URL=https://auth.rebble.io
-    env_file:
-      - ./.env
 celery:
   build: cloudpebble/
   volumes:
@@ -38,8 +36,6 @@ celery:
     - AWS_ENABLED=yes
     - EXPORT_ROOT=http://192.168.99.100:8003/export.cloudpebble.net/
     - AWS_S3_FAKE_S3=192.168.99.100:8003
-    env_file:
-      - ./.env
 qemu:
   build: cloudpebble-qemu-controller/
   volumes:
