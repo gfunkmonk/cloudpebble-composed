@@ -328,8 +328,8 @@ EXPORT_DIRECTORY = os.getcwd() + '/user_data/export/'
 
 EXPORT_ROOT = _environ.get('EXPORT_ROOT', 'http://localhost:8001/export/')
 
-GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', 'Iv1.0729087a1055e2af')
-GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', '8baac2f3ee06b17ba251c1523c31c707935b5f7c')
+GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', 'aa2675ff435cb68e49d2')
+GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', '513ec4d341ecea6516dfe0482f508488d95f2329')
 
 GITHUB_HOOK_TEMPLATE = _environ.get('GITHUB_HOOK', 'http://example.com/ide/project/%(project)d/github/push_hook?key=%(key)s')
 

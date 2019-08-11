@@ -7,7 +7,7 @@ sudo sed -i -e 's#archive.ubuntu.com#mirrors.mit.edu#g' /etc/apt/sources.list
 # Install a bunch of things we want
 apt-get update
 apt-get install -y aptitude
-aptitude install -y python-pip mercurial git python-dev python-psycopg rabbitmq-server libmpc libevent-dev lighttpd \
+aptitude install -y python-pip mercurial git python-dev python-psycopg2 rabbitmq-server libmpc libevent-dev lighttpd \
                         python-software-properties cmake build-essential \
                         pkg-config libgnutls-dev libglib2.0-dev libpixman-1-dev libfdt-dev libev-dev
 
