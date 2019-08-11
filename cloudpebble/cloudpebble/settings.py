@@ -156,7 +156,7 @@ BOWER_INSTALLED_APPS = (
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~1.8.4',
+    'html.sortable#~0.8.1',
     'alexgorbatchev/jquery-textext',
     'codemirror#5.20.0',
     'bluebird#3.5.5',
@@ -239,9 +239,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    #'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+     'django.contrib.admindocs',
     'social.apps.django_app.default',
     'ide',
     'auth',

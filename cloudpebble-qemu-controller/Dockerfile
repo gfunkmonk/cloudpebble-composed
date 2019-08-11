@@ -6,8 +6,12 @@ RUN apt-get update && apt-get install -y \
 
 ENV QEMU_VERSION 2.5.0-pebble4
   
-RUN mkdir /qemu && cd /qemu && \
-  curl -L https://github.com/pebble/qemu/archive/v${QEMU_VERSION}.tar.gz | tar xz --strip 1 && \
+#RUN mkdir /qemu && cd /qemu && \
+#  curl -L https://github.com/pebble/qemu/archive/v${QEMU_VERSION}.tar.gz | tar xz --strip 1 && \
+
+RUN git clone https://github.com/gfunkmonk/qemu/ 
+
+RUN cd /qemu && \
   ./configure \
 #    --enable-tcg-interpreter \
 	--extra-ldflags=-g \
@@ -16,11 +20,14 @@ RUN mkdir /qemu && cd /qemu && \
     --enable-debug --disable-werror --target-list="arm-softmmu" \
 #    --extra-cflags=-DDEBUG_CLKTREE --extra-cflags=-DDEBUG_STM32_RCC \
 #    --extra-cflags=-DDEBUG_STM32_UART \
-#    --extra-cflags=-DDEBUG_GIC 
+#    --extra-cflags=-DDEBUG_GIC \
+     --extra-cflags="-DSTM32_UART_NO_BAUD_DELAY -std=gnu99" \
+     --enable-vnc \
+#     --disable-sdl \
 	&& \
   make clean && \
   make -j4
-
+	
 ENV PYPKJS_VERSION 1.1.1
 
 #RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v$PYPKJS_VERSION --recursive
