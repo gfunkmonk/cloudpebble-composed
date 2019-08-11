@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 # Django settings for cloudpebble project.
 
 import sys
@@ -99,7 +99,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -150,17 +150,17 @@ STATICFILES_FINDERS = (
 )
 
 BOWER_INSTALLED_APPS = (
-    'https://github.com/krisk/Fuse.git#2ec2f2c40059e135cabf2b01c8c3f96f808b8809',
-    'jquery#~2.1.3',
+    'https://github.com/krisk/Fuse.git#a546cb3aa2a845e4f4cb2460ad94e0b92ccbe407',
+    'jquery#~3.4.1',
     'underscore',
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.3.1',
+    'html.sortable#~1.8.4',
     'alexgorbatchev/jquery-textext',
-    'codemirror#4.2.0',
-    'bluebird#3.3.4',
-    'kanaka/noVNC#v0.5',
+    'codemirror#5.20.0',
+    'bluebird#3.5.5',
+    'kanaka/noVNC#v1.0.0',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -328,8 +328,8 @@ EXPORT_DIRECTORY = os.getcwd() + '/user_data/export/'
 
 EXPORT_ROOT = _environ.get('EXPORT_ROOT', 'http://localhost:8001/export/')
 
-GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', 'Iv1.0729087a1055e2af')
-GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', '8baac2f3ee06b17ba251c1523c31c707935b5f7c')
+GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', 'aa2675ff435cb68e49d2')
+GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', '513ec4d341ecea6516dfe0482f508488d95f2329')
 
 GITHUB_HOOK_TEMPLATE = _environ.get('GITHUB_HOOK', 'http://example.com/ide/project/%(project)d/github/push_hook?key=%(key)s')
 

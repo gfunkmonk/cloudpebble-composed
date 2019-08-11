@@ -81,6 +81,9 @@ def launch_emulator(request):
             logger.warning("Got HTTP error from QEMU launch. Content:\n%s", e.response.text)
         except (requests.RequestException, ValueError) as e:
             logger.error("Error launching qemu: %s", e)
+        except:
+            import traceback
+            traceback.print_exc()
     raise InternalServerError(_("Unable to create emulator instance."))
 
 
