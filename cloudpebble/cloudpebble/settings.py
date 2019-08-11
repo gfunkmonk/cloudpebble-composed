@@ -156,7 +156,7 @@ BOWER_INSTALLED_APPS = (
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~1.8.4',
+    'html.sortable#~0.3.1',
     'alexgorbatchev/jquery-textext',
     'codemirror#5.20.0',
     'bluebird#3.5.5',
@@ -239,9 +239,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    #'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+     'django.contrib.admindocs',
     'social.apps.django_app.default',
     'ide',
     'auth',
@@ -328,8 +328,8 @@ EXPORT_DIRECTORY = os.getcwd() + '/user_data/export/'
 
 EXPORT_ROOT = _environ.get('EXPORT_ROOT', 'http://localhost:8001/export/')
 
-GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', 'aa2675ff435cb68e49d2')
-GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', '513ec4d341ecea6516dfe0482f508488d95f2329')
+GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', 'Iv1.0729087a1055e2af')
+GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', '8baac2f3ee06b17ba251c1523c31c707935b5f7c')
 
 GITHUB_HOOK_TEMPLATE = _environ.get('GITHUB_HOOK', 'http://example.com/ide/project/%(project)d/github/push_hook?key=%(key)s')
 

@@ -9,6 +9,10 @@ RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   git submodule update --init --recursive && \
   ./build.sh --clang-completer
 
+#RUN git clone https://github.com/Valloric/ycmd.git -b clang-format /ycmd && cd /ycmd && \
+#  git submodule update --init --recursive && \
+#  ./build.py --clang-completer
+
 # Grab the toolchain
 RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
   tar -xf /tmp/arm-cs-tools.tar -C / && rm /tmp/arm-cs-tools.tar
@@ -42,7 +46,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 
 RUN npm install npm -g
 
-ENV SDK_TWO_VERSION=2.9
+ENV SDK_TWO_VERSION=3.0
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
