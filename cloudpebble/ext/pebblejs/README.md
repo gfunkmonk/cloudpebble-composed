@@ -7,33 +7,61 @@ Pebble.js lets you write beautiful Pebble applications completely in JavaScript.
 
 Pebble.js applications run on your phone. They have access to all the resources of your phone (internet connectivity, GPS, almost unlimited memory, etc). Because they are written in JavaScript they are also perfect to make HTTP requests and connect your Pebble to the internet.
 
-**Warning:** Pebble.js is still in beta, so breaking API changes are possible. Pebble.js is best suited for prototyping and applications that inherently require communication in response to user actions, such as accessing the internet. Please be aware that as a result of Bluetooth round-trips for all actions, Pebble.js apps will use more power and respond slower to user interaction than a similar native app.
+**Warning:** Please be aware that as a result of Bluetooth round-trips for all actions, Pebble.js apps will use more power and respond slower to user interaction than a similar native app.
 
 > ![JSConf 2014](http://2014.jsconf.us/img/logo.png)
 >
 > Pebble.js was announced during JSConf 2014!
 
 ## Getting Started
+The easiest way to use Pebble.js is to use the Pebble Package distributed on the [NPM registry](https://www.npmjs.com/package/pebblejs).
 
- * In CloudPebble
+ * In CloudPebble  
+   On the dependencies screen, enter `pebblejs` and the version number of the package on [npm](https://www.npmjs.com/package/pebblejs) that you wish to use.
+   
+   Next, add a C source file and add the following code to the C source file:
+   ```
+   #include <pebble.h>
+   #include <pebblejs/simply.h>
 
-   The easiest way to use Pebble.js is in [CloudPebble](https://cloudpebble.net). Select the 'Pebble.js' project type when creating a new project.
-
+   int main(void) {
+       Simply *simply = simply_create();
+       app_event_loop();
+       simply_destroy(simply);
+   }
+   ```
+   
+   Now you're ready to start using Pebble.js APIs! Add a new JS source file to start adding your JS code.
+   
    [Build a Pebble.js application now in CloudPebble >](https://cloudpebble.net)
 
  * With the Pebble SDK
 
-   This option allows you to customize Pebble.js. Follow the [Pebble SDK installation instructions](https://developer.pebble.com/sdk/install/) to install the SDK on your computer and [fork this project](http://github.com/pebble/pebblejs) on Github. 
+   Follow the [Pebble SDK installation instructions](https://developer.pebble.com/sdk/install/) to install the SDK on your computer. Run `pebble new-project --javascript <appname>` and in the package.json file for the project, under `dependencies`, add an entry for `pebblejs`. See the [npm docs](https://docs.npmjs.com/files/package.json#dependencies) for more information on how to specify dependencies in your project.
    
-   The main entry point for your application is in the `src/js/app.js` file. For projects with multiple files, you may move `src/js/app.js` to `src/js/app/index.js` instead and create new files under `src/js/app`.
+   In your `src/c/<appname>.c` file, replace the template code with the following code:
+   ```
+   #include <pebble.h>
+   #include <pebblejs/simply.h>
+
+   int main(void) {
+       Simply *simply = simply_create();
+       app_event_loop();
+       simply_destroy(simply);
+   }
+   ```
+   
+   Now you're ready to start using Pebble.js APIs! A template JS source file was created for you at `src/pkjs/index.js`. Modify this file (removing template code) with your JS code that uses Pebble.js APIs.
 
    [Install the Pebble SDK on your computer >](http://developer.pebble.com/sdk/install/)
 
 
-Pebble.js applications follow modern JavaScript best practices. To get started, you just need to call `require('ui')` to load the UI module and start building user interfaces.
+Pebble.js applications follow modern JavaScript best practices. To get started, you just need to call `require('pebblejs')`.
+
+To load the UI module and start building user interfaces, call `require('pebblejs/ui')`.
 
 ````js
-var UI = require('ui');
+var UI = require('pebblejs/ui');
 ````
 
 The basic block to build user interface is the [Card]. A Card is a type of [Window] that occupies the entire screen and allows you to display some text in a pre-structured way: a title at the top, a subtitle below it and a body area for larger paragraphs. Cards can be made scrollable to display large quantities of information. You can also add images next to the title, subtitle or in the body area.
@@ -63,7 +91,7 @@ card.on('click', function(e) {
 Making HTTP connections is very easy with the included `ajax` library.
 
 ````js
-var ajax = require('ajax');
+var ajax = require('pebblejs/lib/ajax');
 ajax({ url: 'http://api.theysaidso.com/qod.json', type: 'json' },
   function(data) {
     card.body(data.contents.quotes[0].quote);
@@ -94,7 +122,7 @@ We recommend that you follow these guidelines when preparing your images for Peb
  * Use an image editor or [HyperDither](http://2002-2010.tinrocket.com/software/hyperdither/index.html) to dither your image in black and white.
  * Remember that the maximum size for a Pebble application is 100kB. You will quickly reach that limit if you add too many images.
 
-To add an image in your application, edit the `appinfo.json` file and add your image:
+To add an image in your application, edit the `package.json` file and add your image:
 
 ````js
 {
@@ -118,8 +146,8 @@ You can also display images with [Image] when using a dynamic [Window].
 
 ````js
 // This is an example of using an image with Image and Window
-var UI = require('ui');
-var Vector2 = require('vector2');
+var UI = require('pebblejs/ui');
+var Vector2 = require('pebblejs/lib/vector2');
 
 var wind = new UI.Window({ fullscreen: true });
 var image = new UI.Image({
@@ -137,7 +165,7 @@ wind.show();
 You can use any of the Pebble system fonts in your Pebble.js applications. Please refer to [this Pebble Developer's blog post](https://developer.pebble.com/blog/2013/07/24/Using-Pebble-System-Fonts/) for a list of all the Pebble system fonts. When referring to a font, using lowercase with dashes is recommended. For example, `GOTHIC_18_BOLD` becomes `gothic-18-bold`.
 
 ````js
-var Vector2 = require('vector2');
+var Vector2 = require('pebblejs/lib/vector2');
 
 var wind = new UI.Window();
 var textfield = new UI.Text({
@@ -183,7 +211,7 @@ The following table includes examples of all the supported formats in Pebble.js:
 Various parts of the Pebble.js API support color. Parameters of the type Color can take any of the color formats mentioned in the above table.
 
 ````js
-var UI = require('ui');
+var UI = require('pebblejs/ui');
 
 var card = new UI.Card({
   title: 'Using Color',
@@ -203,8 +231,8 @@ card.show();
 When using color or not, be mindful that your users may not have a Pebble supporting color or the reverse. Black and white Pebbles will display colors with medium luminance as a gray checkered pattern which makes text of any color difficult to read. In Pebble.js, you can use [Feature.color()] to use a different value depending on whether color is supported.
 
 ````js
-var UI = require('ui');
-var Feature = require('platform/feature');
+var UI = require('pebblejs/ui');
+var Feature = require('pebblejs/platform/feature');
 
 var card = new UI.Card({
   title: 'Using Color',
@@ -221,7 +249,7 @@ card.show();
 
 Whether you have a color Pebble or not, you will want to test your app in all platforms. You can see how your app looks in multiple platforms with the following local SDK command or by changing the current platform in CloudPebble.
 
-> `pebble build && pebble install --emulator=aplite && pebble install --emulator=basalt && pebble install --emulator=chalk`
+> `pebble build && pebble install --emulator=aplite && pebble install --emulator=basalt && pebble install --emulator=chalk && pebble install --emulator=diorite`
 
 Using too much color such as in the previous example can be overwhelming however. Just using one color that stands out in a single place can have a more defined effect and remain readable.
 
@@ -302,15 +330,15 @@ Pebble.js provides the [Feature] module so that you may perform feature detectio
 
 During the development of your Pebble.js application, you will want to test your application on all platforms. You can use the following local SDK command or change the current platform in CloudPebble.
 
-> `pebble build && pebble install --emulator=aplite && pebble install --emulator=basalt && pebble install --emulator=chalk`
+> `pebble build && pebble install --emulator=aplite && pebble install --emulator=basalt && pebble install --emulator=chalk && pebble install --emulator=diorite`
 
 You'll notice that there are a few differing capabilities across platforms, such as having color support or having a round screen. You can use [Feature.color()] and [Feature.round()] respectively in order to test for these capabilities. Most capability functions also have a direct opposite, such as [Feature.blackAndWhite()] and [Feature.rectangle()] respectively.
 
 The most common way to use [Feature] capability functions is to pass two parameters.
 
 ````js
-var UI = require('ui');
-var Feature = require('platform/feature');
+var UI = require('pebblejs/ui');
+var Feature = require('pebblejs/platform/feature');
 
 // Use 'red' if round, otherwise use 'blue'
 var color = Feature.round('red', 'blue');
@@ -349,8 +377,8 @@ Pebble.js offers both [Feature] detection and [Platform] detection which are dif
 Consider the following [Platform] detection logic:
 
 ````js
-var UI = require('ui');
-var Platform = require('platform');
+var UI = require('pebblejs/ui');
+var Platform = require('pebblejs/platform');
 
 var isAplite = (Platform.version() === 'aplite');
 var isChalk = (Platform.version() === 'chalk');
@@ -371,8 +399,8 @@ The second issue is unintentional entanglement of different concerns. In the exa
 Consider the same example using [Feature] detection instead:
 
 ````js
-var UI = require('ui');
-var Feature = require('platform/feature');
+var UI = require('pebblejs/ui');
+var Feature = require('pebblejs/platform/feature');
 
 var card = new UI.Card({
   title: 'Example',
@@ -395,14 +423,14 @@ The two examples consist of units of logic that consist of one liners, but if ea
 
 ### require(path)
 
-Loads another JavaScript file allowing you to write a multi-file project. Package loading loosely follows the CommonJS format. `path` is the path to the dependency.
+Loads another JavaScript file allowing you to write a multi-file project. Package loading follows the CommonJS format. `path` is the path to the dependency.
 
 ````js
 // src/js/dependency.js
-var dep = require('dependency');
+var dep = require('./dependency');
 ````
 
-Exporting is possible by modifying or setting `module.exports` within the required file. The module path is also available as `module.filename`. `require` will look for the module relative to the loading module, the root path, and the Pebble.js library folder `lib` located at `src/js/lib`.
+Exporting is possible by modifying or setting `module.exports` within the required file. The module path is also available as `module.filename`. `require` will look for the module relative to the loading module, or in the project's node_modules folder.
 
 ### Pebble
 
@@ -434,7 +462,7 @@ Use `Pebble` when there is no Pebble.js alternative. Currently, these are the `P
 `localStorage` is [available for your use](https://developer.pebble.com/guides/communication/using-pebblekit-js/#using-localstorage), but consider using the [Settings] module instead which provides an alternative interface that can save and load JavaScript objects for you.
 
 ````js
-var Settings = require('settings');
+var Settings = require('pebblejs/settings');
 
 Settings.data('playerInfo', { id: 1, name: 'Gordon Freeman' });
 var playerInfo = Settings.data('playerInfo');
@@ -446,7 +474,7 @@ console.log("Player's name is " + playerInfo.name);
 `XMLHttpRequest` is [available for your use](https://developer.pebble.com/guides/communication/using-pebblekit-js/#using-xmlhttprequest), but consider using the [ajax] module instead which provides a jQuery-like ajax alternative to performing asynchronous and synchronous HTTP requests, with built in support for forms and headers.
 
 ````js
-var ajax = require('ajax');
+var ajax = require('pebblejs/lib/ajax');
 
 ajax({ url: 'http://api.theysaidso.com/qod.json', type: 'json' },
   function(data, status, req) {
@@ -464,8 +492,6 @@ More specifically:
  - XHR and WebSocket are supported on iOS and Android
  - The `<canvas>` element is not available on iOS
 
-If in doubt, please contact [devsupport@getpebble.com](mailto:devsupport@getpebble.com).
-
 ## Clock
 [Clock]: #clock
 
@@ -476,7 +502,7 @@ The Clock module makes working with the [Wakeup] module simpler with its provide
 `Clock` provides a single module of the same name `Clock`.
 
 ````js
-var Clock = require('clock');
+var Clock = require('pebblejs/clock');
 ````
 
 <a id="clock-weekday"></a>
@@ -492,7 +518,7 @@ The weekday is always the next occurrence and is not limited by the current week
 var nextTime = Clock.weekday('tuesday', 6, 0);
 console.log('Seconds until then: ' + (nextTime - Date.now()));
 
-var Wakeup = require('wakeup');
+var Wakeup = require('pebblejs/wakeup');
 
 // Schedule a wakeup event.
 Wakeup.schedule(
@@ -518,14 +544,14 @@ Wakeup.schedule(
 The Platform module allows you to determine the current platform runtime on the watch through its `Platform.version` method. This is to be used when the [Feature] module does not give enough ability to discern whether a feature exists or not.
 
 ````js
-var Platform = require('platform');
+var Platform = require('pebblejs/platform');
 ````
 
 <a id="platform-version"></a>
 #### Platform.version()
 [Platform.version()]: #platform-version
 
-`Platform.version` returns the current platform version name as a lowercase string. This can be `'aplite'`, `'basalt'`, or `'chalk'`. Use the following table to determine the platform that `Platform.version` will return.
+`Platform.version` returns the current platform version name as a lowercase string. This can be `'aplite'`, `'basalt'`, `'chalk'` or `'diorite'`. Use the following table to determine the platform that `Platform.version` will return.
 
 | Watch Model          | Platform   |
 | ----                 | :----:     |
@@ -534,6 +560,7 @@ var Platform = require('platform');
 | Pebble Time          | `'basalt'` |
 | Pebble Time Steel    | `'basalt'` |
 | Pebble Time Round    | `'chalk'`  |
+| Pebble 2             | `'diorite'`|
 
 ````js
 console.log('Current platform is ' + Platform.version());
@@ -545,7 +572,7 @@ console.log('Current platform is ' + Platform.version());
 The Feature module under Platform allows you to perform feature detection, adjusting aspects of your application to the capabilities of the current watch model it is current running on. This allows you to consider the functionality of your application based on the current set of available capabilities or features. The Feature module also provides information about features that exist on all watch models such as `Feature.resolution` which returns the resolution of the current watch model.
 
 ````js
-var Feature = require('platform/feature');
+var Feature = require('pebblejs/platform/feature');
 
 console.log('Color is ' + Feature.color('avaiable', 'not available'));
 console.log('Display width is ' + Feature.resolution().x);
@@ -636,6 +663,7 @@ if (Feature.microphone()) {
 | aplite   | 144   | 168    |                                                                                                   |
 | basalt   | 144   | 168    | This is a rounded rectangle, therefore there is small set of pixels at each corner not available. |
 | chalk    | 180   | 180    | This is a circular display, therefore not all pixels in a 180 by 180 square are available.        |
+| diorite  | 144   | 168    |                                                                                                    |
 
 **NOTE:** [Window]s also have a [Window.size()] method which returns its size as a [Vector2]. Use [Window.size()] when possible.
 
@@ -678,7 +706,7 @@ The Settings module allows you to add a configurable web view to your applicatio
 `Settings` provides a single module of the same name `Settings`.
 
 ````js
-var Settings = require('settings');
+var Settings = require('pebblejs/settings');
 ````
 
 <a id="settings-config"></a>
@@ -862,7 +890,7 @@ You can use the accelerometer in two different ways:
  - To continuously receive streaming data from the accelerometer. In this mode the Pebble will collect accelerometer samples at a specified frequency (from 10Hz to 100Hz), batch those events in an array and pass those to an event handler. Because the Pebble accelerometer needs to continuously transmit data to the processor and to the Bluetooth radio, this will drain the battery much faster.
 
 ````js
-var Accel = require('ui/accel');
+var Accel = require('pebblejs/ui/accel');
 ````
 
 #### Accel.config(accelConfig)
@@ -947,10 +975,10 @@ wind.on('accelData', function(e) {
 ### Voice
 [Voice]: #voice
 
-The `Voice` module allows you to interact with Pebble's dictation API on supported platforms (Basalt and Chalk).
+The `Voice` module allows you to interact with Pebble's dictation API on supported platforms (Basalt, Chalk and Diorite).
 
 ````js
-var Voice = require('ui/voice');
+var Voice = require('pebblejs/ui/voice');
 ````
 
 #### Voice.dictate('start', [confirmDialog,] callback)
@@ -1457,7 +1485,7 @@ Most elements share these common properties:
 All properties can be initialized by passing an object when creating the Element, and changed with accessors functions that have the same name as the properties. Calling an accessor without a parameter will return the current value.
 
 ````js
-var Vector2 = require('vector2');
+var Vector2 = require('pebblejs/lib/vector2');
 var element = new Text({
   position: new Vector2(0, 0),
   size: new Vector2(144, 168),
@@ -1777,7 +1805,7 @@ Sets the compositing operation to be used when rendering. Specify the compositin
 #### Vibe.vibrate(type)
 
 ````js
-var Vibe = require('ui/vibe');
+var Vibe = require('pebblejs/ui/vibe');
 
 // Send a long vibration to the user wrist
 Vibe.vibrate('long');
@@ -1792,7 +1820,7 @@ Vibe.vibrate('long');
 
 `Light` allows you to control the Pebble's backlight.
 ````js
-var Light = require('ui/light');
+var Light = require('pebblejs/ui/light');
 
 // Turn on the light
 Light.on('long');
@@ -1817,7 +1845,7 @@ The Timeline module allows your app to handle a launch via a timeline action. Th
 `Timeline` provides a single module of the same name `Timeline`.
 
 ````js
-var Timeline = require('timeline');
+var Timeline = require('pebblejs/timeline');
 ````
 
 <a id="timeline-launch"></a>
@@ -1856,7 +1884,7 @@ The Wakeup module allows you to schedule your app to wakeup at a specified time 
 `Wakeup` provides a single module of the same name `Wakeup`.
 
 ````js
-var Wakeup = require('wakeup');
+var Wakeup = require('pebblejs/wakeup');
 ````
 
 <a id="wakeup-schedule"></a>
@@ -2044,7 +2072,7 @@ Pebble.js includes several libraries to help you write applications.
 This module gives you a very simple and easy way to make HTTP requests.
 
 ````js
-var ajax = require('ajax');
+var ajax = require('pebblejs/lib/ajax');
 
 ajax({ url: 'http://api.theysaidso.com/qod.json', type: 'json' },
   function(data) {
@@ -2077,7 +2105,7 @@ The `failure` callback is called when an error occurred. The parameters are the 
 A 2 dimensional vector. The constructor takes two parameters for the x and y values.
 
 ````js
-var Vector2 = require('vector2');
+var Vector2 = require('pebblejs/lib/vector2');
 
 var vec = new Vector2(144, 168);
 ````
