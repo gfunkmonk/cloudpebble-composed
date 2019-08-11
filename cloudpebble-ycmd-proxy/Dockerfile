@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y build-essential cmake python2-dev npm n
 
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   git submodule update --init --recursive && \
-  python2 build.py --clangd-completer --ts-completer --ninja --js-completer DCMAKE_BUILD_TYPE=Release -DUSE_DEV_FLAGS=OFF
+  python2 build.py --clangd-completer --ts-completer --ninja --js-completer
 
 #RUN git clone https://github.com/Valloric/ycmd.git -b clang-format /ycmd && cd /ycmd && \
 #  git submodule update --init --recursive && \
