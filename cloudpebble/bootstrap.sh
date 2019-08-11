@@ -53,9 +53,9 @@ rm arm-cs-tools.tar.gz
 # Obtain SDK2.
 sudo -u vagrant mkdir sdk2
 pushd sdk2
-    wget --progress=bar:force -O sdk.tar.gz https://web.archive.org/web/20171221154852/http://assets.getpebble.com.s3-website-us-east-1.amazonaws.com/sdk2/PebbleSDK-2.9.tar.gz
-    sudo -u vagrant tar --strip 1 -xzf sdk.tar.gz
-    rm sdk.tar.gz
+    wget --progress=bar:force -O sdk.tar.bz2 https://pebble.rip/SDKCores/sdk-core-4.3.tar.bz2
+    sudo -u vagrant tar --strip 1 -xjf sdk.tar.bz2
+    rm sdk.tar.bz2
     sudo -u vagrant ln -s ~/arm-cs-tools arm-cs-tools
     pip install -r requirements.txt
 popd
@@ -94,7 +94,7 @@ mkdir /qemu
 pushd /qemu
     git clone --depth 5 https://github.com/pebble/qemu.git .
     ./configure --disable-werror --enable-debug --target-list="arm-softmmu" --extra-cflags="-DSTM32_UART_NO_BAUD_DELAY -std=gnu99" --enable-vnc-ws
-    make -j4
+    make -j3
 popd
 mkdir /pypkjs
 pushd /pypkjs

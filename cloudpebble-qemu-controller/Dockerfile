@@ -4,14 +4,13 @@ MAINTAINER Katharine Berry <katharine@pebble.com>
 RUN apt-get update && apt-get install -y \
   libglib2.0-dev libpixman-1-dev libfdt-dev gnutls-dev
 
-ENV QEMU_VERSION 2.5.0-pebble4
+ENV QEMU_VERSION 2.5.0-pebble5
   
-#RUN mkdir /qemu && cd /qemu && \
-#  curl -L https://github.com/pebble/qemu/archive/v${QEMU_VERSION}.tar.gz | tar xz --strip 1 && \
+RUN mkdir /qemu && cd /qemu && \
+  curl -L https://github.com/gfunkmonk/qemu/archive/v${QEMU_VERSION}.tar.gz | tar xz --strip 1 && \
 
-RUN git clone https://github.com/gfunkmonk/qemu/ 
-
-RUN cd /qemu && \
+#RUN git clone https://github.com/gfunkmonk/qemu/ 
+#RUN cd /qemu && \
   ./configure \
 #    --enable-tcg-interpreter \
 	--extra-ldflags=-g \
