@@ -4,8 +4,6 @@
 user_data/
 dev.db
 .DS_Store
-pebble-sdk/
-cloudpebble/settings_local.py
 src/
 .vagrant
 .cache/
