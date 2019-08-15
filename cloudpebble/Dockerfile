@@ -1,7 +1,9 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=12.8.0 DJANGO_VERSION=1.6 NODEJS_CHECK_SIGNATURES=no
+RUN pip install --upgrade pip
+
+ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=9.11.2 DJANGO_VERSION=1.11.23 NODEJS_CHECK_SIGNATURES=no
 
 #    C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
 # Node stuff.
@@ -28,7 +30,8 @@ RUN apt-get update && apt-get install -y \
     postgresql-client libpq-dev \
   --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-RUN pip2 install psycopg2 django=="$DJANGO_VERSION"
+#RUN pip2 install psycopg2 django=="$DJANGO_VERSION"
+RUN pip2 install psycopg2 django
 
 EXPOSE 8000
 
@@ -42,12 +45,12 @@ RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/a
 ADD requirements.txt /tmp/requirements.txt
 RUN pip2 install --no-cache-dir -r /tmp/requirements.txt
 
-ENV SDK_TWO_VERSION=3.0
+ENV SDK_TWO_VERSION=2.9
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
-  curl -L "https://github.com/aveao/PebbleArchive/raw/master/SDKCores/sdk-core-$SDK_TWO_VERSION.tar.bz2"  | \
-  tar --strip-components=1 -xj -C /sdk2
+  curl -L "https://web.archive.org/web/20181216134152/http://assets.getpebble.com.s3-website-us-east-1.amazonaws.com/sdk2/PebbleSDK-2.9.tar.gz"  | \
+  tar --strip-components=1 -xz -C /sdk2
 
 ENV SDK_THREE_CHANNEL=beta
 ENV SDK_THREE_VERSION=4.3
@@ -67,6 +70,7 @@ WORKDIR /code
 # Bower is awful.
 RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
 
+COPY fix/pca.py /usr/local/lib/python2.7/site-packages/gmane/pca.py
 RUN python manage.py compilemessages
 
 RUN make -C /code/c-preload

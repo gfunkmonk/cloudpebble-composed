@@ -23,7 +23,7 @@ RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/a
 
 # Node stuff.
 
-ENV NODE_VERSION=6.10.2 NPM_CONFIG_LOGLEVEL=info
+ENV NODE_VERSION=9.11.2 NPM_CONFIG_LOGLEVEL=info
 RUN mkdir ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 
 # gpg keys listed at https://github.com/nodejs/node
