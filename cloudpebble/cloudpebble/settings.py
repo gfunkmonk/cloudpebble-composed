@@ -82,7 +82,7 @@ TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-gb'
+LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = (
     ('en', 'English'),
@@ -154,7 +154,8 @@ BOWER_INSTALLED_APPS = (
     'https://github.com/jquery/jquery',
     'underscore',
     'backbone',
-    'text-encoding',
+#    'text-encoding',
+    'https://github.com/inexorabletash/text-encoding',
     'jshint/jshint',
     'https://github.com/farhadi/html5sortable',
     'alexgorbatchev/jquery-textext',

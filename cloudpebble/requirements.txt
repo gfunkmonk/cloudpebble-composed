@@ -1,8 +1,8 @@
 Django==1.6
 django-registration==1.0.0
 amqp==1.4.9
-celery==3.1.23
-django-celery==3.0.1
+celery==3.1.25
+django-celery==3.1.17
 flup==1.0.3.dev20161029
 psycopg2==2.8.3
 South==1.0.2
