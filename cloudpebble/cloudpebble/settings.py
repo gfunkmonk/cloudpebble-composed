@@ -114,6 +114,7 @@ MEDIA_ROOT = os.getcwd() + '/user_data/build_results/'
 
 SIMPLYJS_ROOT = os.getcwd() + '/ext/simplyjs/'
 PEBBLEJS_ROOT = os.getcwd() + '/ext/pebblejs/'
+ROCKYJS_ROOT = os.getcwd() + '/ext/rockyjs/'
 C_PRELOAD_ROOT = os.getcwd() + '/c-preload/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
@@ -149,19 +150,33 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
+#BOWER_INSTALLED_APPS = (
+#    'https://github.com/krisk/Fuse.git#a546cb3aa2a845e4f4cb2460ad94e0b92ccbe407',
+#    'https://github.com/jquery/jquery-dist',
+#    'underscore',
+#    'backbone',
+##    'text-encoding',
+#    'https://github.com/inexorabletash/text-encoding',
+#    'jshint/jshint',
+#    'https://github.com/farhadi/html5sortable',
+#    'alexgorbatchev/jquery-textext',
+#    'codemirror#5.20.0',
+#    'bluebird#3.5.5',
+#    'kanaka/noVNC#v1.0.0',
+#)
+
 BOWER_INSTALLED_APPS = (
     'https://github.com/krisk/Fuse.git#a546cb3aa2a845e4f4cb2460ad94e0b92ccbe407',
-    'https://github.com/jquery/jquery',
+    'jquery#~2.1.3',
     'underscore',
     'backbone',
-#    'text-encoding',
-    'https://github.com/inexorabletash/text-encoding',
+    'text-encoding',
     'jshint/jshint',
-    'https://github.com/farhadi/html5sortable',
+    'html.sortable#~0.3.1',
     'alexgorbatchev/jquery-textext',
-    'codemirror#5.20.0',
-    'bluebird#3.5.5',
-    'kanaka/noVNC#v1.0.0',
+    'codemirror#4.2.0',
+    'bluebird#3.3.4',
+    'kanaka/noVNC#v0.5',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -242,7 +257,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-     'django.contrib.admindocs',
+    'django.contrib.admindocs',
     'social.apps.django_app.default',
     'ide',
     'auth',
@@ -329,8 +344,8 @@ EXPORT_DIRECTORY = os.getcwd() + '/user_data/export/'
 
 EXPORT_ROOT = _environ.get('EXPORT_ROOT', 'http://localhost:8001/export/')
 
-GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', 'Iv1.0729087a1055e2af')
-GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', '8baac2f3ee06b17ba251c1523c31c707935b5f7c')
+GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', '1a1005dc9774dfa0c318')
+GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', '67cc7432ca9fb307049c539c588f0fa4c849c247')
 
 GITHUB_HOOK_TEMPLATE = _environ.get('GITHUB_HOOK', 'http://example.com/ide/project/%(project)d/github/push_hook?key=%(key)s')
 
