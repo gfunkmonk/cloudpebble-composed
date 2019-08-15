@@ -1,11 +1,17 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-RUN apt-get update && apt-get install -y build-essential cmake python2-dev npm ninja-build
+RUN apt-get update && apt-get install -y build-essential cmake python2-dev
+ENV YCM_CORES=1
 
 # ycmd
+#RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
+#  git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
+#  git submodule update --init --recursive && \
+#  ./build.sh --clang-completer
+
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
-  git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
+  git reset --hard bfa20ad8214cadb44a8235c6b14026c18a33c856 && \
   git submodule update --init --recursive && \
   ./build.sh --clang-completer
 

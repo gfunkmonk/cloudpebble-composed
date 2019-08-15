@@ -12,14 +12,14 @@ ENV QEMU_VERSION 2.5.0-pebble5
 RUN git clone https://github.com/gfunkmonk/qemu/ 
 RUN cd /qemu && \
   ./configure \
-#    --enable-tcg-interpreter \
+    --enable-tcg-interpreter \
 	--extra-ldflags=-g \
-#   --with-coroutine=gthread \
-#    --enable-debug-tcg \
+   --with-coroutine=gthread \
+    --enable-debug-tcg \
     --enable-debug --disable-werror --target-list="arm-softmmu" \
-#    --extra-cflags=-DDEBUG_CLKTREE --extra-cflags=-DDEBUG_STM32_RCC \
-#    --extra-cflags=-DDEBUG_STM32_UART \
-#    --extra-cflags=-DDEBUG_GIC \
+    --extra-cflags=-DDEBUG_CLKTREE --extra-cflags=-DDEBUG_STM32_RCC \
+    --extra-cflags=-DDEBUG_STM32_UART \
+    --extra-cflags=-DDEBUG_GIC \
      --extra-cflags="-DSTM32_UART_NO_BAUD_DELAY -std=gnu99" \
      --enable-vnc \
 #     --disable-sdl \
