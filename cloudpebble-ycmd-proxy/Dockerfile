@@ -4,14 +4,14 @@ MAINTAINER Katharine Berry <katharine@pebble.com>
 RUN apt-get update && apt-get install -y build-essential cmake python2-dev npm ninja-build
 
 # ycmd
-#RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
-#  git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
-#  git submodule update --init --recursive && \
-#  ./build.sh --clang-completer
-
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
+  git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
   git submodule update --init --recursive && \
-  python2 build.py --clangd-completer --ts-completer --ninja --js-completer
+  ./build.sh --clang-completer
+
+#RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
+#  git submodule update --init --recursive && \
+#  python2 build.py --clangd-completer --ts-completer --ninja --js-completer
 
 #RUN git clone https://github.com/Valloric/ycmd.git -b clang-format /ycmd && cd /ycmd && \
 #  git submodule update --init --recursive && \
