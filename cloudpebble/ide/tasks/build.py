@@ -6,7 +6,7 @@ import subprocess
 import tempfile
 import zipfile
 
-from celery import task
+from celery import shared_task
 from django.conf import settings
 from django.utils.timezone import now
 
@@ -59,7 +59,7 @@ def store_size_info(project, build_result, platform, zip_file):
         pass
 
 
-@task(ignore_result=True, acks_late=True)
+@shared_task(ignore_result=True, acks_late=True)
 def run_compile(build_result):
     build_result = BuildResult.objects.get(pk=build_result)
     project = build_result.project

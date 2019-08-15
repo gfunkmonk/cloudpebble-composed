@@ -1,8 +1,11 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-RUN apt-get update && apt-get install -y build-essential cmake python2-dev
-ENV YCM_CORES=1
+RUN echo "deb http://apt.llvm.org/buster/ llvm-toolchain-buster-7 main" > /etc/apt/sources.l$
+RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add -
+
+RUN apt-get update && apt-get install -y build-essential cmake python2-dev npm ninja-build
+RUN apt-get install clang-7 lldb-7 lld-7 -y
 
 # ycmd
 #RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
@@ -10,14 +13,18 @@ ENV YCM_CORES=1
 #  git submodule update --init --recursive && \
 #  ./build.sh --clang-completer
 
-RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
-  git reset --hard bfa20ad8214cadb44a8235c6b14026c18a33c856 && \
-  git submodule update --init --recursive && \
-  ./build.sh --clang-completer
-
 #RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
+#  git reset --hard bfa20ad8214cadb44a8235c6b14026c18a33c856 && \
 #  git submodule update --init --recursive && \
-#  python2 build.py --clangd-completer --ts-completer --ninja --js-completer
+#  ./build.sh --clang-completer
+
+ENV EXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-7.so
+ENV EXTRA_CMAKE_ARGS="-DEXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-7.so"
+
+RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
+  git submodule update --init --recursive && \
+  EXTRA_CMAKE_ARGS="-DEXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-7.so" \
+  ./build.py --ninja --system-libclang --ts-completer --clang-completer
 
 #RUN git clone https://github.com/Valloric/ycmd.git -b clang-format /ycmd && cd /ycmd && \
 #  git submodule update --init --recursive && \
@@ -81,4 +88,5 @@ ENV PATH="$PATH:/arm-cs-tools/bin" YCMD_PEBBLE_SDK2=/sdk2/ YCMD_PEBBLE_SDK3=/sdk
   DEBUG=yes YCMD_PORT=80 YCMD_BINARY=/ycmd/ycmd/__main__.py \
   YCMD_DEFAULT_SETTINGS=/ycmd/ycmd/default_settings.json
 
+ENV PYTHONUNBUFFERED 1
 CMD ["python", "proxy.py"]

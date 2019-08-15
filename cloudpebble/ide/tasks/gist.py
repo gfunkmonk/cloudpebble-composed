@@ -1,7 +1,7 @@
 import json
 
 import github
-from celery import task
+from celery import shared_task
 from django.db import transaction
 from django.conf import settings
 
@@ -16,7 +16,7 @@ from collections import defaultdict
 import urllib2
 
 
-@task(acks_late=True)
+@shared_task(acks_late=True)
 def import_gist(user_id, gist_id):
     user = User.objects.get(pk=user_id)
     g = github.Github()

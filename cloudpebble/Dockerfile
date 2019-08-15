@@ -1,7 +1,7 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=9.11.2 DJANGO_VERSION=1.6 NODEJS_CHECK_SIGNATURES=no
+ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=9.11.2 DJANGO_VERSION=1.9.2 NODEJS_CHECK_SIGNATURES=no
 
 #    C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
 # Node stuff.
@@ -34,6 +34,7 @@ EXPOSE 8000
 
 # CloudPebble stuff
 RUN npm install -g bower && echo '{"allow_root": true}' > /root/.bowerrc
+RUN npm install -g uglify-js clean-css
 
 # Grab the toolchain
 RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
@@ -46,15 +47,15 @@ ENV SDK_TWO_VERSION=2.9
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
-  curl -L "https://web.archive.org/web/20181216134152/http://assets.getpebble.com.s3-website-us-east-1.amazonaws.com/sdk2/PebbleSDK-2.9.tar.gz"  | \
-  tar --strip-components=1 -xz -C /sdk2
+  curl -L "https://binaries.rebble.io/sdk-core/release/sdk-core-${SDK_TWO_VERSION}.tar.bz2"  | \
+  tar --strip-components=1 -xj -C /sdk2
 
-ENV SDK_THREE_CHANNEL=beta
+ENV SDK_THREE_CHANNEL=release
 ENV SDK_THREE_VERSION=4.3
 
 # Install SDK 3
 RUN mkdir /sdk3 && \
-  curl -L "https://pebble.rip/SDKCores/sdk-core-4.3.tar.bz2" | \
+  curl -L "https://binaries.rebble.io/sdk-core/${SDK_THREE_CHANNEL}/sdk-core-${SDK_THREE_VERSION}.tar.bz2" | \
   tar --strip-components=1 -xj -C /sdk3
 
 # Install SDK 3 Node dependencies
@@ -67,7 +68,7 @@ WORKDIR /code
 # Bower is awful.
 RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
 
-RUN python manage.py compilemessages
+RUN python manage.py compilemessages && python manage.py collectstatic --noinput
 
 RUN make -C /code/c-preload
 

@@ -40,7 +40,6 @@ easy_install requests==2.7.0
 
 # Make sure we have a useful database and our JS dependencies.
 pushd /vagrant
-    sudo -u vagrant python manage.py syncdb --noinput
     sudo -u vagrant python manage.py migrate
     sudo -u vagrant python manage.py bower install
 popd
