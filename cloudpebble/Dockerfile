@@ -1,9 +1,7 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-RUN pip install --upgrade pip
-
-ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=9.11.2 DJANGO_VERSION=1.11.23 NODEJS_CHECK_SIGNATURES=no
+ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=9.11.2 DJANGO_VERSION=1.6 NODEJS_CHECK_SIGNATURES=no
 
 #    C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
 # Node stuff.
@@ -30,8 +28,7 @@ RUN apt-get update && apt-get install -y \
     postgresql-client libpq-dev \
   --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-#RUN pip2 install psycopg2 django=="$DJANGO_VERSION"
-RUN pip2 install psycopg2 django
+RUN pip2 install psycopg2 django=="$DJANGO_VERSION"
 
 EXPOSE 8000
 
@@ -70,7 +67,6 @@ WORKDIR /code
 # Bower is awful.
 RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
 
-COPY fix/pca.py /usr/local/lib/python2.7/site-packages/gmane/pca.py
 RUN python manage.py compilemessages
 
 RUN make -C /code/c-preload

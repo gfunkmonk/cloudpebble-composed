@@ -50,7 +50,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 
 RUN npm install npm -g
 
-ENV SDK_TWO_VERSION=3.0
+ENV SDK_TWO_VERSION=2.9
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
