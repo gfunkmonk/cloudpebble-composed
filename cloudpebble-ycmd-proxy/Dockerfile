@@ -1,20 +1,20 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-RUN echo "deb http://apt.llvm.org/jessie/ llvm-toolchain-jessie-5.0 main" > /etc/apt/sources.list.d/llvm.list
+RUN echo "deb http://apt.llvm.org/buster/ llvm-toolchain-buster-7 main" > /etc/apt/sources.list.d/llvm.list
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add -
 
-RUN apt-get update && apt-get install -y cmake
-RUN apt-get install clang-5.0 lldb-5.0 lld-5.0 -y
+RUN apt-get update && apt-get install -y build-essential cmake python2-dev npm ninja-build
+RUN apt-get install clang-7 lldb-7 lld-7 -y
 
-ENV EXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-5.0.so
-ENV EXTRA_CMAKE_ARGS="-DEXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-5.0.so"
+ENV EXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-7.so
+ENV EXTRA_CMAKE_ARGS="-DEXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-7.so"
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
   git submodule update --init --recursive && \
-  EXTRA_CMAKE_ARGS="-DEXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-5.0.so" \
+  EXTRA_CMAKE_ARGS="-DEXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-7.so" \
   ./build.sh --clang-completer
 
 # Grab the toolchain

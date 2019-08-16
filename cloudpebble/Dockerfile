@@ -20,8 +20,8 @@ RUN npm install -g npm jshint
 
 # Django stuff
 
-# Fix broken sources.list (jessie repositories have been archived)
-RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+# Fix broken sources.list (let's make it Buster...)
+RUN printf "deb http://ftp.debian.org/debian/ buster main\ndeb-src http://ftp.debian.org/debian/ buster main\ndeb http://security.debian.org buster/updates main\ndeb-src http://security.debian.org buster/updates main" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     gettext \
@@ -67,7 +67,7 @@ WORKDIR /code
 # Bower is awful.
 RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
 
-RUN python manage.py compilemessages
+RUN python manage.py compilemessages && python manage.py collectstatic --noinput
 
 RUN make -C /code/c-preload
 

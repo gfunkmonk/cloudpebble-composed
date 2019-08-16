@@ -17,7 +17,9 @@ RUN mkdir /qemu && cd /qemu && \
 #    --extra-cflags=-DDEBUG_CLKTREE --extra-cflags=-DDEBUG_STM32_RCC \
 #    --extra-cflags=-DDEBUG_STM32_UART \
 #    --extra-cflags=-DDEBUG_GIC \
+     --extra-cflags="-DSTM32_UART_NO_BAUD_DELAY -std=gnu99" \
      --enable-vnc \
+#     --disable-sdl \
 	&& \
   make clean && \
   make -j4
