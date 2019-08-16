@@ -1,20 +1,12 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-RUN echo "deb http://apt.llvm.org/buster/ llvm-toolchain-buster-7 main" > /etc/apt/sources.list.d/llvm.list
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add -
-
-RUN apt-get update && apt-get install -y build-essential cmake python2-dev npm ninja-build
-RUN apt-get install clang-7 lldb-7 lld-7 -y
-
-ENV EXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-7.so
-ENV EXTRA_CMAKE_ARGS="-DEXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-7.so"
+RUN apt-get update && apt-get install -y cmake
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
   git submodule update --init --recursive && \
-  EXTRA_CMAKE_ARGS="-DEXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-7.so" \
   ./build.sh --clang-completer
 
 # Grab the toolchain
@@ -23,9 +15,9 @@ RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/a
 
 # Node stuff.
 
-ENV NODE_VERSION=10.15.3 NPM_CONFIG_LOGLEVEL=info
-RUN mkdir ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
+ENV NODE_VERSION=9.11.2 NPM_CONFIG_LOGLEVEL=info
 
+RUN mkdir ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
   && for key in \
@@ -61,7 +53,7 @@ ENV SDK_THREE_VERSION=4.3
 
 # Install SDK 3
 RUN mkdir /sdk3 && \
-  curl -L "https://binaries.rebble.io/sdk-core/${SDK_THREE_CHANNEL}/sdk-core-${SDK_THREE_VERSION}.tar.bz2" | \
+  curl -L "https://binaries.rebble.io/sdk-core/release/sdk-core-${SDK_THREE_VERSION}.tar.bz2" | \
   tar --strip-components=1 -xj -C /sdk3
 
 ADD requirements.txt /tmp/requirements.txt
@@ -69,6 +61,8 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 COPY . /code
 WORKDIR /code
+
+RUN ln -s /usr/lib/libtinfo.so.6 /usr/lib/libtinfo.so.5
 
 ENV PATH="$PATH:/arm-cs-tools/bin" YCMD_PEBBLE_SDK2=/sdk2/ YCMD_PEBBLE_SDK3=/sdk3/ \
   YCMD_STDLIB=/arm-cs-tools/arm-none-eabi/include/ \

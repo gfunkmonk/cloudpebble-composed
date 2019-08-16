@@ -67,7 +67,8 @@ WORKDIR /code
 # Bower is awful.
 RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
 
-RUN python manage.py compilemessages && python manage.py collectstatic --noinput
+RUN python manage.py compilemessages 
+##&& python manage.py collectstatic --noinput
 
 RUN make -C /code/c-preload
 

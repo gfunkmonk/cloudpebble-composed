@@ -27,7 +27,7 @@ RUN mkdir /qemu && cd /qemu && \
 ENV PYPKJS_VERSION 1.1.1
 
 #RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v$PYPKJS_VERSION --recursive
-RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch master --recursive
+RUN git clone https://github.com/gfunkmonk/pypkjs.git --depth 1 --branch master --recursive
 
 RUN virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt
 

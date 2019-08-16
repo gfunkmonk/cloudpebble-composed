@@ -15,12 +15,12 @@ web:
     - RUN_WEB="yes"
     - AWS_ENABLED="yes"
     - PORT=80
-    - AWS_S3_FAKE_S3=192.168.99.100:8003
-    - MEDIA_URL=http://192.168.99.100:8003/builds.cloudpebble.net/
-    - QEMU_URLS=http://192.168.99.100:8001/
-    - YCM_URLS=http://192.168.99.100:8002/
-    - PUBLIC_URL=http://192.168.99.100/
-    - LIBPEBBLE_PROXY=wss://cloudpebble-ws.herokuapp.com/tool
+    - AWS_S3_FAKE_S3=10.142.0.2:8003
+    - MEDIA_URL=http://10.142.0.2:8003/builds.cloudpebble.net/
+    - QEMU_URLS=http://10.142.0.2:8001/
+    - YCM_URLS=http://10.142.0.2:8002/
+    - PUBLIC_URL=http://10.142.0.2/
+    - LIBPEBBLE_PROXY=wss://cloudpebble-ws-proxy-standalone/tool
     - PEBBLE_AUTH_URL=https://auth.rebble.io
 celery:
   build: cloudpebble/
@@ -34,20 +34,30 @@ celery:
     - DEBUG="yes"
     - RUN_CELERY="yes"
     - AWS_ENABLED=yes
-    - EXPORT_ROOT=http://192.168.99.100:8003/export.cloudpebble.net/
-    - AWS_S3_FAKE_S3=192.168.99.100:8003
+    - EXPORT_ROOT=http://10.142.0.2:8003/export.cloudpebble.net/
+    - AWS_S3_FAKE_S3=10.142.0.2:8003
 qemu:
   build: cloudpebble-qemu-controller/
   volumes:
     - "./cloudpebble-qemu-controller/:/code"
   ports:
     - "8001:80"
+  environment:
+    - PEBBLE_TIMELINE_INTERNAL_API="https://timeline-sync.rebble.io"
+    - PEBBLE_TIMELINE_PUBLIC_API="https://timeline-api.rebble.io"
 ycmd:
   build: cloudpebble-ycmd-proxy/
   volumes:
     - "./cloudpebble-ycmd-proxy/:/code"
   ports:
     - "8002:80"
+cloudpebble-ws-proxy-standalone:
+  build: cloudpebble-ws-proxy-standalone/
+  volumes:
+    - "./cloudpebble-ws-proxy-standalone/:/code"
+  environment:
+    - PORT=3210
+    - PEBBLE_AUTH_URL=http://auth.rebble.io/:3000
 redis:
   image: redis
 postgres:
