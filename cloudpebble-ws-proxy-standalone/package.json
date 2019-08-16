@@ -1,8 +1,8 @@
 {
   "name": "cloudpebble-ws-proxy",
   "private": true,
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "websock proxy",
   "engines": {
     "node": ">=4.8.4"
   },

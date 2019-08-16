@@ -20,7 +20,7 @@ web:
     - QEMU_URLS=http://10.142.0.2:8001/
     - YCM_URLS=http://10.142.0.2:8002/
     - PUBLIC_URL=http://10.142.0.2/
-    - LIBPEBBLE_PROXY=wss://cloudpebble-ws-proxy-standalone/tool
+    - LIBPEBBLE_PROXY=wss://10.142.0.2:8005/tool
     - PEBBLE_AUTH_URL=https://auth.rebble.io
 celery:
   build: cloudpebble/
@@ -43,21 +43,23 @@ qemu:
   ports:
     - "8001:80"
   environment:
-    - PEBBLE_TIMELINE_INTERNAL_API="https://timeline-sync.rebble.io"
-    - PEBBLE_TIMELINE_PUBLIC_API="https://timeline-api.rebble.io"
+    - PEBBLE_TIMELINE_INTERNAL_API=https://timeline-sync.rebble.io
+    - PEBBLE_TIMELINE_PUBLIC_API=https://timeline-api.rebble.io
 ycmd:
   build: cloudpebble-ycmd-proxy/
   volumes:
     - "./cloudpebble-ycmd-proxy/:/code"
   ports:
     - "8002:80"
-cloudpebble-ws-proxy-standalone:
-  build: cloudpebble-ws-proxy-standalone/
-  volumes:
-    - "./cloudpebble-ws-proxy-standalone/:/code"
-  environment:
-    - PORT=3210
-    - PEBBLE_AUTH_URL=http://auth.rebble.io/:3000
+cloudpebble-ws-proxy:
+   build: cloudpebble-ws-proxy-standalone/
+   volumes:
+     - "./cloudpebble-ws-proxy-standalone/:/code"
+   environment:
+     - PEBBLE_AUTH_URL=http://auth.rebble.io
+     - PORT=8005
+   ports:
+     - "8005:80"
 redis:
   image: redis
 postgres:

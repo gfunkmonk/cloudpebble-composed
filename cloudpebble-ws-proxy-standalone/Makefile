@@ -1,6 +1,8 @@
 ENV_VARS := \
-	NODE_ENV=test \
-	API_HEALTH_KEY=xxx
+#	NODE_ENV=test \
+#	API_HEALTH_KEY=xxx
+        PEBBLE_AUTH_URL=http://auth.rebble.io
+        PORT=8005
 
 test: lint
 	@ $(ENV_VARS) ./node_modules/.bin/mocha -A --recursive $(MOCHA_OPTS)

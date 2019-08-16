@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').load();
+require('dotenv/config');
 
 // Port
 exports.port = parseInt(process.env.PORT, 10);

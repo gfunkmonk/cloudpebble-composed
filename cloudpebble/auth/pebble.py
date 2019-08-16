@@ -6,7 +6,7 @@ import ide.utils.mailinglist as mailinglist
 
 class PebbleOAuth2(BaseOAuth2):
     name = 'pebble'
-    AUTHORIZATION_URL = '{0}/oauth/authorize'.format(settings.SOCIAL_AUTH_PEBBLE_ROOT_URL)
+    AUTHORIZATION_URL = '{0}/oauth/authorise'.format(settings.SOCIAL_AUTH_PEBBLE_ROOT_URL)
     ACCESS_TOKEN_URL = '{0}/oauth/token'.format(settings.SOCIAL_AUTH_PEBBLE_ROOT_URL)
     ACCESS_TOKEN_METHOD = 'POST'
     STATE_PARAMETER = 'state'
