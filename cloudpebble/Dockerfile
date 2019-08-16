@@ -1,4 +1,4 @@
-FROM python:2.7.11
+FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
 ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=10.15.3 DJANGO_VERSION=1.6 NODEJS_CHECK_SIGNATURES=no
@@ -33,7 +33,7 @@ RUN pip install psycopg2 django=="$DJANGO_VERSION"
 EXPOSE 8000
 
 # CloudPebble stuff
-RUN npm install -g bower && echo '{"allow_root": true}' > ~/.bowerrc
+RUN npm install -g bower && echo '{"allow_root": true}' > /root/.bowerrc
 
 # Grab the toolchain
 RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
@@ -46,15 +46,15 @@ ENV SDK_TWO_VERSION=2.9
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
-  curl -L "https://s3.amazonaws.com/assets.getpebble.com/sdk3/sdk-core/sdk-core-${SDK_TWO_VERSION}.tar.bz2" | \
+  curl -L "https://binaries.rebble.io/sdk-core/release/sdk-core-${SDK_TWO_VERSION}.tar.bz2" | \
   tar --strip-components=1 -xj -C /sdk2
 
-ENV SDK_THREE_CHANNEL=beta
+ENV SDK_THREE_CHANNEL=release
 ENV SDK_THREE_VERSION=4.3
 
 # Install SDK 3
 RUN mkdir /sdk3 && \
-  curl -L "https://github.com/aveao/PebbleArchive/raw/master/SDKCores/sdk-core-$SDK_THREE_VERSION.tar.bz2" | \
+  curl -L "https://binaries.rebble.io/sdk-core/${SDK_THREE_CHANNEL}/sdk-core-${SDK_THREE_VERSION}.tar.bz2" | \
   tar --strip-components=1 -xj -C /sdk3
 
 # Install SDK 3 Node dependencies

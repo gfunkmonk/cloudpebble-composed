@@ -1,4 +1,4 @@
-FROM python:2.7
+FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
 RUN apt-get update && apt-get install -y cmake
@@ -15,7 +15,8 @@ RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/a
 
 # Node stuff.
 
-ENV NODE_VERSION=4.4.5 NPM_CONFIG_LOGLEVEL=info
+ENV NODE_VERSION=10.15.3 NPM_CONFIG_LOGLEVEL=info
+RUN mkdir ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
@@ -45,14 +46,14 @@ ENV SDK_TWO_VERSION=2.9
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
-  curl -L "https://s3.amazonaws.com/assets.getpebble.com/sdk3/sdk-core/sdk-core-${SDK_TWO_VERSION}.tar.bz2" | \
+  curl -L "https://binaries.rebble.io/sdk-core/release/sdk-core-${SDK_TWO_VERSION}.tar.bz2" | \
   tar --strip-components=1 -xj -C /sdk2
 
 ENV SDK_THREE_VERSION=4.3
 
 # Install SDK 3
 RUN mkdir /sdk3 && \
-  curl -L "https://github.com/aveao/PebbleArchive/raw/master/SDKCores/sdk-core-$SDK_THREE_VERSION.tar.bz2" | \
+  curl -L "https://binaries.rebble.io/sdk-core/${SDK_THREE_CHANNEL}/sdk-core-${SDK_THREE_VERSION}.tar.bz2" | \
   tar --strip-components=1 -xj -C /sdk3
 
 ADD requirements.txt /tmp/requirements.txt
