@@ -5,9 +5,10 @@ RUN apt-get update && apt-get install -y cmake libtinfo5
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
-  git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
+  #git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
   git submodule update --init --recursive && \
-  ./build.sh --clang-completer
+  #./build.sh --clang-completer
+  ./build.py --clang-completer
 
 # Grab the toolchain
 RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
