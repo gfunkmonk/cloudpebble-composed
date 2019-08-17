@@ -42,24 +42,12 @@ qemu:
     - "./cloudpebble-qemu-controller/:/code"
   ports:
     - "8001:80"
-  environment:
-    - PEBBLE_TIMELINE_INTERNAL_API=https://timeline-sync.rebble.io
-    - PEBBLE_TIMELINE_PUBLIC_API=https://timeline-api.rebble.io
 ycmd:
   build: cloudpebble-ycmd-proxy/
   volumes:
     - "./cloudpebble-ycmd-proxy/:/code"
   ports:
-    - "8002:80"
-cloudpebble-ws-proxy:
-   build: cloudpebble-ws-proxy-standalone/
-   volumes:
-     - "./cloudpebble-ws-proxy-standalone/:/code"
-   environment:
-     - PEBBLE_AUTH_URL=http://auth.rebble.io
-     - PORT=8005
-   ports:
-     - "8005:80"
+    - "8002:80" cloudpebble-ws-proxy:
 redis:
   image: redis
 postgres:
