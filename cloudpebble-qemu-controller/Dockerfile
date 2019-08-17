@@ -9,14 +9,23 @@ ENV QEMU_VERSION 2.5.0-pebble5
 RUN mkdir /qemu && cd /qemu && \
   curl -L https://github.com/gfunkmonk/qemu/archive/v${QEMU_VERSION}.tar.gz | tar xz --strip 1 && \
   ./configure --disable-werror --enable-debug --target-list="arm-softmmu" \
-  --extra-cflags="-DSTM32_UART_NO_BAUD_DELAY -std=gnu99" --enable-vnc --disable-sdl && \
+#  --extra-cflags="-DSTM32_UART_NO_BAUD_DELAY -std=gnu99" --enable-vnc --disable-sdl 
+  #    --enable-tcg-interpreter \
+       --extra-ldflags=-g \
+#      --with-coroutine=gthread \
+#      --enable-debug-tcg \
+       --enable-debug --disable-werror --target-list="arm-softmmu" \
+#      --extra-cflags=-DDEBUG_CLKTREE --extra-cflags=-DDEBUG_STM32_RCC \
+#      --extra-cflags=-DDEBUG_STM32_UART \
+#      --extra-cflags=-DDEBUG_GIC 
+          && \
   make clean && \
   make -j4
 
 ENV PYPKJS_VERSION 1.1.1
 
 #RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v$PYPKJS_VERSION --recursive
-RUN git clone https://github.com/gfunkmonk/pypkjs.git --depth 1 --branch master --recursive
+RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch master --recursive
 
 RUN virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt
 

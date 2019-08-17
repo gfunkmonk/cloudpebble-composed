@@ -20,7 +20,7 @@ web:
     - QEMU_URLS=http://10.142.0.2:8001/
     - YCM_URLS=http://10.142.0.2:8002/
     - PUBLIC_URL=http://10.142.0.2/
-    - LIBPEBBLE_PROXY=wss://10.142.0.2:8005/tool
+    - LIBPEBBLE_PROXY=wss://cloudpebble-ws.herokuapp.com/tool
     - PEBBLE_AUTH_URL=https://auth.rebble.io
 celery:
   build: cloudpebble/

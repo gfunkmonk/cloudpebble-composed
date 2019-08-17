@@ -24,8 +24,6 @@ RUN npm install -g npm jshint
 #RUN printf "deb http://ftp.debian.org/debian/ stretch main contrib non-free\ndeb-src http://ftp.debian.org/debian/ stretch main contrib non-free\ndeb http://security.debian.org stretch/updates main\ndeb-src http://security.debian.org stretch/updates main" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
-    libncurses5 \
-    libtinfo5 \
     gettext \
     postgresql-client libpq-dev \
   --no-install-recommends && rm -rf /var/lib/apt/lists/*
@@ -70,7 +68,6 @@ WORKDIR /code
 RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
 
 RUN python manage.py compilemessages 
-##&& python manage.py collectstatic --noinput
 
 RUN make -C /code/c-preload
 

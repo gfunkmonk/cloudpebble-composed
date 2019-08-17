@@ -24,7 +24,7 @@
     "KEEN_WRITE_KEY": {
       "required": true
     },
-    "LIBPEBBLE_PROXY": "wss://cloudpebble-ws.herokuapp.com/tool",
+    "LIBPEBBLE_PROXY": "wss://cloudpebble-ws-proxy-prod.herokuapp.com/tool",
     "MAINTENANCE_PAGE_URL": "//static.cloudpebble.net/maintenance/back-soon.html",  
     "PEBBLE_TOOL": "/app/sdk2/bin/pebble",
     "PUBLIC_URL": "/",
@@ -32,12 +32,12 @@
     "QEMU_LAUNCH_AUTH_HEADER": {
       "required": true
     },
-    "QEMU_URLS": "http://10.142.0.2/qemu-us1.cloudpebble.net/",
+    "QEMU_URLS": "http://qemu-us1.cloudpebble.net/",
     "SDK2_PEBBLE_WAF": "/app/sdk2/pebble/waf",
     "SDK3_PEBBLE_WAF": "/app/sdk3/pebble/waf",
     "TYPOGRAPHY_CSS": "//cloud.typography.com/7515512/745724/css/fonts.css",
     "WEB_CONCURRENCY": "2",
-    "YCM_URLS": "https://10.142.0.2/ycm1.cloudpebble.net/"
+    "YCM_URLS": "https://ycm1.cloudpebble.net/"
   },
   "addons": [
     "papertrail:choklad",
