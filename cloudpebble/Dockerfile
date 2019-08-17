@@ -3,7 +3,7 @@ MAINTAINER Katharine Berry <katharine@pebble.com>
 
 ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=10.15.3 DJANGO_VERSION=1.6 NODEJS_CHECK_SIGNATURES=no
 
-#    C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
+# C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
 # Node stuff.
 
 # gpg keys listed at https://github.com/nodejs/node
@@ -20,10 +20,12 @@ RUN npm install -g npm jshint
 
 # Django stuff
 
-# Fix broken sources.list (let's make it Buster...)
-RUN printf "deb http://ftp.debian.org/debian/ buster main\ndeb-src http://ftp.debian.org/debian/ buster main\ndeb http://security.debian.org buster/updates main\ndeb-src http://security.debian.org buster/updates main" > /etc/apt/sources.list
+# Fix broken sources.list (stretch repositories)
+#RUN printf "deb http://ftp.debian.org/debian/ stretch main contrib non-free\ndeb-src http://ftp.debian.org/debian/ stretch main contrib non-free\ndeb http://security.debian.org stretch/updates main\ndeb-src http://security.debian.org stretch/updates main" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
+    libncurses5 \
+    libtinfo5 \
     gettext \
     postgresql-client libpq-dev \
   --no-install-recommends && rm -rf /var/lib/apt/lists/*

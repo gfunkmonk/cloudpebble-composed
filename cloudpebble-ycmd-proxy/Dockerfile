@@ -1,23 +1,21 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
+#RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 RUN apt-get update && apt-get install -y cmake libtinfo5
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
-  #git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
+  git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
   git submodule update --init --recursive && \
-  #./build.sh --clang-completer
-  ./build.py --clang-completer
+  ./build.sh --clang-completer
 
 # Grab the toolchain
 RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
   tar -xf /tmp/arm-cs-tools.tar -C / && rm /tmp/arm-cs-tools.tar
 
 # Node stuff.
-
 ENV NODE_VERSION=9.11.2 NPM_CONFIG_LOGLEVEL=info
-
 RUN mkdir ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
@@ -62,8 +60,6 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 COPY . /code
 WORKDIR /code
-
-RUN ln -s /usr/lib/libtinfo.so.6 /usr/lib/libtinfo.so.5
 
 ENV PATH="$PATH:/arm-cs-tools/bin" YCMD_PEBBLE_SDK2=/sdk2/ YCMD_PEBBLE_SDK3=/sdk3/ \
   YCMD_STDLIB=/arm-cs-tools/arm-none-eabi/include/ \
