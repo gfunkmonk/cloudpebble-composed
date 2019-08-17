@@ -47,7 +47,7 @@ ycmd:
   volumes:
     - "./cloudpebble-ycmd-proxy/:/code"
   ports:
-    - "8002:80" cloudpebble-ws-proxy:
+    - "8002:80"
 redis:
   image: redis
 postgres:
