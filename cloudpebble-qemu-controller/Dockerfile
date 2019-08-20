@@ -2,7 +2,7 @@ FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
 RUN apt-get update && apt-get install -y \
-  libglib2.0-dev libpixman-1-dev libfdt-dev gnutls-dev
+  libglib2.0-dev libpixman-1-dev libfdt-dev gnutls-dev libsdl2-dev
 
 ENV QEMU_VERSION 2.5.0-pebble5
   
@@ -18,6 +18,9 @@ RUN mkdir /qemu && cd /qemu && \
 #      --extra-cflags=-DDEBUG_CLKTREE --extra-cflags=-DDEBUG_STM32_RCC \
 #      --extra-cflags=-DDEBUG_STM32_UART \
 #      --extra-cflags=-DDEBUG_GIC 
+       --enable-vnc \
+       --with-sdlabi=2.0 \
+       --enable-sdl \
           && \
   make clean && \
   make -j4

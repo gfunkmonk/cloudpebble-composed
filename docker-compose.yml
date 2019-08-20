@@ -15,11 +15,11 @@ web:
     - RUN_WEB="yes"
     - AWS_ENABLED="yes"
     - PORT=80
-    - AWS_S3_FAKE_S3=10.142.0.2:8003
-    - MEDIA_URL=http://10.142.0.2:8003/builds.cloudpebble.net/
-    - QEMU_URLS=http://10.142.0.2:8001/
-    - YCM_URLS=http://10.142.0.2:8002/
-    - PUBLIC_URL=http://10.142.0.2/
+    - AWS_S3_FAKE_S3=172.17.0.1:8003
+    - MEDIA_URL=http://172.17.0.1:8003/builds.cloudpebble.net/
+    - QEMU_URLS=http://172.17.0.1:8001/
+    - YCM_URLS=http://172.17.0.1:8002/
+    - PUBLIC_URL=http://172.17.0.1/
     - LIBPEBBLE_PROXY=wss://cloudpebble-ws.herokuapp.com/tool
     - PEBBLE_AUTH_URL=https://auth.rebble.io
 celery:
@@ -34,8 +34,8 @@ celery:
     - DEBUG="yes"
     - RUN_CELERY="yes"
     - AWS_ENABLED=yes
-    - EXPORT_ROOT=http://10.142.0.2:8003/export.cloudpebble.net/
-    - AWS_S3_FAKE_S3=10.142.0.2:8003
+    - EXPORT_ROOT=http://172.17.0.1:8003/export.cloudpebble.net/
+    - AWS_S3_FAKE_S3=172.17.0.1:8003
 qemu:
   build: cloudpebble-qemu-controller/
   volumes:
