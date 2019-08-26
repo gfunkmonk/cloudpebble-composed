@@ -1,13 +1,8 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=10.15.3 DJANGO_VERSION=1.6 NODEJS_CHECK_SIGNATURES=no
-
-# C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
-# Node stuff.
-
-# gpg keys listed at https://github.com/nodejs/node
-
+ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=9.11.2 DJANGO_VERSION=1.6 NODEJS_CHECK_SIGNATURES=no
+SHELL ["/bin/bash", "-c"]
 
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
   && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
@@ -42,19 +37,14 @@ RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/a
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-ENV SDK_TWO_VERSION=2.9
-
 # Install SDK 2
 RUN mkdir /sdk2 && \
-  curl -L "https://binaries.rebble.io/sdk-core/release/sdk-core-${SDK_TWO_VERSION}.tar.bz2" | \
+  curl -L "https://binaries.rebble.io/sdk-core/release/sdk-core-2.9.tar.bz2" | \
   tar --strip-components=1 -xj -C /sdk2
-
-ENV SDK_THREE_CHANNEL=release
-ENV SDK_THREE_VERSION=4.3
 
 # Install SDK 3
 RUN mkdir /sdk3 && \
-  curl -L "https://binaries.rebble.io/sdk-core/${SDK_THREE_CHANNEL}/sdk-core-${SDK_THREE_VERSION}.tar.bz2" | \
+  curl -L "https://binaries.rebble.io/sdk-core/release/sdk-core-4.3.tar.bz2" | \
   tar --strip-components=1 -xj -C /sdk3
 
 # Install SDK 3 Node dependencies
