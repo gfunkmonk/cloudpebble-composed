@@ -17,11 +17,11 @@ services:
       - RUN_WEB="yes"
       - AWS_ENABLED="yes"
       - PORT=80
-      - AWS_S3_FAKE_S3=localhost:8003
-      - MEDIA_URL=http://localhost:8003/builds.cloudpebble.net/
-      - QEMU_URLS=http://localhost:8001/
-      - YCM_URLS=http://localhost:8002/
-      - PUBLIC_URL=http://localhost/
+      - AWS_S3_FAKE_S3=207.148.15.25:8003
+      - MEDIA_URL=http://207.148.15.25:8003/builds.cloudpebble.net/
+      - QEMU_URLS=http://207.148.15.25:8001/
+      - YCM_URLS=http://207.148.15.25:8002/
+      - PUBLIC_URL=http://207.148.15.25/
       - LIBPEBBLE_PROXY=wss://cloudpebble-ws.herokuapp.com/tool
       - PEBBLE_AUTH_URL=https://auth.rebble.io
     env_file:
@@ -38,8 +38,8 @@ services:
       - DEBUG="yes"
       - RUN_CELERY="yes"
       - AWS_ENABLED=yes
-      - EXPORT_ROOT=http://localhost:8003/export.cloudpebble.net/
-      - AWS_S3_FAKE_S3=localhost:8003
+      - EXPORT_ROOT=http://207.148.15.25:8003/export.cloudpebble.net/
+      - AWS_S3_FAKE_S3=207.148.15.25:8003
     env_file:
       - ./.env
   qemu:

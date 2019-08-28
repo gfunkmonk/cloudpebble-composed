@@ -3,7 +3,7 @@ MAINTAINER Katharine Berry <katharine@pebble.com>
 SHELL ["/bin/bash", "-c"]
 
 #RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
-RUN apt-get update && apt-get install -y 
+RUN apt-get update && apt-get install -y \
     cmake libtinfo5 \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 

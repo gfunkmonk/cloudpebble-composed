@@ -239,7 +239,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    'django.contrib.admin',
+    #'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     #'django.contrib.admindocs',
     'social.apps.django_app.default',
@@ -251,6 +251,7 @@ INSTALLED_APPS = (
     'djcelery',
     'registration',
     'djangobower',
+    'django.contrib.admin',
 )
 
 # This logging config prints:

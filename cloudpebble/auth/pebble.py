@@ -14,7 +14,7 @@ class PebbleOAuth2(BaseOAuth2):
     REDIRECT_STATE = False
     SESSION_COOKIE_SECURE=False
     SESSION_COOKIE_SAMESITE = None
-    ID_KEY = 'uid'
+    ID_KEY = 'uuid'
 
     def get_user_details(self, response):
         return {
