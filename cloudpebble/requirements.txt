@@ -7,7 +7,7 @@ flup==1.0.3.dev-20110405
 psycopg2==2.8.3
 South==1.0.2
 qrcode==4.0.4
-Pillow==2.9.0
+Pillow==3.3.2
 pygithub==1.14.2
 python-social-auth==0.1.23
 redis==2.10.5
@@ -23,7 +23,7 @@ mailchimp==2.0.9
 
 # These are used for Heroku hosting setup.
 dj-static==0.0.6
-gunicorn==19.3.0
+gunicorn==19.5.0
 dj-database-url==0.3.0
 newrelic==2.50.0.39
 

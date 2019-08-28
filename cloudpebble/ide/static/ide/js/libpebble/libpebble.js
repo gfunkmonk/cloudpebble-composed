@@ -256,7 +256,7 @@ Pebble = function(proxy, token) {
             var length = unpack("I", data.subarray(1))[0];
             console.log(length);
             var url = unpack("S" + length, data.subarray(5))[0];
-			url = url.replace("http://clay.pebble.com.s3-website-us-west-2.amazonaws.com/", "https://config.gfunkmonk.info/emulator.html");
+			url = url.replace("http://clay.pebble.com.s3-website-us-west-2.amazonaws.com/", "https://gfunkmonk.s3.amazonaws.com/emulator.html");
             console.log("opening url: " + url);
             var new_url = manipulate_url(url);
             console.log("new url: " + new_url);

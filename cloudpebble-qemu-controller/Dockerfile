@@ -2,6 +2,10 @@ FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 SHELL ["/bin/bash", "-c"]
 
+# Fix broken sources.list (Buster repositories)
+RUN printf "deb http://ftp.debian.org/debian/ buster main contrib non-free\ndeb-src http://ftp.debian.org/debian/ buster main contrib non-free\ndeb  http://security.debian.org buster/updates main\ndeb-src http://security.debian.org buster/updates main\ndeb https://deb.nodesource.com/node_10.x buster main" > /etc/apt/sources.list
+RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+
 RUN apt-get update && apt-get install -y \
   libglib2.0-dev libpixman-1-dev libfdt-dev gnutls-dev \
   --no-install-recommends && rm -rf /var/lib/apt/lists/*
@@ -9,22 +13,14 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir /qemu && cd /qemu && \
   curl -L https://github.com/gfunkmonk/qemu/archive/v2.5.0-pebble5.tar.gz | tar xz --strip 1 && \
   ./configure --disable-werror --enable-debug --target-list="arm-softmmu" \
-#  --extra-cflags="-DSTM32_UART_NO_BAUD_DELAY -std=gnu99" --enable-vnc --disable-sdl 
-  #    --enable-tcg-interpreter \
        --extra-ldflags=-g \
-#      --with-coroutine=gthread \
-#      --enable-debug-tcg \
        --enable-debug --disable-werror --target-list="arm-softmmu" \
-#      --extra-cflags=-DDEBUG_CLKTREE --extra-cflags=-DDEBUG_STM32_RCC \
-#      --extra-cflags=-DDEBUG_STM32_UART \
-#      --extra-cflags=-DDEBUG_GIC 
        --enable-vnc \
           && \
   make clean && \
   make -j4
 
-#RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v1.1.1 --recursive
-RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch master --recursive
+RUN git clone https://github.com/gfunkmonk/pypkjs.git --depth 1 --branch master --recursive
 
 RUN virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt
 

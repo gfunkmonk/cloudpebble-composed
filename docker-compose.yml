@@ -2,6 +2,7 @@ version: '3'
 services:
   web:
     build: cloudpebble/
+    restart: always
     ports:
       - "80:80"
     volumes:
@@ -28,12 +29,15 @@ services:
       - ./.env
   celery:
     build: cloudpebble/
+    restart: always
     volumes:
       - "./cloudpebble/:/code"
     links:
       - redis
       - postgres
       - s3
+    env_file:
+      - ./.env
     environment:
       - DEBUG="yes"
       - RUN_CELERY="yes"
@@ -60,9 +64,19 @@ services:
       - "8002:80"
   redis:
     image: redis
+    restart: always
+    env_file:
+      - ./.env
   postgres:
-    image: postgres
+    #image: postgres
+    image: postgres:10.10-alpine
+    restart: always
+    env_file:
+      - ./.env
   s3:
     image: lphoward/fake-s3
+    restart: always
+    env_file:
+      - ./.env
     ports:
       - "8003:4569"

@@ -1,30 +1,22 @@
 FROM python:2.7.16
 MAINTAINER Katharine Berry <katharine@pebble.com>
 
-ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=9.11.2 DJANGO_VERSION=1.6 NODEJS_CHECK_SIGNATURES=no
 SHELL ["/bin/bash", "-c"]
 
-RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
-  && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
-#  && gpg --verify SHASUMS256.txt.asc \
-  && grep " node-v$NODE_VERSION-linux-x64.tar.gz\$" SHASUMS256.txt.asc | sha256sum -c - \
-  && tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
-  && rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc
-
-RUN npm install -g npm jshint
-
-# Django stuff
-
-# Fix broken sources.list (stretch repositories)
-#RUN printf "deb http://ftp.debian.org/debian/ stretch main contrib non-free\ndeb-src http://ftp.debian.org/debian/ stretch main contrib non-free\ndeb http://security.debian.org stretch/updates main\ndeb-src http://security.debian.org stretch/updates main" > /etc/apt/sources.list
+# Fix broken sources.list (Buster repositories)
+RUN printf "deb http://ftp.debian.org/debian/ buster main contrib non-free\ndeb-src http://ftp.debian.org/debian/ buster main contrib non-free\ndeb  http://security.debian.org buster/updates main\ndeb-src http://security.debian.org buster/updates main\ndeb https://deb.nodesource.com/node_10.x buster main" > /etc/apt/sources.list
+RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 
 RUN apt-get update && apt-get install -y \
-    gettext \
+    gettext nano \
     postgresql-client libpq-dev \
+    nodejs \
   --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-RUN pip install psycopg2 django=="$DJANGO_VERSION"
+RUN npm install -g jshint
 
+# Django stuff
+RUN pip install psycopg2 django==1.6.2
 EXPOSE 8000
 
 # CloudPebble stuff
