@@ -12,7 +12,7 @@ class PebbleOAuth2(BaseOAuth2):
     STATE_PARAMETER = 'state'
     DEFAULT_SCOPE = ['profile']
     REDIRECT_STATE = False
-    SESSION_COOKIE_SECURE=False
+    SESSION_COOKIE_SECURE = False
     SESSION_COOKIE_SAMESITE = None
     ID_KEY = 'uuid'
 
