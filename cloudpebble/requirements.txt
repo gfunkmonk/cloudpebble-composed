@@ -48,3 +48,5 @@ requests-oauthlib==0.6.1
 rsa==3.1.4
 six==1.10.0
 static3==0.6.1
+
+python-memcached

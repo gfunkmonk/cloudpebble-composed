@@ -54,6 +54,13 @@ else:
         'default': dj_database_url.config()
     }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__)) + '/../'
 
 LANGUAGE_COOKIE_NAME = 'cloudpebble_language'

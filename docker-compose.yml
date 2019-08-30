@@ -75,3 +75,8 @@ services:
     restart: always
     ports:
       - "8003:4569"
+  memecached:
+    image: memcached:latest
+    restart: always
+    ports:
+      - "11211:11211"

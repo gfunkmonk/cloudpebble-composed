@@ -1,5 +1,6 @@
 # cloudpebble-composed
 Local development setup for CloudPebble
+https://developer.rebble.io/developer.pebble.com/guides/tools-and-resources/cloudpebble/index.html
 ====================
 
 This repo contains the key components of CloudPebble as submodules. It also contains a

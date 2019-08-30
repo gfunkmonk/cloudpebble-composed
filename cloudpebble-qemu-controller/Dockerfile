@@ -1,4 +1,4 @@
-FROM python:2.7.14
+FROM python:2.7.16-buster	
 MAINTAINER Katharine Berry <katharine@pebble.com>
 SHELL ["/bin/bash", "-c"]
 
@@ -23,10 +23,8 @@ RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch master --r
 
 RUN virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt
 
-
 RUN mkdir /qemu-tintin-images && cd /qemu-tintin-images && \
   curl -L https://github.com/pebble/qemu-tintin-images/archive/v4.3.tar.gz | tar xz --strip 1
-
 
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
