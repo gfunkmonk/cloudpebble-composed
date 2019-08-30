@@ -3,12 +3,25 @@
 	"version": "1.0.0",
 	"description": "It clouds pebbles.",
 	"dependencies": {
-		"json-loader": "^0.5.4",
+		"@novnc/novnc": "kanaka/noVNC",
+		"app_name": "alexgorbatchev/jquery-textext",
+		"backbone": "^1.4.0",
+		"bluebird": "^3.5.5",
+		"codemirror": "^5.48.4",
+		"fuse.js": "krisk/Fuse",
+		"html5sortable": "voidberg/html5sortable",
+		"jquery": "^3.4.1",
+		"jshint": "jshint/jshint",
+		"json-loader": "^0.5.7",
 		"restrict-resource-webpack-plugin": "^1.0.0",
 		"rocky-lint": "^2.0.0",
-		"utf8": "^2.1.1",
-		"webpack": "^1.1.3",
-		"webpack-fail-plugin": "^1.0.5"
+		"text-encoding": "^0.7.0",
+		"underscore": "^1.9.1",
+		"utf8": "^3.0.0",
+		"webpack": "^4.0.0",
+		"webpack-fail-plugin": "^2.0.0"
 	},
-	"engines": {"node": "6.11.1"}
+	"engines": {
+		"node": "^10.15.2"
+	}
 }

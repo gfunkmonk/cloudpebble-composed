@@ -3,10 +3,12 @@ MAINTAINER Katharine Berry <katharine@pebble.com>
 SHELL ["/bin/bash", "-c"]
 
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 
 RUN apt-get update && apt-get install -y \
     gettext memcached nodejs \
-    postgresql-client libpq-dev \
+    postgresql-client libpq-dev yarn \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g npm jshint
@@ -15,7 +17,7 @@ RUN pip install psycopg2 django==1.6.2
 EXPOSE 8000
 
 # CloudPebble stuff
-RUN npm install -g bower && echo '{"allow_root": true}' > /root/.bowerrc
+#RUN npm install -g bower && echo '{"allow_root": true}' > /root/.bowerrc
 
 # Grab the toolchain
 RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
@@ -40,8 +42,10 @@ COPY . /code
 WORKDIR /code
 
 # Bower is awful.
-RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
+#RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
+RUN yarn install
 RUN python manage.py compilemessages
+RUN python manage.py collectstatic --noinput
 RUN make -C /code/c-preload
 
 RUN service memcached start

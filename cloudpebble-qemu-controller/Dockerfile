@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends && rm -rf /var/lib/apt/lists/*
   
 RUN mkdir /qemu && cd /qemu && \
-  curl -L https://github.com/gfunkmonk/qemu/archive/v2.5.0-pebble5.tar.gz | tar xz --strip 1 && \
+  curl -L https://github.com/gfunkmonk/qemu/archive/v2.5.0-pebble5a.tar.gz | tar xz --strip 1 && \
   ./configure --disable-werror --enable-debug --target-list="arm-softmmu" \
        --extra-cflags="-DSTM32_UART_NO_BAUD_DELAY -std=gnu99" \
        --enable-tcg-interpreter \

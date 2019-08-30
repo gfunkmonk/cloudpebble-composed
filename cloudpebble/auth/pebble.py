@@ -79,7 +79,7 @@ class PebbleOAuth2(BaseOAuth2):
     def get_user_details(self, response):
         return {
             'email': response.get('email'),
-            'fullname': response.get('name'),
+            'fullname': response.get('user.name'),
             'username': response.get('user.id'),
             'uid': response.get('uid')
         }

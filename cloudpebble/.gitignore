@@ -9,3 +9,8 @@ dev.db
 .env/
 .idea/
 bower_components
+node_modules
+staticfiles
+yarn-error.log
+*.lock
+

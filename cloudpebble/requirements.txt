@@ -16,7 +16,7 @@ gevent==1.1
 psycogreen==1.0
 requests==2.7.0
 oauth2client==1.3
-django-bower==5.0.4
+#django-bower==5.0.4
 mock==2.0.0
 # This is used for Mailchimp integration
 mailchimp==2.0.9
@@ -50,3 +50,5 @@ six==1.10.0
 static3==0.6.1
 
 python-memcached
+django-extensions==1.6.7
+git+https://github.com/epineda/django-yarn

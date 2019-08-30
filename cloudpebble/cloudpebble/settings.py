@@ -15,7 +15,7 @@ TRAVIS = 'TRAVIS' in _environ and os.environ["TRAVIS"] == "true"
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Administrator', 'example@example.com'),
+    ('gfunkmonk', 'gfunkmonk@gmail.com'),
 )
 
 DEFAULT_FROM_EMAIL = _environ.get('FROM_EMAIL', 'CloudPebble <cloudpebble@example.com>')
@@ -152,22 +152,23 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder',
+    #'djangobower.finders.BowerFinder',
+    'yarn.finders.YarnFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 BOWER_INSTALLED_APPS = (
     'https://github.com/krisk/Fuse.git#2ec2f2c40059e135cabf2b01c8c3f96f808b8809',
-    'jquery#~2.1.3',
+    'jquery#~2.1.4',
     'underscore',
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.3.1',
+    'html.sortable#~0.4.1',
     'alexgorbatchev/jquery-textext',
-    'codemirror#4.2.0',
-    'bluebird#3.3.4',
-    'kanaka/noVNC#v0.5',
+    'codemirror#4.3.0',
+    'bluebird#3.3.5',
+    'kanaka/noVNC#v0.6.1',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -246,9 +247,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    #'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
     'social.apps.django_app.default',
     'ide',
     'auth',
@@ -257,7 +258,7 @@ INSTALLED_APPS = (
     'south',
     'djcelery',
     'registration',
-    'djangobower',
+    #'djangobower',
 )
 
 # This logging config prints:
