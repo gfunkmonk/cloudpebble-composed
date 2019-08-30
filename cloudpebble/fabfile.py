@@ -74,8 +74,9 @@ def restart_qemu_service():
 @parallel
 def update_ycmd_sdk(sdk_version):
     with cd("/home/ycm"), settings(sudo_user="ycm", shell="/bin/bash -c"):
-        sudo("wget -nv -O sdk.tar.gz https://s3.amazonaws.com/assets.getpebble.com/sdk3/release/sdk-core-%s.tar.bz2" % sdk_version)
-        sudo("tar -xf sdk.tar.gz")
+        #sudo("wget -nv -O sdk.tar.bz2 https://developer.rebble.io/s3.amazonaws.com/assets.getpebble.com/pebble-tool/pebble-sdk-4.5-linux64.tar.bz2" % sdk_version)
+        sudo("wget -nv -O sdk.tar.bz2 https://pebble.rip/SDKCores/sdk-core-4.3.tar.bz2" % sdk_version)
+        sudo("tar -xjf sdk.tar.bz2")
         sudo("rm -rf sdk3")
         sudo("mv sdk-core sdk3")
 

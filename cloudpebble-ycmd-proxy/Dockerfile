@@ -1,7 +1,11 @@
-FROM python:2.7
+FROM python:2.7.14
 MAINTAINER Katharine Berry <katharine@pebble.com>
+SHELL ["/bin/bash", "-c"]
 
-RUN apt-get update && apt-get install -y cmake
+#RUN printf "deb http://archive.debian.org/debian/ stretch main\ndeb-src http://archive.debian.org/debian/ stretch main\ndeb http://security.debian.org stretch/updates main\ndeb-src http://security.debian.org stretch/updates main" > /etc/apt/sources.list
+RUN apt-get update && apt-get install -y \
+    cmake libtinfo5 \
+    --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
@@ -15,7 +19,7 @@ RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/a
 
 # Node stuff.
 
-ENV NODE_VERSION=4.4.5 NPM_CONFIG_LOGLEVEL=info
+ENV NODE_VERSION=10.15.3 NPM_CONFIG_LOGLEVEL=info
 
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
@@ -45,14 +49,14 @@ ENV SDK_TWO_VERSION=2.9
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
-  curl -L "https://s3.amazonaws.com/assets.getpebble.com/sdk3/sdk-core/sdk-core-${SDK_TWO_VERSION}.tar.bz2" | \
+  curl -L "https://binaries.rebble.io/sdk-core/release/sdk-core-2.9.tar.bz2" | \
   tar --strip-components=1 -xj -C /sdk2
 
 ENV SDK_THREE_VERSION=4.3
 
 # Install SDK 3
 RUN mkdir /sdk3 && \
-  curl -L "https://github.com/aveao/PebbleArchive/raw/master/SDKCores/sdk-core-$SDK_THREE_VERSION.tar.bz2" | \
+  curl -L "https://binaries.rebble.io/sdk-core/release/sdk-core-4.3.tar.bz2" | \
   tar --strip-components=1 -xj -C /sdk3
 
 ADD requirements.txt /tmp/requirements.txt

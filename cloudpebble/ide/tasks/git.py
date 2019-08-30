@@ -47,7 +47,7 @@ def do_import_github(project_id, github_user, github_project, github_branch, del
                 pass
         send_td_event('cloudpebble_github_import_failed', data={
             'data': {
-                'reason': e.message,
+                'reason': unicode(e),
                 'github_user': github_user,
                 'github_project': github_project,
                 'github_branch': github_branch

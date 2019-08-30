@@ -1,58 +1,77 @@
-web:
-  build: cloudpebble/
-  ports:
-    - "80:80"
-  volumes:
-    - "./cloudpebble/:/code"
-  links:
-    - redis
-    - postgres
-    - s3
-    - qemu
-    - ycmd
-  environment:
-    - DEBUG="yes"
-    - RUN_WEB="yes"
-    - AWS_ENABLED="yes"
-    - PORT=80
-    - AWS_S3_FAKE_S3=192.168.99.100:8003
-    - MEDIA_URL=http://192.168.99.100:8003/builds.cloudpebble.net/
-    - QEMU_URLS=http://192.168.99.100:8001/
-    - YCM_URLS=http://192.168.99.100:8002/
-    - PUBLIC_URL=http://192.168.99.100/
-    - LIBPEBBLE_PROXY=wss://cloudpebble-ws.herokuapp.com/tool
-    - PEBBLE_AUTH_URL=https://auth.rebble.io
-celery:
-  build: cloudpebble/
-  volumes:
-    - "./cloudpebble/:/code"
-  links:
-    - redis
-    - postgres
-    - s3
-  environment:
-    - DEBUG="yes"
-    - RUN_CELERY="yes"
-    - AWS_ENABLED=yes
-    - EXPORT_ROOT=http://192.168.99.100:8003/export.cloudpebble.net/
-    - AWS_S3_FAKE_S3=192.168.99.100:8003
-qemu:
-  build: cloudpebble-qemu-controller/
-  volumes:
-    - "./cloudpebble-qemu-controller/:/code"
-  ports:
-    - "8001:80"
-ycmd:
-  build: cloudpebble-ycmd-proxy/
-  volumes:
-    - "./cloudpebble-ycmd-proxy/:/code"
-  ports:
-    - "8002:80"
-redis:
-  image: redis
-postgres:
-  image: postgres
-s3:
-  image: lphoward/fake-s3
-  ports:
-    - "8003:4569"
+version: '3'
+services:
+  web:
+    build: cloudpebble/
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - "./cloudpebble/:/code"
+    links:
+      - redis
+      - postgres
+      - s3
+      - qemu
+      - ycmd
+    environment:
+      - DEBUG="yes"
+      - RUN_WEB="yes"
+      - AWS_ENABLED="yes"
+      - PORT=80
+      - AWS_S3_FAKE_S3=207.148.15.25:8003
+      - MEDIA_URL=http://207.148.15.25:8003/builds.cloudpebble.net/
+      - QEMU_URLS=http://207.148.15.25:8001/
+      - YCM_URLS=http://207.148.15.25:8002/
+      - PUBLIC_URL=http://cloudpebble.tk/
+      - LIBPEBBLE_PROXY=wss://cloudpebble-ws.herokuapp.com/tool
+      - PEBBLE_AUTH_URL=https://auth.rebble.io
+    env_file:
+      - ../.env
+  celery:
+    build: cloudpebble/
+    restart: always
+    volumes:
+      - "./cloudpebble/:/code"
+    links:
+      - redis
+      - postgres
+      - s3
+    environment:
+      - DEBUG="yes"
+      - RUN_CELERY="yes"
+      - AWS_ENABLED=yes
+      - EXPORT_ROOT=http://192.168.99.100:8003/export.cloudpebble.net/
+      - AWS_S3_FAKE_S3=207.148.15.25:8003
+    env_file:
+      - ../.env
+  qemu:
+    build: cloudpebble-qemu-controller/
+    restart: always
+    volumes:
+      - "./cloudpebble-qemu-controller/:/code"
+    env_file:
+      - ../.env
+    ports:
+      - "8001:80"
+  ycmd:
+    build: cloudpebble-ycmd-proxy/
+    restart: always
+    volumes:
+      - "./cloudpebble-ycmd-proxy/:/code"
+    env_file:
+      - ../.env  
+    ports:
+      - "8002:80"
+  redis:
+    #image: redis
+    image: redis:alpine
+    restart: always
+  postgres:
+    #image: postgres
+    image: postgres:11-alpine
+    restart: always
+  s3:
+    image: lphoward/fake-s3
+    restart: always
+    ports:
+      - "8003:4569"

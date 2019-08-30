@@ -6,21 +6,26 @@ import ide.utils.mailinglist as mailinglist
 
 class PebbleOAuth2(BaseOAuth2):
     name = 'pebble'
-    AUTHORIZATION_URL = '{0}/oauth/authorize'.format(settings.SOCIAL_AUTH_PEBBLE_ROOT_URL)
+    AUTHORIZATION_URL = '{0}/oauth/authorise'.format(settings.SOCIAL_AUTH_PEBBLE_ROOT_URL)
     ACCESS_TOKEN_URL = '{0}/oauth/token'.format(settings.SOCIAL_AUTH_PEBBLE_ROOT_URL)
     ACCESS_TOKEN_METHOD = 'POST'
     STATE_PARAMETER = 'state'
-    DEFAULT_SCOPE = ['public']
+    DEFAULT_SCOPE = ['profile']
+    REDIRECT_STATE = False
+    SESSION_COOKIE_SECURE = False
+    SESSION_COOKIE_SAMESITE = None
+    ID_KEY = 'uuid'
 
     def get_user_details(self, response):
         return {
             'email': response.get('email'),
             'fullname': response.get('name'),
-            'username': response.get('email'),
+            'username': response.get('user.id'),
+            'uid': response.get('uid')
         }
 
     def user_data(self, access_token, *args, **kwargs):
-        url = '{0}/api/v1/me.json'.format(settings.SOCIAL_AUTH_PEBBLE_ROOT_URL)
+        url = '{0}/api/v1/me'.format(settings.SOCIAL_AUTH_PEBBLE_ROOT_URL)
         return self.get_json(
             url,
             headers={'Authorization': 'Bearer {0}'.format(access_token)}
