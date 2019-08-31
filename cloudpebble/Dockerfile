@@ -18,8 +18,7 @@ EXPOSE 8000
 RUN npm install -g bower && echo '{"allow_root": true}' > /root/.bowerrc
 
 # Grab the toolchain
-RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
-  tar -xf /tmp/arm-cs-tools.tar -C / && rm /tmp/arm-cs-tools.tar
+RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && tar -xf /tmp/arm-cs-tools.tar -C / && rm /tmp/arm-cs-tools.tar
 
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
@@ -34,6 +33,7 @@ RUN mkdir /sdk3 && \
 
 # Install SDK 3 Node dependencies
 RUN cd /sdk3 && npm install
+
 ENV WAF_NODE_PATH=/sdk3/node_modules
 
 COPY . /code

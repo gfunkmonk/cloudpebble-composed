@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-c"]
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 
 RUN apt-get update && apt-get install -y \
-    cmake libtinfo5  nodejs \
+    cmake libtinfo5 nodejs \
     --no-install-recommends && rm -rf /var/lib/apt/lists/
 
 # ycmd

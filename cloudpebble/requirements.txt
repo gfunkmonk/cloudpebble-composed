@@ -52,4 +52,4 @@ static3==0.6.1
 python-memcached
 #django-extensions==1.6.7
 #git+https://github.com/epineda/django-yarn
-$django-storages==1.5.0
+#django-storages==1.5.0

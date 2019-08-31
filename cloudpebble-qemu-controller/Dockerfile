@@ -11,7 +11,7 @@ RUN mkdir /qemu && cd /qemu && \
   ./configure --disable-werror --enable-debug --target-list="arm-softmmu" \
        --extra-cflags="-DSTM32_UART_NO_BAUD_DELAY -std=gnu99" \
        --enable-tcg-interpreter \
-	--extra-ldflags=-g \
+       --extra-ldflags=-g \
        --enable-vnc \
        --disable-sdl  \
 	&& \
