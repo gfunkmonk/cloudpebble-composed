@@ -28,5 +28,16 @@ Limitations
 -----------
 
 - Websocket installs are not available (working on)
-- You'll have to change things manually because the ip is set to my server.
 - Emulator randomly crashes
+
+Future Plans:
+-------------
+
+- Replace bower with yarn or nodejs or anything...
+- update django to at least 1.9. (there's and old branch in 
+  pebbles github..)
+- Attempt to get the websocket phone connection working.
+- Fix more of the security risks from outdated packages and 
+  impliment HTTPS/SSL
+- Maybe update the emulator/port/patch/hack n pray to a newer
+  version of qemu.
