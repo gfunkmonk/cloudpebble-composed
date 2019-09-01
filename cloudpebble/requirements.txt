@@ -1,4 +1,4 @@
-Django==1.6.2
+Django==1.9.6
 django-registration==1.0
 amqp==1.4.9
 celery==3.1.23
