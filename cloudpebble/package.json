@@ -1,7 +1,10 @@
 {
+    "private": true,
 	"name": "cloudpebble",
 	"version": "1.0.0",
+	"author": "Katharine Berry <katharine@pebble.com>",
 	"description": "It clouds pebbles.",
+	"license": "MIT",
 	"dependencies": {
 		"json-loader": "^0.5.4",
 		"restrict-resource-webpack-plugin": "^1.0.0",

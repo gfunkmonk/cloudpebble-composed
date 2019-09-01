@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g npm jshint
-RUN pip install psycopg2 django==1.6.2
+RUN pip install psycopg2 django==1.9.12
 
 EXPOSE 8000
 

@@ -3,6 +3,7 @@ import logging
 import random
 
 import requests
+from django.utils.translation import ugettext as _
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
@@ -54,7 +55,7 @@ def _spin_up_server(request):
         server = random.choice(list(servers))
         servers.remove(server)
         try:
-            result = requests.post('%sspinup' % server, json.dumps(request), headers={'Content-Type': 'application/json'})
+            result = requests.post('%sspinup' % server, json.dumps(request), headers={'Content-Type': 'application/json'}, verify=settings.COMPLETION_CERTS)
             if result.ok:
                 response = result.json()
                 if response['success']:

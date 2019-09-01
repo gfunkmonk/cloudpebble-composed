@@ -51,7 +51,7 @@
         }
 
         function handle_socket_open(e) {
-            console.log("socket open; authenticating with token: " + mToken);
+            console.log("socket open; authenticating...");
             self.trigger('proxy:authenticating');
             self.send(new Uint8Array([0x09, mToken.length].concat(_.invoke(mToken, 'charCodeAt', 0))));
         }

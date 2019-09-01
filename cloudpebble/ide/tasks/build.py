@@ -6,7 +6,7 @@ import subprocess
 import tempfile
 import zipfile
 
-from celery import task
+from celery import shared_task
 from django.conf import settings
 from django.utils.timezone import now
 
@@ -26,6 +26,7 @@ def _set_resource_limits():
     resource.setrlimit(resource.RLIMIT_NOFILE, (500, 500))  # 500 open files
     resource.setrlimit(resource.RLIMIT_RSS, (30 * 1024 * 1024, 30 * 1024 * 1024))  # 30 MB of memory
     resource.setrlimit(resource.RLIMIT_FSIZE, (20 * 1024 * 1024, 20 * 1024 * 1024))  # 20 MB output files.
+
 
 def save_debug_info(base_dir, build_result, kind, platform, elf_file):
     path = os.path.join(base_dir, 'build', elf_file)
@@ -59,7 +60,7 @@ def store_size_info(project, build_result, platform, zip_file):
         pass
 
 
-@task(ignore_result=True, acks_late=True)
+@shared_task(ignore_result=True, acks_late=True)
 def run_compile(build_result):
     build_result = BuildResult.objects.get(pk=build_result)
     project = build_result.project
@@ -78,17 +79,6 @@ def run_compile(build_result):
         try:
             os.chdir(base_dir)
 
-            environ = os.environ.copy()
-            environ.update({
-                #'LD_PRELOAD': settings.C_PRELOAD_ROOT + 'libpreload.so',
-                'ALLOWED_FOR_CREATE': '/tmp',
-                'ALLOWED_FOR_READ': '/usr/local/include:/usr/include:/usr/lib:/lib:/lib64:/tmp' \
-                                    ':/dev/urandom:/proc/self:/proc/self/maps:/proc/mounts' \
-                                    ':/app/.heroku:/app/sdk2:/app/sdk3:/app/arm-cs-tools',
-                'PATH': '{}:{}'.format(settings.ARM_CS_TOOLS, environ['PATH']),
-                'HOME': '/app'
-            })
-
             # Install dependencies if there are any
             dependencies = project.get_dependencies()
             if dependencies:
@@ -97,18 +87,21 @@ def run_compile(build_result):
                 for version in dependencies.values():
                     validate_dependency_version(version)
                 npm_command = [settings.NPM_BINARY, "install", "--ignore-scripts", "--no-bin-links"]
-                output = subprocess.check_output(npm_command, stderr=subprocess.STDOUT, preexec_fn=_set_resource_limits, env=environ)
-                subprocess.check_output([settings.NPM_BINARY, "dedupe"], stderr=subprocess.STDOUT, preexec_fn=_set_resource_limits, env=environ)
+                output = subprocess.check_output(npm_command, stderr=subprocess.STDOUT, preexec_fn=_set_resource_limits)
+                subprocess.check_output([settings.NPM_BINARY, "dedupe"], stderr=subprocess.STDOUT, preexec_fn=_set_resource_limits)
 
             if project.sdk_version == '2':
+                environ = os.environ.copy()
+                environ['PATH'] = '{}:{}'.format(settings.ARM_CS_TOOLS, environ['PATH'])
                 command = [settings.SDK2_PEBBLE_WAF, "configure", "build"]
             elif project.sdk_version == '3':
+                environ = os.environ.copy()
+                environ['PATH'] = '{}:{}'.format(settings.ARM_CS_TOOLS, environ['PATH'])
                 if settings.WAF_NODE_PATH:
                     environ['NODE_PATH'] = settings.WAF_NODE_PATH
                 command = [settings.SDK3_PEBBLE_WAF, "configure", "build"]
             else:
                 raise Exception("invalid sdk version.")
-
             output += subprocess.check_output(command, stderr=subprocess.STDOUT, preexec_fn=_set_resource_limits,
                                               env=environ)
         except subprocess.CalledProcessError as e:

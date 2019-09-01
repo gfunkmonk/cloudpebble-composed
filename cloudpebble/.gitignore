@@ -11,3 +11,4 @@ cloudpebble/settings_local.py
 .env/
 .idea/
 bower_components
+staticfiles

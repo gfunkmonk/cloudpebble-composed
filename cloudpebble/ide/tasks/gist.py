@@ -1,7 +1,9 @@
 import json
+import urllib2
+from collections import defaultdict
 
 import github
-from celery import task
+from celery import shared_task
 from django.db import transaction
 from django.conf import settings
 
@@ -12,11 +14,9 @@ from ide.models.files import SourceFile, ResourceFile, ResourceIdentifier, Resou
 from ide.utils.project import APPINFO_MANIFEST, PACKAGE_MANIFEST
 from ide.utils import generate_half_uuid
 from utils.td_helper import send_td_event
-from collections import defaultdict
-import urllib2
 
 
-@task(acks_late=True)
+@shared_task(acks_late=True)
 def import_gist(user_id, gist_id):
     user = User.objects.get(pk=user_id)
     g = github.Github()
