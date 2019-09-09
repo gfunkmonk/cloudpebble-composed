@@ -14,6 +14,8 @@ TESTING = 'test' in sys.argv
 TRAVIS = 'TRAVIS' in _environ and os.environ["TRAVIS"] == "true"
 TEMPLATE_DEBUG = DEBUG
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 ADMINS = (
     ('admin', 'gfunkmonk@gmail.com'),
 )
@@ -173,7 +175,7 @@ MEDIA_URL = _environ.get('MEDIA_URL', 'http://localhost:8001/builds/')
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -181,21 +183,38 @@ STATIC_URL = '/static/'
 
 PUBLIC_URL = _environ.get('PUBLIC_URL', 'http://localhost:8000/') # This default is completely useless.
 
+NODE_MODULES_PATH = _environ.get('NODE_MODULES_PATH', os.path.join(os.getcwd(), 'node_modules'))
+
+
+def _node_bin(name):
+    return os.path.join(NODE_MODULES_PATH, '.bin', name)
+
+
+if DEBUG or TESTING:
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+        # This is used instead of django-bower's finder, because django-pipeline
+        # is actually better than django-bower at filtering out unneeded static
+        # files.
+        os.path.join(os.path.dirname(__file__), '..', 'bower_components'),
 )
 
-# List of finder classes that know how to find static files in
-# various locations.
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    STATICFILES_FINDERS = (
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+        'pipeline.finders.CachedFileFinder',
+        'pipeline.finders.PipelineFinder',
+    )
+    STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+else:
+    STATICFILES_FINDERS = (
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+        'djangobower.finders.BowerFinder',
+        'pipeline.finders.CachedFileFinder',
+        'pipeline.finders.PipelineFinder',
 )
+    STATICFILES_STORAGE = 'cloudpebble.storage.CompressedManifestPipelineStorage'
 
 BOWER_INSTALLED_APPS = (
     'https://github.com/krisk/Fuse.git#2ec2f2c40059e135cabf2b01c8c3f96f808b8809',
@@ -214,18 +233,31 @@ BOWER_INSTALLED_APPS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = _environ.get('SECRET_KEY', 'y_!-!-i!_txo$v5j(@c7m4uk^jyg)l4bf*0yqrztmax)l2027j')
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
-
-if not DEBUG:
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.template.context_processors.request',
+                'django.contrib.messages.context_processors.messages',
+                "social.apps.django_app.context_processors.backends",
+                "social.apps.django_app.context_processors.login_redirect",
+            ]
+        }
+    }
+]
 
 
 MIDDLEWARE_CLASSES = (
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -237,7 +269,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'auth.pebble.PebbleOAuth2',
+    'site_auth.pebble.PebbleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -245,11 +277,11 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_details',
     'social.pipeline.social_auth.social_uid',
     'social.pipeline.social_auth.auth_allowed',
-    'auth.pebble.merge_user', # formerly social.pipeline.social_auth.social_user
+    'site_auth.pebble.merge_user',  # formerly social.pipeline.social_auth.social_user
     'social.pipeline.user.get_username',
     'social.pipeline.user.create_user',
     'social.pipeline.social_auth.associate_user',
-    'auth.pebble.clear_old_login',
+    'site_auth.pebble.clear_old_login',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details'
 )
@@ -273,12 +305,6 @@ ROOT_URLCONF = 'cloudpebble.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'cloudpebble.wsgi.application'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -292,15 +318,126 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'social.apps.django_app.default',
     'ide',
-    'auth',
+    'site_auth',
+    'pipeline',
     'root',
     'qr',
-    'south',
-    'djcelery',
     'registration',
     'djangobower',
 )
 
+# Configuration for django-pipeline, used to concatenate and compress JS and CSS sources and
+# output source-maps.
+PIPELINE = {
+    'OUTPUT_SOURCEMAPS': True,
+    'JS_COMPRESSOR': 'cloudpebble.compressors.ConcatenatingUglifyJSCompressor',
+    'CSS_COMPRESSOR': 'pipeline.compressors.cleancss.CleanCSSCompressor',
+    'CLEANCSS_BINARY': _node_bin('cleancss'),
+    'UGLIFYJS_BINARY': _node_bin('uglifyjs'),
+    'CONCATENATOR_BINARY': _node_bin('source-map-concat'),
+    'DISABLE_WRAPPER': True,
+    'VERBOSE': True,
+    'STYLESHEETS': {
+        'codemirror': {
+            'source_filenames': (
+                'CodeMirror/addon/hint/show-hint.css',
+                'CodeMirror/addon/dialog/dialog.css',
+                'CodeMirror/lib/codemirror.css',
+                'CodeMirror/theme/monokai.css',
+                'CodeMirror/theme/eclipse.css',
+                'CodeMirror/theme/blackboard.css',
+                'CodeMirror/theme/solarized.css',
+                'CodeMirror/addon/fold/foldgutter.css',
+            ),
+            'output_filename': 'build/codemirror.css'
+        },
+        'textext': {
+            'source_filenames': (
+                'jquery-textext/src/css/textext.core.css',
+                'jquery-textext/src/css/textext.plugin.tags.css',
+                'jquery-textext/src/css/textext.plugin.autocomplete.css',
+                'jquery-textext/src/css/textext.plugin.focus.css',
+                'jquery-textext/src/css/textext.plugin.prompt.css',
+                'jquery-textext/src/css/textext.plugin.arrow.css',
+            ),
+            'output_filename': 'build/textext.css'
+        },
+        'ide': {
+            'source_filenames': (
+                'ide/css/ide.css',
+                'ide/css/ib.css',
+                'ide/css/codemirror-default.css',
+            ),
+            'output_filename': 'build/ide.css'
+        },
+        'base': {
+            'source_filenames': (
+                'common/fonts/fonts.css',
+                'common/css/progress.css',
+                'common/css/common.css',
+                'ide/css/base.css',
+            ),
+            'output_filename': 'build/base.css'
+        }
+    },
+    'JAVASCRIPT': {
+        'ide': {
+            'source_filenames': (
+                'ide/js/cloudpebble.js',
+                'ide/js/editor.js',
+                'ide/js/ib/ib.js',
+                'ide/js/ib/registry.js',
+                'ide/js/*.js',
+                'ide/js/*/*.js',
+            ),
+            'output_filename': 'build/ide.js',
+        },
+        'lib': {
+            'source_filenames': (
+                'react/react.js',
+                'react/react-dom.js',
+                'classnames/index.js',
+                'CodeMirror/lib/codemirror.js',
+                'CodeMirror/addon/dialog/dialog.js',
+                'CodeMirror/addon/search/searchcursor.js',
+                'CodeMirror/addon/search/search.js',
+                'CodeMirror/addon/edit/matchbrackets.js',
+                'CodeMirror/addon/edit/closebrackets.js',
+                'CodeMirror/addon/comment/comment.js',
+                'CodeMirror/addon/fold/foldgutter.js',
+                'CodeMirror/addon/fold/foldcode.js',
+                'CodeMirror/addon/fold/brace-fold.js',
+                'CodeMirror/addon/fold/comment-fold.js',
+                'CodeMirror/addon/runmode/runmode.js',
+                'ide/external/codemirror.hint.js',
+                'fuse.js/src/fuse.js',
+                'CodeMirror/mode/clike/clike.js',
+                'CodeMirror/mode/javascript/javascript.js',
+                'CodeMirror/keymap/emacs.js',
+                'CodeMirror/keymap/vim.js',
+                'ide/external/uuid.js',
+                'jshint/dist/jshint.js',
+                'html.sortable/dist/html.sortable.min.js',
+                'text-encoding/lib/encoding.js',
+                'noVNC/include/util.js',
+                'jquery-textext/src/js/*.js',
+            ),
+            'output_filename': 'build/textext.js',
+        },
+        'base': {
+            'source_filenames': (
+                'jquery/dist/jquery.min.js',
+                'common/js/modal.js',
+                'bluebird/js/browser/bluebird.js',
+                'underscore/underscore-min.js',
+                'backbone/backbone-min.js',
+                'common/js/whats_new.js',
+                'common/js/ajax.js'
+            ),
+            'output_filename': 'build/base.js',
+        }
+    }
+}
 # This logging config prints:
 # INFO logs from django
 # INFO or DEBUG logs from 'ide', depending on whether DEBUG=True

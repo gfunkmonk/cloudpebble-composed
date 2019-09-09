@@ -1,8 +1,8 @@
-Django==1.6.2
-django-registration==1.0
+Django==1.9.12
+django-registration==2.0.4
+-e git://github.com/pebble/django-pipeline.git@7c1bb9f4a90a5911c94e24bee79dfed48602a19f#egg=pipeline
 amqp<2.0,>=1.4.9
 celery==3.1.25
-django-celery==3.1.17
 flup==1.0.3.dev-20110405
 psycopg2==2.8.3
 South==1.0.2
@@ -14,13 +14,13 @@ redis==2.10.5
 boto==2.49.0
 gevent==1.1
 psycogreen==1.0
-requests==2.22.0
-oauth2client==1.5.1
-django-bower==5.0.4
+requests==2.22.1
+oauth2client==1.5.2
+django-bower==5.1.0
 mock==2.0.0
 
 # These are used for Heroku hosting setup.
-dj-static==0.0.6
+whitenoise==3.0
 gunicorn==19.5.0
 dj-database-url==0.3.0
 newrelic==2.50.0.39
