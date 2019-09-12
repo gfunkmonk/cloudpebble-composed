@@ -1,3 +1,12 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from past.builtins import basestring
+from builtins import *
+from builtins import object
 import collections
 
 __author__ = 'joe'
@@ -48,14 +57,14 @@ def _filter_dict(dictionary, spec, strict=False):
         raise ValueError('Second argument must be a collections.Mappable')
 
     out = {}
-    if True in spec.keys():
+    if True in list(spec.keys()):
         # Wildcard case
         for key in dictionary:
             spec_value = spec.get(key, spec[True])
             _transform_value(out, key, dictionary, spec_value, strict=False)
     else:
         # Non-wildcard case
-        for key, spec_value in spec.iteritems():
+        for key, spec_value in spec.items():
             if key in dictionary:
                 _transform_value(out, key, dictionary, spec_value, strict=True)
     return out

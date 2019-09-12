@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 import gevent.monkey; gevent.monkey.patch_all(subprocess=True)
 from flask import Flask, request, jsonify
 
@@ -15,8 +22,8 @@ import traceback
 import os
 import pwd
 import grp
-import settings
-import ycm_helpers
+from . import settings
+from . import ycm_helpers
 
 app = Flask(__name__)
 
@@ -83,7 +90,7 @@ def server_ws(process_uuid):
 
             # Run the specified command with the correct uuid and data
             try:
-                print "Running command: %s" % command
+                print("Running command: %s" % command)
                 ycms = ycm_helpers.get_ycms(process_uuid)
                 result = ws_commands[command](ycms, data)
             except ycm_helpers.YCMProxyException as e:
@@ -101,7 +108,7 @@ def server_ws(process_uuid):
     finally:
         ycm_helpers.kill_completer(process_uuid)
 
-    print "Closing websocket"
+    print("Closing websocket")
 
     return ''
 
@@ -113,7 +120,7 @@ def ycm_ws(process_uuid):
 
 @atexit.register
 def kill_completers():
-    print "Shutting down completers"
+    print("Shutting down completers")
     ycm_helpers.kill_completers()
 
 
@@ -134,7 +141,7 @@ def drop_privileges(uid_name='nobody', gid_name='nogroup'):
     os.setuid(running_uid)
 
     # Ensure a very conservative umask
-    os.umask(077)
+    os.umask(0o77)
 
 
 def run_server():
@@ -144,7 +151,7 @@ def run_server():
 
     ssl_args = {}
     if settings.SSL_ROOT is not None:
-        print "Running with SSL"
+        print("Running with SSL")
         ssl_args = {
             'keyfile': os.path.join(settings.SSL_ROOT, 'server-key.pem'),
             'certfile': os.path.join(settings.SSL_ROOT, 'server-cert.pem'),

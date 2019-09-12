@@ -1,3 +1,10 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 from ide.tasks.td_task import td_add_events
 
 __author__ = 'katharine'
@@ -24,10 +31,10 @@ def generate_scoped_key(user):
 
 def _flatten(d, parent_key=''):
     items = []
-    for k, v in d.iteritems():
+    for k, v in d.items():
         new_key = parent_key + '_0_' + k if parent_key else k
         if isinstance(v, collections.MutableMapping):
-            items.extend(_flatten(v, new_key).iteritems())
+            items.extend(iter(_flatten(v, new_key).items()))
         else:
             items.append((new_key, v))
     return dict(items)

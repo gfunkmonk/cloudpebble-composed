@@ -1,3 +1,10 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 import json
 import os
 import shutil
@@ -5,7 +12,7 @@ import shutil
 from django.conf import settings
 
 from ide.models import ResourceFile
-from manifest import manifest_name_for_project, generate_manifest_dict
+from .manifest import manifest_name_for_project, generate_manifest_dict
 from ide.utils.sdk import generate_wscript_file, generate_jshint_file
 
 

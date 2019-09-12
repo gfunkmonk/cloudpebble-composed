@@ -2,7 +2,14 @@
 These tests check that ide.utils.sdk.project_assembly produces archives containing all expected files.
 Although there is overlap with test_create_archive, this function is only used by the build task.
 """
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 import mock
 import tempfile
 import shutil

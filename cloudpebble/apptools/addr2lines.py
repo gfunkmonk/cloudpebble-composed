@@ -1,3 +1,12 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import range
+from builtins import *
+from builtins import object
 import subprocess
 import re
 
@@ -29,7 +38,7 @@ class LineReader(object):
         files, lines = self.get_line_listing()
 
         # Now compact this into a handy compact listing (to save on file size)
-        file_id_lookup = {files[x]: x for x in xrange(len(files))}
+        file_id_lookup = {files[x]: x for x in range(len(files))}
 
         compact_lines = [(x['address'], file_id_lookup[x['file']], x['line']) for x in lines]
 

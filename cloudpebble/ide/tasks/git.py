@@ -1,5 +1,14 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import range
+from builtins import *
 import base64
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import json
 import os
 import logging
@@ -29,7 +38,7 @@ def do_import_github(project_id, github_user, github_project, github_branch, del
     try:
         url = "https://github.com/%s/%s/archive/%s.zip" % (github_user, github_project, github_branch)
         if file_exists(url):
-            u = urllib2.urlopen(url)
+            u = urllib.request.urlopen(url)
             return do_import_archive(project_id, u.read())
         else:
             raise Exception("The branch '%s' does not exist." % github_branch)
@@ -47,7 +56,7 @@ def do_import_github(project_id, github_user, github_project, github_branch, del
                 pass
         send_td_event('cloudpebble_github_import_failed', data={
             'data': {
-                'reason': unicode(e),
+                'reason': str(e),
                 'github_user': github_user,
                 'github_project': github_project,
                 'github_branch': github_branch
@@ -57,10 +66,10 @@ def do_import_github(project_id, github_user, github_project, github_branch, del
 
 
 def file_exists(url):
-    request = urllib2.Request(url)
+    request = urllib.request.Request(url)
     request.get_method = lambda: 'HEAD'
     try:
-        urllib2.urlopen(request)
+        urllib.request.urlopen(request)
     except:
         return False
     else:
@@ -142,7 +151,7 @@ def github_push(user, commit_message, repo_name, project):
     # Manage deleted files
     src_root = os.path.join(root, 'src')
     worker_src_root = os.path.join(root, 'worker_src')
-    for path in next_tree.keys():
+    for path in list(next_tree.keys()):
         if not (any(path.startswith(root+'/') for root in (src_root, resource_root, worker_src_root))):
             continue
         if path not in expected_paths:
@@ -198,13 +207,13 @@ def github_push(user, commit_message, repo_name, project):
         logger.debug("Has changed; committing")
         # GitHub seems to choke if we pass the raw directory nodes off to it,
         # so we delete those.
-        for x in next_tree.keys():
+        for x in list(next_tree.keys()):
             if next_tree[x]._InputGitTreeElement__mode == '040000':
                 del next_tree[x]
                 logger.debug("removing subtree node %s", x)
 
-        logger.debug([x._InputGitTreeElement__mode for x in next_tree.values()])
-        git_tree = repo.create_git_tree(next_tree.values())
+        logger.debug([x._InputGitTreeElement__mode for x in list(next_tree.values())])
+        git_tree = repo.create_git_tree(list(next_tree.values()))
         logger.debug("Created tree %s", git_tree.sha)
         git_commit = repo.create_git_commit(commit_message, git_tree, [commit])
         logger.debug("Created commit %s", git_commit.sha)
@@ -288,7 +297,7 @@ def github_pull(user, project):
 
     # Now we grab the zip.
     zip_url = repo.get_archive_link('zipball', branch_name)
-    u = urllib2.urlopen(zip_url)
+    u = urllib.request.urlopen(zip_url)
 
     # And wipe the project!
     # TODO: transaction support for file contents would be nice...

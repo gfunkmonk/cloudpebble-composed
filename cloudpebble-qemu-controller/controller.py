@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 __author__ = 'katharine'
 
 import gevent.monkey
@@ -143,7 +150,7 @@ def _kill_idle_emulators():
         while True:
             try:
                 logging.info("running idle killer for %d emulators", len(emulators))
-                for key, emulator in emulators.items():
+                for key, emulator in list(emulators.items()):
                     logging.debug("checking %s", key)
                     if now() - emulator.last_ping > 300:
                         logging.info("killing idle emulator %s", key)
@@ -163,7 +170,7 @@ idle_killer = gevent.spawn(_kill_idle_emulators)
 
 @atexit.register
 def kill_emulators():
-    for emulator in emulators.itervalues():
+    for emulator in emulators.values():
         emulator.kill()
     emulators.clear()
 
@@ -185,7 +192,7 @@ def drop_privileges(uid_name='nobody', gid_name='nogroup'):
     os.setuid(running_uid)
 
     # Ensure a very conservative umask
-    os.umask(077)
+    os.umask(0o77)
 
 logging.info("Emulator limit: %d", settings.EMULATOR_LIMIT)
 
