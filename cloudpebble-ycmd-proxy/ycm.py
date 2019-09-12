@@ -1,3 +1,14 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import map
+from builtins import str
+from builtins import filter
+from builtins import *
+from builtins import object
 import gevent.monkey; gevent.monkey.patch_all(subprocess=True)
 import socket
 import base64
@@ -13,9 +24,9 @@ import shutil
 import time
 import os
 
-from symbol_blacklist import is_valid_symbol
-import settings
-from filesync import FileSync
+from .symbol_blacklist import is_valid_symbol
+from . import settings
+from .filesync import FileSync
 
 __author__ = 'katharine'
 
@@ -129,7 +140,7 @@ class YCM(object):
         result = self._request("completions", request)
         if result.status_code == 200:
             response = result.json()
-            completions = map(self._clean_symbol, filter(is_valid_symbol, response['completions'])[:10])
+            completions = list(map(self._clean_symbol, list(filter(is_valid_symbol, response['completions']))[:10]))
             return {
                 'completions': completions,
                 'completion_start_column': response['completion_start_column'],
@@ -145,7 +156,7 @@ class YCM(object):
                     'X-Ycm-Hmac': self._hmac(''),
                 }
                 result = requests.get("http://localhost:%d/ready" % self._port, headers=headers)
-                print result
+                print(result)
             except requests.exceptions.ConnectionError:
                 pass
             else:
@@ -171,11 +182,11 @@ class YCM(object):
         return time.time() < self._last_ping + 280
 
     def close(self):
-        print "terminating server"
+        print("terminating server")
         try:
             self._process.terminate()
         except Exception as e:
-            print "Error terminating process: %s" % e
+            print("Error terminating process: %s" % e)
         try:
             shutil.rmtree(self.files.root_dir)
         except:

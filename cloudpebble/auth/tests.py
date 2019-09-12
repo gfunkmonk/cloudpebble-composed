@@ -4,7 +4,14 @@ when you run "manage.py test".
 
 Replace this with more appropriate tests for your application.
 """
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 from django.test import TestCase
 
 

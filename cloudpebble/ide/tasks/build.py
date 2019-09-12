@@ -1,3 +1,11 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
 import logging
 import os
 import resource
@@ -94,7 +102,7 @@ def run_compile(build_result):
             if dependencies:
                 # Checking for path-based dependencies is performed by the database so in theory we shouldn't need to do
                 # it here but we will do it anyway just to be extra safe.
-                for version in dependencies.values():
+                for version in list(dependencies.values()):
                     validate_dependency_version(version)
                 npm_command = [settings.NPM_BINARY, "install", "--ignore-scripts", "--no-bin-links"]
                 output = subprocess.check_output(npm_command, stderr=subprocess.STDOUT, preexec_fn=_set_resource_limits, env=environ)

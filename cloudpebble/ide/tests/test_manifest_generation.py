@@ -1,5 +1,13 @@
 """ These tests check that sdk.generate_manifest outputs what it should do under various conditions. """
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
 import json
 from ide.utils.sdk import generate_manifest
 from ide.utils.cloudpebble_test import CloudpebbleTestCase, make_package, make_appinfo, override_settings

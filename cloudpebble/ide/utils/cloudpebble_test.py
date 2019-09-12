@@ -1,5 +1,13 @@
 """ This file contains convenience functions/classes for test cases """
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import next
+from builtins import *
 import json
 from zipfile import ZipFile
 from io import BytesIO
@@ -138,7 +146,7 @@ def build_bundle(spec):
     """
     bundle = BytesIO()
     with ZipFile(bundle, 'w') as zipf:
-        for name, contents in spec.iteritems():
+        for name, contents in spec.items():
             zipf.writestr(name, contents)
     bundle.seek(0)
     return bundle.read()

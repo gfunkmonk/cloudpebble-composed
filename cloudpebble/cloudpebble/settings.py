@@ -1,6 +1,13 @@
 # encoding: utf-8
 # Django settings for cloudpebble project.
 
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 import sys
 import os
 import socket
@@ -426,14 +433,14 @@ djcelery.setup_loader()
 try:
     from settings_local import *
 except ImportError:
-    print "No local settings overrides."
+    print("No local settings overrides.")
     pass
 
 socket.setdefaulttimeout(int(_environ.get("DEFAULT_SOCKET_TIMEOUT", 10)))
 
 # Don't keep these hanging around in the environment.
 if not DEBUG:
-    for key in _environ.keys():
+    for key in list(_environ.keys()):
         # We need these ones to run.
         if key in {'PATH', 'TZ', 'RUN_MAIN', 'CELERY_LOADER', 'DJANGO_SETTINGS_MODULE', 'DEBUG', 'C_FORCE_ROOT'}:
             continue

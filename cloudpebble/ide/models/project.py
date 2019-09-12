@@ -1,3 +1,10 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 import re
 import uuid
 import json
@@ -91,7 +98,7 @@ class Project(IdeModel):
         """
         with transaction.atomic():
             Dependency.objects.filter(project=self).delete()
-            for name, version in dependencies.iteritems():
+            for name, version in dependencies.items():
                 dep = Dependency.objects.create(project=self, name=name, version=version)
                 dep.save()
 
@@ -144,7 +151,7 @@ class Project(IdeModel):
         """
         app_keys = json.loads(self.app_keys)
         if isinstance(app_keys, dict):
-            return sorted(app_keys.iteritems(), key=lambda x: x[1])
+            return sorted(iter(app_keys.items()), key=lambda x: x[1])
         else:
             parsed_keys = []
             for appkey in app_keys:

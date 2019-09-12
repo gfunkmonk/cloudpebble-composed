@@ -1,4 +1,11 @@
-import urllib
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
+import urllib.request, urllib.parse, urllib.error
 import requests
 
 from django.contrib.auth.decorators import login_required
@@ -46,7 +53,7 @@ def npm_info(request):
     query = request.GET['q']
 
     try:
-        package = requests.get('http://node-modules.com/package/%s.json' % urllib.quote(query)).json()
+        package = requests.get('http://node-modules.com/package/%s.json' % urllib.parse.quote(query)).json()
     except ValueError:
         raise Http404("Package not found")
 

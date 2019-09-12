@@ -1,3 +1,10 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 from registration.backends.simple.views import RegistrationView
 from django.contrib.auth import logout, login, authenticate
 from django.views.generic import View

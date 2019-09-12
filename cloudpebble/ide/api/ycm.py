@@ -1,3 +1,10 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 import json
 import logging
 import random
@@ -7,7 +14,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 from ide.models.project import Project
 from utils.jsonview import json_view

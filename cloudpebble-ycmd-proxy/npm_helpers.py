@@ -1,3 +1,11 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
 import contextlib
 import json
 import os
@@ -5,8 +13,8 @@ import re
 import shutil
 import subprocess
 import zipfile
-import settings
-from projectinfo import Resource
+from . import settings
+from .projectinfo import Resource
 
 
 class NPMInstallError(Exception):
@@ -34,7 +42,7 @@ def temporary_package_json(root_dir, dependencies):
 def validate_dependencies(dependencies):
     """ Check that none of the version strings in a dictionary of dependencies reference local paths. """
     # CloudPebble performs identical checks for this, so hopefully it should never actually get triggered.
-    for version in dependencies.values():
+    for version in list(dependencies.values()):
         if re.match(r'^file:|(\.*|~)/', version):
             raise ValueError("Dependencies are not allowed to reference paths")
 
@@ -115,7 +123,7 @@ def extract_library_headers(root_dir):
 
 def make_library_info(dependencies, versions, headers):
     libs = {}
-    for name, version in versions.iteritems():
+    for name, version in versions.items():
         if version and name in dependencies:
             libs[name] = {
                 'headers': [],

@@ -1,3 +1,11 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
 import json
 import logging
 import os
@@ -64,9 +72,9 @@ def create_archive(project_id):
 
         if not settings.AWS_ENABLED:
             outfile = '%s%s/%s.zip' % (settings.EXPORT_DIRECTORY, u, prefix)
-            os.makedirs(os.path.dirname(outfile), 0755)
+            os.makedirs(os.path.dirname(outfile), 0o755)
             shutil.copy(filename, outfile)
-            os.chmod(outfile, 0644)
+            os.chmod(outfile, 0o644)
             return '%s%s/%s.zip' % (settings.EXPORT_ROOT, u, prefix)
         else:
             outfile = '%s/%s.zip' % (u, prefix)
@@ -90,9 +98,9 @@ def export_user_projects(user_id):
         u = uuid.uuid4().hex
         if not settings.AWS_ENABLED:
             outfile = '%s%s/%s.zip' % (settings.EXPORT_DIRECTORY, u, 'cloudpebble-export')
-            os.makedirs(os.path.dirname(outfile), 0755)
+            os.makedirs(os.path.dirname(outfile), 0o755)
             shutil.copy(filename, outfile)
-            os.chmod(outfile, 0644)
+            os.chmod(outfile, 0o644)
             return '%s%s/%s.zip' % (settings.EXPORT_ROOT, u, 'cloudpebble-export')
         else:
             outfile = '%s/%s.zip' % (u, 'cloudpebble-export')
@@ -199,14 +207,14 @@ def do_import_archive(project_id, archive, delete_project=False):
                     # We have a resource map! We can now try importing things from it.
                     project_options, media_map, dependencies = load_manifest_dict(manifest_dict, manifest_kind)
 
-                    for k, v in project_options.iteritems():
+                    for k, v in project_options.items():
                         setattr(project, k, v)
                     project.full_clean()
                     project.set_dependencies(dependencies)
 
                     RES_PATH = project.resources_path
 
-                    tag_map = {v: k for k, v in ResourceVariant.VARIANT_STRINGS.iteritems() if v}
+                    tag_map = {v: k for k, v in ResourceVariant.VARIANT_STRINGS.items() if v}
 
                     desired_resources = {}
                     resources_files = {}
@@ -296,7 +304,7 @@ def do_import_archive(project_id, archive, delete_project=False):
                             )
 
                     # Check that at least one variant of each specified resource exists.
-                    for root_file_name, loaded in file_exists_for_root.iteritems():
+                    for root_file_name, loaded in file_exists_for_root.items():
                         if not loaded:
                             raise KeyError("No file was found to satisfy the manifest filename: {}".format(root_file_name))
                     project.save()

@@ -1,9 +1,17 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import range
+from builtins import *
 __author__ = 'katharine'
 
 import json
 import requests
 import random
-import urlparse
+import urllib.parse
 import string
 import logging
 
@@ -68,7 +76,7 @@ def launch_emulator(request):
                                    timeout=settings.QEMU_LAUNCH_TIMEOUT)
             result.raise_for_status()
             response = result.json()
-            url = urlparse.urlsplit(server)
+            url = urllib.parse.urlsplit(server)
             response['host'] = url.hostname
             response['secure'] = (url.scheme == 'https')
             response['api_port'] = url.port or (443 if url.scheme == 'https' else 80)
@@ -114,4 +122,4 @@ def handle_phone_token(request, token):
 def _generate_token():
     rng = random.SystemRandom()
     valid = string.ascii_letters + string.digits + string.punctuation
-    return ''.join(rng.choice(valid) for i in xrange(30))
+    return ''.join(rng.choice(valid) for i in range(30))

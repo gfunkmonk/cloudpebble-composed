@@ -1,3 +1,7 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 # WARNING: This file is extremely specific to how Katharine happens to have her 
 # local machines set up.
 # In particular, to run without modification, you will need:
@@ -8,6 +12,9 @@
 # - A clone of qemu-tintin-images in ~/projects/qemu-tintin-images
 # - Access to the cloudpebble heroku app
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
 from fabric.api import *
 from fabric.tasks import execute
 import os
