@@ -1,6 +1,8 @@
 # encoding: utf-8
 # Django settings for cloudpebble project.
 
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 import os
 import socket
@@ -426,7 +428,7 @@ djcelery.setup_loader()
 try:
     from settings_local import *
 except ImportError:
-    print "No local settings overrides."
+    print("No local settings overrides.")
     pass
 
 socket.setdefaulttimeout(int(_environ.get("DEFAULT_SOCKET_TIMEOUT", 10)))

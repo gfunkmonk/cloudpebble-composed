@@ -1,5 +1,6 @@
 """ These are integration tests which check that project builds work. They are *not* run on Travis. """
 
+from __future__ import absolute_import
 import os
 import shutil
 import tempfile

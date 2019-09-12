@@ -1,5 +1,6 @@
 """ This file contains convenience functions/classes for test cases """
 
+from __future__ import absolute_import
 import json
 from zipfile import ZipFile
 from io import BytesIO
@@ -12,6 +13,7 @@ from django.test import TestCase
 from django.test.client import Client
 from django.test.utils import setup_test_environment
 from ide.models.user import User
+import six
 
 try:
     from django.test import override_settings
@@ -138,7 +140,7 @@ def build_bundle(spec):
     """
     bundle = BytesIO()
     with ZipFile(bundle, 'w') as zipf:
-        for name, contents in spec.iteritems():
+        for name, contents in six.iteritems(spec):
             zipf.writestr(name, contents)
     bundle.seek(0)
     return bundle.read()

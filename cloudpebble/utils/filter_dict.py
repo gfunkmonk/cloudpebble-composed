@@ -1,4 +1,6 @@
+from __future__ import absolute_import
 import collections
+import six
 
 __author__ = 'joe'
 
@@ -48,14 +50,14 @@ def _filter_dict(dictionary, spec, strict=False):
         raise ValueError('Second argument must be a collections.Mappable')
 
     out = {}
-    if True in spec.keys():
+    if True in list(spec.keys()):
         # Wildcard case
         for key in dictionary:
             spec_value = spec.get(key, spec[True])
             _transform_value(out, key, dictionary, spec_value, strict=False)
     else:
         # Non-wildcard case
-        for key, spec_value in spec.iteritems():
+        for key, spec_value in six.iteritems(spec):
             if key in dictionary:
                 _transform_value(out, key, dictionary, spec_value, strict=True)
     return out
@@ -74,7 +76,7 @@ def _transform_value(out, key, dictionary, spec_value, strict):
         out[result[0]] = result[1]
     elif isinstance(spec_value, collections.Mapping):
         out[key] = _filter_dict(v, spec_value, strict=strict)
-    elif isinstance(spec_value, basestring):
+    elif isinstance(spec_value, six.string_types):
         out[spec_value] = v
     else:
         raise ValueError('Invalid filter spec value')

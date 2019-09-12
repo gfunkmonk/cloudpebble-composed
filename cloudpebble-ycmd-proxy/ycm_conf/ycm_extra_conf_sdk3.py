@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import os
 
 if os.environ['PLATFORM'] == 'basalt':

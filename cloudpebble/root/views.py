@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.views.decorators.csrf import ensure_csrf_cookie

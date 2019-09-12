@@ -1,4 +1,5 @@
 """ These tests check that the Project model behaves as expected."""
+from __future__ import absolute_import
 from ide.models import Project
 from django.test import TestCase
 

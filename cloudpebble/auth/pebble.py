@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from social.backends.oauth import BaseOAuth2
 from django.conf import settings
 from ide.models.user import UserGithub

@@ -2,6 +2,8 @@
 run automatically.
 The dependencies test relies on the the git repo Katharine/pebble-events existing. """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import unittest
 import subprocess
 
@@ -57,7 +59,7 @@ class TestYCM(unittest.TestCase):
                 'dependencies': {'pebble-events': '^1.0.0'}
             })
         except subprocess.CalledProcessError as e:
-            print e.output
+            print(e.output)
             raise
         self.expect_completion(uuid, 6, 6, 'events_health_service_events_unsubscribe')
 
@@ -69,7 +71,7 @@ class TestYCM(unittest.TestCase):
                 'dependencies': {'@smallstoneapps/linked-list': "^1.2.1"}
             })
         except subprocess.CalledProcessError as e:
-            print e.output
+            print(e.output)
             raise
         self.expect_completion(uuid, 6, 12, 'linked_list_insert')
 

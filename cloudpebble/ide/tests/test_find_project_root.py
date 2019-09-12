@@ -1,5 +1,6 @@
 """ These tests check that ide.utils.project.find_project_root_and_manifest finds or rejects project roots in a variety of situations """
 
+from __future__ import absolute_import
 from unittest import TestCase
 from ide.utils.project import find_project_root_and_manifest, BaseProjectItem, InvalidProjectArchiveException
 import json

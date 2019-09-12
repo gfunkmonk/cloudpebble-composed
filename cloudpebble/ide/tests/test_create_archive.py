@@ -2,6 +2,7 @@
 These tests check that ide.tasks.archive.create_archive produces archives containing all expected files.
  Although there is overlap with test_project_assembly, this function is only used for exporting projects to users.
 """
+from __future__ import absolute_import
 import mock
 
 from ide.tasks.archive import create_archive

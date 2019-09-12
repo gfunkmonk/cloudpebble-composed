@@ -1,4 +1,5 @@
 """ These tests check basic operation of ide.tasks.archive.do_import_archive """
+from __future__ import absolute_import
 import mock
 
 from django.core.exceptions import ValidationError

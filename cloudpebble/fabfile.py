@@ -8,6 +8,7 @@
 # - A clone of qemu-tintin-images in ~/projects/qemu-tintin-images
 # - Access to the cloudpebble heroku app
 
+from __future__ import absolute_import
 from fabric.api import *
 from fabric.tasks import execute
 import os

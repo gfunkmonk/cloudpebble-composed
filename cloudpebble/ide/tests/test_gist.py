@@ -1,5 +1,6 @@
 """ These tests check that the gist import logic works correctly """
 
+from __future__ import absolute_import
 import mock
 from collections import namedtuple
 import json
@@ -8,6 +9,7 @@ from ide.utils.cloudpebble_test import CloudpebbleTestCase
 from ide.models import Project, User
 from ide.tasks.gist import import_gist
 from utils.fakes import FakeS3
+import six
 
 __author__ = 'joe'
 
@@ -20,7 +22,7 @@ class FakeGist(object):
     def __init__(self, description=None, files=None):
         self.description = description
         self.files = files or {}
-        for name, content in files.iteritems():
+        for name, content in six.iteritems(files):
             self.files[name] = FakeFile(content, '')
 
 
@@ -114,7 +116,7 @@ class TestImportProject(CloudpebbleTestCase):
 
     @mock.patch('ide.tasks.gist.urllib2')
     def test_native_project_files(self, urllib2):
-        urllib2.urlopen.return_value.read.return_value = ''
+        six.moves.urllib.request.urlopen.return_value.read.return_value = ''
         project = self.runTest({
             'main.c': '',
             'package.json': json.dumps({"pebble": {"resources": {"media": [{

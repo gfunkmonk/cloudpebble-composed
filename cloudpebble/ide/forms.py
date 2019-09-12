@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from django.forms import ModelForm, Select
 
 from ide.models.user import UserSettings

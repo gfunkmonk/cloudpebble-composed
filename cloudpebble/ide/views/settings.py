@@ -1,6 +1,7 @@
+from __future__ import absolute_import
 import base64
-import urllib
-import urllib2
+import six.moves.urllib.request, six.moves.urllib.parse, six.moves.urllib.error
+import six.moves.urllib.request, six.moves.urllib.error, six.moves.urllib.parse
 import uuid
 import json
 from django.conf import settings
@@ -76,13 +77,13 @@ def complete_github_auth(request):
     if user_github.nonce is None or nonce != user_github.nonce:
         return HttpResponseBadRequest('nonce mismatch.')
     # This probably shouldn't be in a view. Oh well.
-    params = urllib.urlencode({
+    params = six.moves.urllib.parse.urlencode({
         'client_id': settings.GITHUB_CLIENT_ID,
         'client_secret': settings.GITHUB_CLIENT_SECRET,
         'code': code
     })
-    r = urllib2.Request('https://github.com/login/oauth/access_token', params, headers={'Accept': 'application/json'})
-    result = json.loads(urllib2.urlopen(r).read())
+    r = six.moves.urllib.request.Request('https://github.com/login/oauth/access_token', params, headers={'Accept': 'application/json'})
+    result = json.loads(six.moves.urllib.request.urlopen(r).read())
     user_github = request.user.github
     user_github.token = result['access_token']
     user_github.nonce = None
@@ -90,11 +91,11 @@ def complete_github_auth(request):
     auth_string = base64.encodestring('%s:%s' %
                                       (settings.GITHUB_CLIENT_ID, settings.GITHUB_CLIENT_SECRET)).replace('\n', '')
 
-    r = urllib2.Request('https://api.github.com/applications/%s/tokens/%s' %
+    r = six.moves.urllib.request.Request('https://api.github.com/applications/%s/tokens/%s' %
                         (settings.GITHUB_CLIENT_ID, user_github.token))
 
     r.add_header("Authorization", "Basic %s" % auth_string)
-    result = json.loads(urllib2.urlopen(r).read())
+    result = json.loads(six.moves.urllib.request.urlopen(r).read())
     user_github.username = result['user']['login']
     user_github.avatar = result['user']['avatar_url']
 

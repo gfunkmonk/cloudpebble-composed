@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from registration.backends.simple.views import RegistrationView
 from django.contrib.auth import logout, login, authenticate
 from django.views.generic import View

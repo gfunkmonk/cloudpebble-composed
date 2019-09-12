@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from ide.tasks.archive import export_user_projects

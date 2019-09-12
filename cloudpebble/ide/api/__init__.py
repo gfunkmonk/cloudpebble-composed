@@ -1,4 +1,5 @@
-import urllib2
+from __future__ import absolute_import
+import six.moves.urllib.request, six.moves.urllib.error, six.moves.urllib.parse
 import json
 from celery.result import AsyncResult
 from django.contrib.auth.decorators import login_required
@@ -65,7 +66,7 @@ def proxy_keen(request, project_id):
     if 'collections' in request.POST:
         collections = list(set(collections) & set(json.loads(request.POST['collections'])))
 
-    if len(data.items()) == 0:
+    if len(list(data.items())) == 0:
         data = None
 
     send_td_event(event, data=data, request=request, project=project)
@@ -88,9 +89,9 @@ def get_shortlink(request):
     from utils.td_helper import send_td_event
     url = request.POST['url']
     try:
-        r = urllib2.Request('http://api.small.cat/entries', json.dumps({'value': url, 'duration': 60}), headers={'Content-Type': 'application/json'})
-        response = json.loads(urllib2.urlopen(r).read())
-    except urllib2.URLError as e:
+        r = six.moves.urllib.request.Request('http://api.small.cat/entries', json.dumps({'value': url, 'duration': 60}), headers={'Content-Type': 'application/json'})
+        response = json.loads(six.moves.urllib.request.urlopen(r).read())
+    except six.moves.urllib.error.URLError as e:
         return json_failure(str(e))
     else:
         send_td_event('cloudpebble_generate_shortlink', data={

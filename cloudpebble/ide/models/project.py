@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import re
 import uuid
 import json
@@ -13,6 +14,7 @@ from ide.models.meta import IdeModel
 from ide.utils import generate_half_uuid
 from ide.utils.regexes import regexes
 from ide.utils.version import version_to_semver, semver_to_version, parse_sdk_version, parse_semver
+import six
 
 __author__ = 'katharine'
 
@@ -91,7 +93,7 @@ class Project(IdeModel):
         """
         with transaction.atomic():
             Dependency.objects.filter(project=self).delete()
-            for name, version in dependencies.iteritems():
+            for name, version in six.iteritems(dependencies):
                 dep = Dependency.objects.create(project=self, name=name, version=version)
                 dep.save()
 
@@ -144,7 +146,7 @@ class Project(IdeModel):
         """
         app_keys = json.loads(self.app_keys)
         if isinstance(app_keys, dict):
-            return sorted(app_keys.iteritems(), key=lambda x: x[1])
+            return sorted(six.iteritems(app_keys), key=lambda x: x[1])
         else:
             parsed_keys = []
             for appkey in app_keys:

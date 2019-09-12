@@ -1,5 +1,6 @@
 """ These are integration tests. They create project archives, import them, export them, and then check that the manifest files are identical. """
 
+from __future__ import absolute_import
 import mock
 import json
 

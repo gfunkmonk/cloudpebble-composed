@@ -1,8 +1,10 @@
+from __future__ import absolute_import
 import logging
 import abc
 import json
 
 from django.utils.translation import ugettext as _
+import six
 
 __author__ = 'katharine'
 
@@ -16,11 +18,10 @@ class InvalidProjectArchiveException(Exception):
     pass
 
 
-class BaseProjectItem():
+class BaseProjectItem(six.with_metaclass(abc.ABCMeta)):
     """ A ProjectItem simply represents an item in a project archive which has a path
     and can be read. With custom implementations for BaseProjectItem, find_project_root_and_manifest
     is able to work identically on zip archives, git repos and automated tests """
-    __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def read(self):

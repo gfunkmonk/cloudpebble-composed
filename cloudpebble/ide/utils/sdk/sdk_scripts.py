@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import json
 
 def generate_wscript_file_rocky(project, for_export=False):

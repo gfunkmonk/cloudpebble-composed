@@ -3,6 +3,7 @@ These tests check that ide.utils.sdk.project_assembly produces archives containi
 Although there is overlap with test_create_archive, this function is only used by the build task.
 """
 
+from __future__ import absolute_import
 import mock
 import tempfile
 import shutil

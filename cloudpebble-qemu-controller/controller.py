@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import absolute_import
+import six
 __author__ = 'katharine'
 
 import gevent.monkey
@@ -163,7 +165,7 @@ idle_killer = gevent.spawn(_kill_idle_emulators)
 
 @atexit.register
 def kill_emulators():
-    for emulator in emulators.itervalues():
+    for emulator in six.itervalues(emulators):
         emulator.kill()
     emulators.clear()
 
@@ -185,7 +187,7 @@ def drop_privileges(uid_name='nobody', gid_name='nogroup'):
     os.setuid(running_uid)
 
     # Ensure a very conservative umask
-    os.umask(077)
+    os.umask(0o77)
 
 logging.info("Emulator limit: %d", settings.EMULATOR_LIMIT)
 

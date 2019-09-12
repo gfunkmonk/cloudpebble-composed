@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from django.conf import settings
 
 from ide.tasks.archive import add_project_to_archive, do_import_archive

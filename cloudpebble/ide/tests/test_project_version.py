@@ -1,8 +1,10 @@
 """ These tests check that ide.utils.version parses and converts version strings correctly """
 
+from __future__ import absolute_import
 from django.test import TestCase
 
 from ide.utils import version
+from six.moves import range
 
 
 class TestSemverConversion(TestCase):

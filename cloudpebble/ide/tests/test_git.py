@@ -2,6 +2,7 @@
 Tests in this file can be run with run_tests.py
 """
 
+from __future__ import absolute_import
 from django.test import TestCase
 import ide.git
 

@@ -1,4 +1,5 @@
-import urllib
+from __future__ import absolute_import
+import six.moves.urllib.request, six.moves.urllib.parse, six.moves.urllib.error
 import requests
 
 from django.contrib.auth.decorators import login_required
@@ -46,7 +47,7 @@ def npm_info(request):
     query = request.GET['q']
 
     try:
-        package = requests.get('http://node-modules.com/package/%s.json' % urllib.quote(query)).json()
+        package = requests.get('http://node-modules.com/package/%s.json' % six.moves.urllib.parse.quote(query)).json()
     except ValueError:
         raise Http404("Package not found")
 

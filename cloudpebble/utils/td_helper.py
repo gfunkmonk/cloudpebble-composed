@@ -1,4 +1,6 @@
+from __future__ import absolute_import
 from ide.tasks.td_task import td_add_events
+import six
 
 __author__ = 'katharine'
 
@@ -24,10 +26,10 @@ def generate_scoped_key(user):
 
 def _flatten(d, parent_key=''):
     items = []
-    for k, v in d.iteritems():
+    for k, v in six.iteritems(d):
         new_key = parent_key + '_0_' + k if parent_key else k
         if isinstance(v, collections.MutableMapping):
-            items.extend(_flatten(v, new_key).iteritems())
+            items.extend(six.iteritems(_flatten(v, new_key)))
         else:
             items.append((new_key, v))
     return dict(items)

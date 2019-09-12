@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from django.conf.urls import patterns, url
 
 from ide.api import proxy_keen, check_task, get_shortlink, heartbeat

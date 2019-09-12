@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from six.moves import range
 __author__ = 'katharine'
 
 import gevent
@@ -51,7 +53,7 @@ class Emulator(object):
         if self.qemu is not None:
             try:
                 self.qemu.kill()
-                for i in xrange(10):
+                for i in range(10):
                     gevent.sleep(0.1)
                     if self.qemu.poll() is not None:
                         break
@@ -69,7 +71,7 @@ class Emulator(object):
         if self.pkjs is not None:
             try:
                 self.pkjs.kill()
-                for i in xrange(10):
+                for i in range(10):
                     gevent.sleep(0.1)
                     if self.pkjs.poll() is not None:
                         break
@@ -174,7 +176,7 @@ class Emulator(object):
             raise Exception("Emulator launch timed out.")
 
         received = ''
-        for i in xrange(150):
+        for i in range(150):
             gevent.sleep(0.2)
             received += s.recv(256)
             # PBL-21275: we'll add less hacky solutions for this to the firmware.

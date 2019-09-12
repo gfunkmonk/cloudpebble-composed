@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import contextlib
 import json
 import os
@@ -5,8 +6,9 @@ import re
 import shutil
 import subprocess
 import zipfile
-import settings
-from projectinfo import Resource
+from . import settings
+from .projectinfo import Resource
+import six
 
 
 class NPMInstallError(Exception):
@@ -115,7 +117,7 @@ def extract_library_headers(root_dir):
 
 def make_library_info(dependencies, versions, headers):
     libs = {}
-    for name, version in versions.iteritems():
+    for name, version in six.iteritems(versions):
         if version and name in dependencies:
             libs[name] = {
                 'headers': [],

@@ -1,6 +1,7 @@
+from __future__ import absolute_import
 import base64
 import json
-import urllib2
+import six.moves.urllib.request, six.moves.urllib.error, six.moves.urllib.parse
 import re
 import logging
 
@@ -43,11 +44,11 @@ def git_verify_tokens(user):
 
     auth_string = base64.encodestring('%s:%s' %
                                       (settings.GITHUB_CLIENT_ID, settings.GITHUB_CLIENT_SECRET)).replace('\n', '')
-    r = urllib2.Request('https://api.github.com/applications/%s/tokens/%s' % (settings.GITHUB_CLIENT_ID, token))
+    r = six.moves.urllib.request.Request('https://api.github.com/applications/%s/tokens/%s' % (settings.GITHUB_CLIENT_ID, token))
     r.add_header("Authorization", "Basic %s" % auth_string)
     try:
-        json.loads(urllib2.urlopen(r).read())
-    except urllib2.HTTPError as e:
+        json.loads(six.moves.urllib.request.urlopen(r).read())
+    except six.moves.urllib.error.HTTPError as e:
         # No such token
         if e.getcode() == 404:
             github = user.github
