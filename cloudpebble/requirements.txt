@@ -3,7 +3,7 @@ django-registration==1.0
 amqp<2.0,>=1.4.9
 celery==3.1.23
 django-celery==3.1.17
-flup==1.0.3.dev-20110405
+flup==1.0.3
 psycopg2==2.8.3
 South==1.0.2
 qrcode==6.1
