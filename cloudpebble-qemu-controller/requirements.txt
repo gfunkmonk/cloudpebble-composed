@@ -2,7 +2,7 @@ Flask==1.0.1
 Flask-Cors==3.0.2
 Jinja2==2.10.1
 MarkupSafe==0.23
-Werkzeug==0.15.3
+Werkzeug==0.16.0
 backports.ssl-match-hostname==3.4.0.2
 gevent>=1.1b6
 gevent-websocket==0.9.3
