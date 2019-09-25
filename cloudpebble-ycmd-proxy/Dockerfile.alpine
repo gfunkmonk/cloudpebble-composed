@@ -1,10 +1,10 @@
-FROM gfunkmonk/cloudpebble:alpine AS squashme
+FROM gfunkmonk/python:alpine-builddep AS squashme
 SHELL ["/bin/bash", "-c"]
 
-RUN apk update && apk add --no-cache ncurses5-libs nodejs npm clang && \
+RUN apk update && apk add --no-cache ncurses5-libs nodejs-current npm clang clang-libs && \
   apk add --no-cache --virtual .build-deps \
   cmake build-base llvm clang-dev \
-  gcc g++ make libc-dev
+  gcc g++ make libc-dev ninja llvm-dev
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
@@ -12,7 +12,7 @@ RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   git submodule update --init --recursive && \
   ln -s -f /usr/lib/libncurses.so.5.9 /usr/lib/libtinfo.so.5 && \
   ln -s -f /usr/lib/libclang.so.8 /usr/lib/libclang.so && \
-  cp /usr/lib/libclang.so.8 /ycmd/libclang.so && \
+#  cp /usr/lib/libclang.so.8 /ycmd/libclang.so.8 && \
   ./build.sh --clang-completer --system-libclang
 
 # Grab the toolchain

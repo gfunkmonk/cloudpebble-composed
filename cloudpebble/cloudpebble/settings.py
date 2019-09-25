@@ -85,7 +85,7 @@ ALLOWED_HOSTS = ['*']
 # List of IP addresses, as strings, that:
 # * See debug comments, when DEBUG is true
 # * Receive x-headers
-#INTERNAL_IPS = ['192.168.128.1' , '172.17.0.1']
+INTERNAL_IPS = ['192.168.128.1' , '172.17.0.1']
 
 # Close the session when user closes the browser
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
@@ -149,7 +149,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = False
+USE_I18N = True
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -214,7 +214,7 @@ BOWER_INSTALLED_APPS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = _environ.get('SECRET_KEY', 'y_!-!-i!_txo$v5j(@c7m4uk^jyg)l4bf*0yqrztmax)l22269j')
+SECRET_KEY = _environ.get('SECRET_KEY', 'y_!-!-i!_txo$v5j(@c7m4uk^jyg)l4bf*0yqrztmax)l22269j8')
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -226,7 +226,6 @@ TEMPLATE_LOADERS = (
 if not DEBUG:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
 
-
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -235,7 +234,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -393,8 +392,8 @@ ARM_CS_TOOLS = _environ.get('ARM_CS_TOOLS', '/arm-cs-tools/bin/')
 TD_URL = _environ.get('TD_URL', None)
 TD_ENABLED = _environ.get('TD_ENABLED', False)
 
-MAILCHIMP_API_KEY = _environ.get('MAILCHIMP_API_KEY', None)
-MAILCHIMP_LIST_ID = _environ.get('MAILCHIMP_LIST_ID', None)
+#MAILCHIMP_API_KEY = _environ.get('MAILCHIMP_API_KEY', None)
+#MAILCHIMP_LIST_ID = _environ.get('MAILCHIMP_LIST_ID', None)
 
 AWS_ENABLED = 'AWS_ENABLED' in _environ
 AWS_ACCESS_KEY_ID = _environ.get('AWS_ACCESS_KEY_ID', None)

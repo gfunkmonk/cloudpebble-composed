@@ -1,16 +1,18 @@
-#FROM python:2.7.16
-FROM gfunkmonk/python2:bionic
+FROM python:2.7.16 AS squashme
+#FROM gfunkmonk/python2:bionic AS squashme
+#FROM gfunkmonk/dev:bionic AS squashme
+#FROM gfunkmonk/python:disco-mini2 AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
   apt-get install -y nodejs
 
-RUN npm install -g npm jshint jslint
+RUN npm install -g jshint jslint
 
 # Django stuff
 RUN apt-get update && apt-get install -y \
-    gettext memcached postgresql-client libpq-dev git curl \
-    --no-install-recommends && rm -rf /var/lib/apt/lists/*
+    gettext memcached postgresql-client libpq-dev --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN pip install psycopg2 django==1.6.2
 
@@ -44,6 +46,10 @@ WORKDIR /code
 RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
 RUN python manage.py compilemessages
 RUN make -C /code/c-preload
-
 RUN service memcached start
+#RUN apt-get remove --purge zlib1g-dev libpq-dev libfreetype6-dev libjpeg-dev xz-utils curl -y && apt-get autoremove --purge -y
+FROM scratch
+COPY --from=squashme / /
+ENV WAF_NODE_PATH=/sdk3/node_modules
+WORKDIR /code
 CMD ["sh", "docker_start.sh"]

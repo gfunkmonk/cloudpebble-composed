@@ -1,4 +1,4 @@
-FROM gfunkmonk/ubuntu:bionic-mini
+FROM debian:buster-slim AS squashme
 
 MAINTAINER Larry Howard <larry.howard@vanderbilt.edu>
 
@@ -13,6 +13,8 @@ RUN gem install fakes3 -v 0.2.5 --no-doc
 
 # run fake-s3
 RUN mkdir -p /fakes3_root
+FROM scratch
+COPY --from=squashme / /
 ENTRYPOINT ["/usr/local/bin/fakes3"]
 CMD ["-r",  "/fakes3_root", "-p",  "4569"]
 #CMD ["-r",  "/fakes3_root", "-p",  "4569", "--license", "$FAKES3_KEY"]

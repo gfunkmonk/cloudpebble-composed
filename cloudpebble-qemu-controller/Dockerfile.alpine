@@ -1,13 +1,13 @@
-FROM gfunkmonk/cloudpebble:alpine AS squashme
+FROM gfunkmonk/python:alpine-builddep AS squashme
 SHELL ["/bin/bash", "-c"]
 
-RUN apk update && apk add --no-cache pixman dtc gnutls boost-libs glib zlib && \
+RUN apk update && apk add --no-cache pixman dtc gnutls glib zlib boost nettle && \
   apk add --no-cache --virtual .build-deps \ 
-  build-base gcc g++ make \
+  build-base gcc g++ make nettle-dev \
   pixman-dev  dtc-dev gnutls-dev \
-  libc-dev musl-dev \
-  zlib-dev glib-dev boost-dev \
-  coreutils 
+  libc-dev musl-dev openssl-dev \
+  zlib-dev glib-dev \
+  coreutils binutils boost-dev
 
 #RUN git clone https://github.com/gfunkmonk/qemu && cd /qemu && \
 RUN mkdir /qemu && cd /qemu && \
@@ -28,25 +28,27 @@ RUN mkdir /qemu && cd /qemu && \
   make -j4
 
 # compiling an older version of boost, required for this version of V8
-RUN mkdir -p /boost && cd /boost && \
-  wget http://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.bz2 && \
-  tar -xvjf boost_1_58_0.tar.bz2 && \
-  rm *.tar.bz2 && cd /boost/boost_1_58_0 && \
-  ./bootstrap.sh && \
-  ./b2 install --prefix=/usr/local --with-python --with-thread && \
-  ldconfig && \
-  ldconfig /usr/local/lib
+#RUN mkdir -p /boost && cd /boost && \
+ # wget -O boost_1_58_0.tar.bz2 http://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.bz2/download && \
+ # tar -xvjf boost_1_58_0.tar.bz2 && \
+ # rm *.tar.bz2 && cd /boost/boost_1_58_0 && \
+ # ./bootstrap.sh && \
+ # ./b2 install --prefix=/usr/local --with-python --with-thread && \
+ # ldconfig && \
+ # ldconfig /usr/local/lib
 
 #RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v1.1.1 --recursive
 RUN git clone https://github.com/gfunkmonk/pypkjs.git --depth 1 --branch master --recursive && \
   ln -s -f /usr/lib/libboost_system.so.1.69.0 /usr/lib/libboost_system.so.1.53.0 && \
+  ln -s -f /usr/lib/libboost_system.so.1.70.0 /usr/lib/libboost_system.so.1.58.0 && \
   #ln -sf /usr/lib/libboost_python27.so /usr/lib/libboost_python.so 
   #cp libs/* /usr/lib/ && 
   pip install --no-cache virtualenv
 
 RUN pip install greenlet gevent && cd /pypkjs/pypkjs/PyV8 && \
-  printf "V8_SNAPSHOT_ENABLED = False\nV8_GDB_JIT = True\nV8_BACKTRACE = False" > buildconf.py && \
-  python setup.py build && python setup.py install
+   git clone https://github.com/buffer/pyv8.git && cd build/ && \
+   printf "V8_SNAPSHOT_ENABLED = False\nV8_GDB_JIT = True\nV8_BACKTRACE = False" > buildconf.py && \
+   python setup.py build && python setup.py install
 
 RUN virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt
 

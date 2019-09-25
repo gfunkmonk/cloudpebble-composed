@@ -1,42 +1,61 @@
-#FROM python:2.7.16
-FROM gfunkmonk/python2:xenial
+FROM python:2.7.16 AS squashme
+#FROM gfunkmonk/python2:xenial AS squashme
+#FROM gfunkmonk/dev:xenial AS squashme
+#FROM gfunkmonk/python:xenial-mini2 AS squashme
 SHELL ["/bin/bash", "-c"]
 
-RUN apt-get update && apt-get install -y \
-  libglib2.0-dev libpixman-1-dev libfdt-dev gnutls-dev curl git \
-  && rm -rf /var/lib/apt/lists/*
+#RUN apt-get update && apt-get install -y \
+#  libglib2.0-dev libpixman-1-dev libfdt-dev gnutls-dev curl git make \ 
+#  gcc g++ && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/gfunkmonk/qemu && cd /qemu && \
-#RUN mkdir /qemu && cd /qemu && \
-#  curl -L https://github.com/gfunkmonk/qemu/archive/v2.5.0-pebble5.tar.gz | tar xz --strip 1 && \
+RUN apt-get update \
+ && apt-get upgrade -y \
+ && apt-get install -y --no-install-recommends \
+ libgnutls28-dev libglib2.0-dev libfdt-dev libpixman-1-dev pkgconf \
+ && rm -fr /var/lib/apt/lists/*
+
+#RUN git clone https://github.com/gfunkmonk/qemu && cd /qemu && \
+RUN mkdir /qemu && cd /qemu && \
+  curl -L https://github.com/gfunkmonk/qemu/archive/v2.5.0-pebble5b.tar.gz | tar xz --strip 1 && \
   ./configure \
 #     --enable-tcg-interpreter \
      --extra-ldflags=-g \
 #     --with-coroutine=gthread \
 #     --enable-debug-tcg \
      --enable-debug --disable-werror --target-list="arm-softmmu" \
-#     --disable-libiscsi --disable-libnfs --disable-libusb --disable-usb-redir \
-#     --disable-strip --disable-xen --disable-kvm --disable-user --disable-docs \
-#     --disable-gtk --disable-linux-aio --disable-curl --disable-curses --disable-vhdx \
+     --disable-libiscsi --disable-libnfs --disable-libusb --disable-usb-redir \
+     --disable-strip --disable-xen --disable-kvm --disable-user --disable-docs \
+     --disable-gtk --disable-linux-aio --disable-curl --disable-curses --disable-vhdx \
 #     --extra-cflags=-DDEBUG_CLKTREE \
 #     --extra-cflags=-DDEBUG_STM32_RCC \
 #     --extra-cflags=-DDEBUG_STM32_UART \
 #     --extra-cflags=-DDEBUG_GIC \
-#     --extra-cflags=-std=gnu99 \
+     --extra-cflags=-std=gnu99 \
 #     --extra-cflags=-Wno-declaration-after-statement \
 #     --extra-cflags=-Wno-old-style-declaration \
-#     --extra-cflags=-DSTM32_UART_NO_BAUD_DELAY \
-#     --extra-cflags=-DSTM32_UART_ENABLE_OVERRUN \
-#     --enable-vnc \
-#     --disable-sdl \
+     --extra-cflags=-DSTM32_UART_NO_BAUD_DELAY \
+     --extra-cflags=-DSTM32_UART_ENABLE_OVERRUN \
+     --enable-vnc \
+     --disable-sdl \
 	&& \
   make clean && \
   make -j4
+
+
+#FROM gfunkmonk/python:xenial-mini2 AS squashme
+#COPY --from=build /qemu /qemu
+
+#RUN apt-get update \
+#  && apt-get upgrade -y \
+#  && apt-get install -y --no-install-recommends libglib2.0-0 \
+#  libfdt1 libpixman-1-0 libgnutls30 git curl build-essential \
+#  gcc xz-utils zlib1g libpng16-16 && rm -fr /var/lib/apt/lists/*
 
 #RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v1.1.1 --recursive
 RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch master --recursive
 
 RUN virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt
+#RUN pip install virtualenv && virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt
 
 RUN mkdir /qemu-tintin-images && cd /qemu-tintin-images && \
   curl -L https://github.com/pebble/qemu-tintin-images/archive/v4.3.tar.gz | tar xz --strip 1
@@ -44,7 +63,16 @@ RUN mkdir /qemu-tintin-images && cd /qemu-tintin-images && \
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
+#RUN apt-get remove --purge gcc git xz-utils build-essential -y \
+#  && apt-get autoremove --purge -y \
+  #&& apt-get remove libglib2.0-dev libfdt-dev libpixman-1-dev \
+  #libgnutls28-dev zlib1g-dev libpng-dev -y \
+ # && apt-get clean \
+  #&& rm -fr /var/lib/apt/lists/*
+
 COPY . /code
+FROM scratch
+COPY --from=squashme / /
 WORKDIR /code
 
 ENV QEMU_DIR=/qemu QEMU_BIN=/qemu/arm-softmmu/qemu-system-arm PKJS_BIN=/pypkjs/phonesim.py \

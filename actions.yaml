@@ -8,3 +8,8 @@
   uses: lgeiger/pyflakes-action@v1.0.1
 - name: GitHub Action for cpplint
   uses: cclauss/GitHub-Action-for-cpplint@0.0.6
+- name: ESLint
+  run: npx github-actions-eslint-annotator 
+  env:
+   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+   PARTIAL_LINTING: true # default: false, only works on PRs
