@@ -22,7 +22,7 @@ mock==2.0.0
 # These are used for Heroku hosting setup.
 dj-static==0.0.6
 gunicorn==19.5.0
-dj-database-url==0.3.0
+dj-database-url==0.5.0
 newrelic==2.50.0.39
 
 # These are in the SDK requirements.txt and included here to save on Heroku deploy time.
