@@ -73,7 +73,7 @@ services:
     image: postgres:11-alpine
     restart: unless-stopped
     volumes: 
-      - "./data//postgres:/var/lib/postgresql/data"
+      - "./data//postgres:/var/lib/postgresql/data2:z"
   s3:
     #image: lphoward/fake-s3
     build: fakes3/
