@@ -1,9 +1,9 @@
-#FROM python:2.7.16 AS squashme
-FROM gfunkmonk/qemu-base:xenial AS squashme
+FROM python:2.7.16 AS squashme
+#FROM gfunkmonk/qemu-base:xenial AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
-  libglib2.0-dev libpixman-1-dev libfdt-dev gnutls-dev curl git \
+  libglib2.0-dev libpixman-1-dev libfdt-dev gnutls-dev \
   && rm -rf /var/lib/apt/lists/*
 
 #RUN git clone https://github.com/gfunkmonk/qemu && cd /qemu && \
@@ -19,7 +19,7 @@ RUN mkdir /qemu && cd /qemu && \
 #     --extra-cflags=-DSTM32_UART_NO_BAUD_DELAY \
 #     --extra-cflags=-DSTM32_UART_ENABLE_OVERRUN \
 #     --enable-vnc \
-#     --disable-sdl \
+     --disable-sdl \
 	&& \
   make clean && \
   make -j4
@@ -27,7 +27,7 @@ RUN mkdir /qemu && cd /qemu && \
 #RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v1.1.1 --recursive
 RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch master --recursive
 
-RUN pip install --no-cache virtualenv
+#RUN pip install --no-cache virtualenv
 RUN virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt
 
 RUN mkdir /qemu-tintin-images && cd /qemu-tintin-images && \
