@@ -36,7 +36,7 @@ if TRAVIS:
             'NAME':     'travisci',
             'USER':     'postgres',
             'PASSWORD': '',
-            'HOST':     '127.0.0.1',
+            'HOST':     'localhost',
             'PORT':     '',
         }
     }
@@ -59,7 +59,6 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         'LOCATION': '127.0.0.1:11211',
-        'TIMEOUT': '600',
     }
 }
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__)) + '/../'
@@ -169,7 +168,7 @@ C_PRELOAD_ROOT = os.getcwd() + '/c-preload/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = _environ.get('MEDIA_URL', 'http://127.0.0.1:8001/builds/')
+MEDIA_URL = _environ.get('MEDIA_URL', 'http://localhost:8001/builds/')
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -181,7 +180,7 @@ STATIC_ROOT = 'staticfiles'
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
 
-PUBLIC_URL = _environ.get('PUBLIC_URL', 'http://127.0.0.1:8000/') # This default is completely useless.
+PUBLIC_URL = _environ.get('PUBLIC_URL', 'http://localhost:8000/') # This default is completely useless.
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -210,11 +209,11 @@ BOWER_INSTALLED_APPS = (
     'alexgorbatchev/jquery-textext',
     'codemirror#4.2.0',
     'bluebird#3.3.4',
-    'kanaka/noVNC#v0.5.1',
+    'kanaka/noVNC#v0.5',
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = _environ.get('SECRET_KEY', 'y_!-!-i!_txo$v5j(@c7m4uk^jyg)l4bf*0yqrztmax)l22269j8')
+SECRET_KEY = _environ.get('SECRET_KEY', 'y_!-!-i!_txo$v5j(@c7m4uk^jyg)l4bf*0yqrztmax)l2027j')
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -234,7 +233,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
-    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -375,7 +374,7 @@ DEFAULT_TEMPLATE = None
 
 EXPORT_DIRECTORY = os.getcwd() + '/user_data/export/'
 
-EXPORT_ROOT = _environ.get('EXPORT_ROOT', 'http://127.0.0.1:8001/export/')
+EXPORT_ROOT = _environ.get('EXPORT_ROOT', 'http://localhost:8001/export/')
 
 GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', None)
 GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', None)
@@ -392,8 +391,8 @@ ARM_CS_TOOLS = _environ.get('ARM_CS_TOOLS', '/arm-cs-tools/bin/')
 TD_URL = _environ.get('TD_URL', None)
 TD_ENABLED = _environ.get('TD_ENABLED', False)
 
-#MAILCHIMP_API_KEY = _environ.get('MAILCHIMP_API_KEY', None)
-#MAILCHIMP_LIST_ID = _environ.get('MAILCHIMP_LIST_ID', None)
+MAILCHIMP_API_KEY = _environ.get('MAILCHIMP_API_KEY', None)
+MAILCHIMP_LIST_ID = _environ.get('MAILCHIMP_LIST_ID', None)
 
 AWS_ENABLED = 'AWS_ENABLED' in _environ
 AWS_ACCESS_KEY_ID = _environ.get('AWS_ACCESS_KEY_ID', None)
@@ -409,7 +408,7 @@ TYPOGRAPHY_CSS = _environ.get('TYPOGRAPHY_CSS', None)
 
 LIBPEBBLE_PROXY = _environ.get('LIBPEBBLE_PROXY', None)
 
-YCM_URLS = _environ.get('YCM_URLS', 'http://127.0.0.1:8002/').split(',')
+YCM_URLS = _environ.get('YCM_URLS', 'http://localhost:8002/').split(',')
 COMPLETION_CERTS = _environ.get('COMPLETION_CERTS', os.getcwd() + '/completion-certs.crt')
 
 QEMU_URLS = _environ.get('QEMU_URLS', 'http://qemu/').split(',')

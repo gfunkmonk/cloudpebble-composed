@@ -18,7 +18,7 @@ def list_phones(request):
     user_key = request.user.social_auth.get(provider='pebble').extra_data['access_token']
 
     response = requests.get(
-        '{0}/api/v1/me'.format(settings.SOCIAL_AUTH_PEBBLE_ROOT_URL),
+        '{0}/api/v1/me.json'.format(settings.SOCIAL_AUTH_PEBBLE_ROOT_URL),
         headers={'Authorization': 'Bearer {0}'.format(user_key)},
         params={'client_id': settings.SOCIAL_AUTH_PEBBLE_KEY})
 

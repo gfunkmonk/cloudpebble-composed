@@ -2,7 +2,7 @@ version: '3'
 services:
   web:
     build: cloudpebble/
-    restart: unless-stopped
+    restart: always
     ports:
       - "80:80"
     volumes:
@@ -29,7 +29,7 @@ services:
       - PEBBLE_AUTH_URL=https://auth.rebble.io
   celery:
     build: cloudpebble/
-    restart: unless-stopped
+    restart: always
     volumes:
       - "./cloudpebble/:/code"
     links:

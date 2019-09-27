@@ -108,7 +108,7 @@ class Emulator(object):
     @staticmethod
     def _find_port():
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(('127.0.0.1', 0))
+        s.bind(('localhost', 0))
         addr, port = s.getsockname()
         s.close()
         return port
@@ -165,7 +165,7 @@ class Emulator(object):
         for i in range(20):
             gevent.sleep(0.2)
             try:
-                s = socket.create_connection(('127.0.0.1', self.console_port))
+                s = socket.create_connection(('localhost', self.console_port))
             except socket.error:
                 pass
             else:
