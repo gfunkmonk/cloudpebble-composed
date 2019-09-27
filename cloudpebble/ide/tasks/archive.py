@@ -64,9 +64,9 @@ def create_archive(project_id):
 
         if not settings.AWS_ENABLED:
             outfile = '%s%s/%s.zip' % (settings.EXPORT_DIRECTORY, u, prefix)
-            os.makedirs(os.path.dirname(outfile), 0o755)
+            os.makedirs(os.path.dirname(outfile), 0755)
             shutil.copy(filename, outfile)
-            os.chmod(outfile, 0o644)
+            os.chmod(outfile, 0644)
             return '%s%s/%s.zip' % (settings.EXPORT_ROOT, u, prefix)
         else:
             outfile = '%s/%s.zip' % (u, prefix)
@@ -90,9 +90,9 @@ def export_user_projects(user_id):
         u = uuid.uuid4().hex
         if not settings.AWS_ENABLED:
             outfile = '%s%s/%s.zip' % (settings.EXPORT_DIRECTORY, u, 'cloudpebble-export')
-            os.makedirs(os.path.dirname(outfile), 0o755)
+            os.makedirs(os.path.dirname(outfile), 0755)
             shutil.copy(filename, outfile)
-            os.chmod(outfile, 0o644)
+            os.chmod(outfile, 0644)
             return '%s%s/%s.zip' % (settings.EXPORT_ROOT, u, 'cloudpebble-export')
         else:
             outfile = '%s/%s.zip' % (u, 'cloudpebble-export')

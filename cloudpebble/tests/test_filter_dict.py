@@ -1,4 +1,3 @@
-from __future__ import print_function
 from unittest import TestCase
 
 from utils.filter_dict import filter_dict, TransformValue, TransformKeyAndValue
@@ -41,12 +40,12 @@ class TestFilterDict(TestCase):
     def test_invalid_dictionary_type(self):
         """ Test that the function fails if the 'dictionary' is not a Mappable """
         with self.assertRaises(ValueError):
-            print(filter_dict('a_string', {}))
+            print filter_dict('a_string', {})
 
     def test_invalid_spec_type(self):
         """ Test that the function fails if the spec is not a Mappable """
         with self.assertRaises(ValueError):
-            print(filter_dict({}, 'a_string'))
+            print filter_dict({}, 'a_string')
 
     def test_wildcard_with_callback(self):
         """ Test that transformations are applied for wildcard keys"""

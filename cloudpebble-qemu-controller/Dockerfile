@@ -36,8 +36,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libglib2.0-dev libfdt-dev libpixman-1-dev libbluetooth-dev
 
 #RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v1.1.1 --recursive
-RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch master --recursive
-#RUN git clone https://github.com/gfunkmonk/pypkjs.git --depth 1 --branch master --recursive
+#RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch
+#master --recursive
+RUN git clone https://github.com/gfunkmonk/pypkjs.git --depth 1 --branch master --recursive \
+&& cd pypkjs/ && git revert --hard 42ae814 && cd ..
 
 RUN pip install --no-cache virtualenv
 RUN virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt

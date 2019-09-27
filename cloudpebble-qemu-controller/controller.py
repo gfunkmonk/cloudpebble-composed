@@ -185,7 +185,7 @@ def drop_privileges(uid_name='nobody', gid_name='nogroup'):
     os.setuid(running_uid)
 
     # Ensure a very conservative umask
-    os.umask(0o77)
+    os.umask(077)
 
 logging.info("Emulator limit: %d", settings.EMULATOR_LIMIT)
 

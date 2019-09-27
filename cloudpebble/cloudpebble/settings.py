@@ -1,7 +1,6 @@
 # encoding: utf-8
 # Django settings for cloudpebble project.
 
-from __future__ import print_function
 import sys
 import os
 import socket
@@ -84,10 +83,11 @@ ALLOWED_HOSTS = ['*']
 # List of IP addresses, as strings, that:
 # * See debug comments, when DEBUG is true
 # * Receive x-headers
-INTERNAL_IPS = ['192.168.128.1' , '172.17.0.1']
+#INTERNAL_IPS = ['192.168.128.1' , '172.17.0.1']
 
 # Close the session when user closes the browser
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+#SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -426,7 +426,7 @@ djcelery.setup_loader()
 try:
     from settings_local import *
 except ImportError:
-    print("No local settings overrides.")
+    print "No local settings overrides."
     pass
 
 socket.setdefaulttimeout(int(_environ.get("DEFAULT_SOCKET_TIMEOUT", 10)))
