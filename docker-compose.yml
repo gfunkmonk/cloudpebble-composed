@@ -63,17 +63,19 @@ services:
     ports:
       - "8002:80"
   redis:
-    #image: redis
     image: redis:alpine
-    restart: unless-stopped
+    restart: always
     volumes:
       - "./data/redis:/data"
+    ports:
+      - 6379:6379
   postgres:
-    #image: postgres
     image: postgres:11-alpine
-    restart: unless-stopped
+    restart: always
     volumes: 
       - "./data//postgres:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
   s3:
     #image: lphoward/fake-s3
     build: fakes3/

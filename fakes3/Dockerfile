@@ -1,21 +1,17 @@
-FROM debian:buster-slim AS squashme
+FROM alpine:3.5
 
-MAINTAINER Larry Howard <larry.howard@vanderbilt.edu>
+ARG HOST_NAME=s3.amazonaws.com
+ENV FAKES3_VERSION 2.0.0
 
-ENV DEBIAN_FRONTEND noninteractive
-
-# install Ruby
-RUN apt-get update && apt-get install -yqq ruby rubygems-integration --no-install-recommends
-
-# install fake-s3
-RUN gem install fakes3 -v 0.2.5 --no-doc
-#RUN gem install fakes3 --no-doc
-
-# run fake-s3
 RUN mkdir -p /fakes3_root
-FROM scratch
-COPY --from=squashme / /
-ENTRYPOINT ["/usr/local/bin/fakes3"]
-CMD ["-r",  "/fakes3_root", "-p",  "4569"]
-#CMD ["-r",  "/fakes3_root", "-p",  "4569", "--license", "$FAKES3_KEY"]
+WORKDIR /fakes3_root
+VOLUME ["/fakes3_root"]
+
 EXPOSE 4569
+
+#RUN gem install --no-document fakes3 -v ${FAKES3_VERSION}
+RUN apk --no-cache add ruby ruby-io-console && \
+  gem install --no-rdoc --no-ri fakes3 -v ${FAKES3_VERSION} && \
+  rm -rf /var/cache/apk/*
+
+ENTRYPOINT ["fakes3", "-r", "/fakes3_root", "-p", "4569", "--license", "$FAKES3_KEY"]

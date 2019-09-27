@@ -107,7 +107,7 @@ class YCM(object):
         headers = {
             'X-Ycm-Hmac': self._hmac(''),
         }
-        return requests.get("http://localhost:%d/healthy" % self._port, headers=headers).status_code == 200
+        return requests.get("http://127.0.0.1:%d/healthy" % self._port, headers=headers).status_code == 200
 
     def get_completions(self, filepath, line, ch):
         self._update_ping()
@@ -144,7 +144,7 @@ class YCM(object):
                 headers = {
                     'X-Ycm-Hmac': self._hmac(''),
                 }
-                result = requests.get("http://localhost:%d/ready" % self._port, headers=headers)
+                result = requests.get("http://127.0.0.1:%d/ready" % self._port, headers=headers)
                 print result
             except requests.exceptions.ConnectionError:
                 pass
@@ -161,7 +161,7 @@ class YCM(object):
             'X-Ycm-Hmac': self._hmac(body),
             'Content-Type': 'application/json',
         }
-        return requests.post("http://localhost:%d/%s" % (self._port, endpoint), body, headers=headers)
+        return requests.post("http://127.0.0.1:%d/%s" % (self._port, endpoint), body, headers=headers)
 
     def _update_ping(self):
         self._last_ping = time.time()

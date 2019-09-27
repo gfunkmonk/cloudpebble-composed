@@ -1,31 +1,30 @@
-FROM python:2.7.16 AS build
+#FROM python:2.7.16 AS squashme
 #FROM gfunkmonk/dev:xenial AS squashme
-#FROM gfunkmonk/python2:bionic AS squashme
+FROM gfunkmonk/python2:bionic AS squashme
 #FROM gfunkmonk/python:trusty-mini2 AS build
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
-   cmake libtinfo5 clang libclang-dev llvm llvm-dev \
+   cmake libtinfo5 git curl xz-utils wget \
    --no-install-recommends && rm -rf /var/lib/apt/lists/
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
   git submodule update --init --recursive && \
-  #./build.sh --clang-completer
-  ./build.sh --clang-completer --system-libclang
+  ./build.sh --clang-completer
 
 #FROM gfunkmonk/python:trusty-mini2 AS squashme
-FROM python:2.7.16 AS squashme
-COPY --from=build /ycmd /ycmd
-COPY --from=build /usr/lib/llvm-*/lib/libclang.so /ycmd
+#COPY --from=build /ycmd /ycmd
+#COPY --from=build /usr/lib/llvm-3.4/lib/libclang.so /ycmd
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
   apt-get update && apt-get install --no-install-recommends -y \
-  libtinfo5 curl xz-utils nodejs && rm -rf /var/lib/apt/lists/
+  nodejs && rm -rf /var/lib/apt/lists/
 
 # Grab the toolchain
-RUN mkdir /arm-cs-tools && curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz" | tar --strip-components=1 -xJ -C /arm-cs-tools
+RUN curl -o /tmp/arm-cs-tools-4.9-2017.01.tar.xz https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz && \
+  tar -xJf /tmp/arm-cs-tools-4.9-2017.01.tar.xz -C / && rm /tmp/arm-cs-tools-4.9-2017.01.tar.xz
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
@@ -40,7 +39,7 @@ RUN mkdir /sdk3 && \
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-RUN apt remove --purge curl xz-utils git -y && apt-get autoremove --purge -y
+#RUN apt remove --purge curl xz-utils git -y && apt-get autoremove --purge -y
 
 COPY . /code
 FROM scratch

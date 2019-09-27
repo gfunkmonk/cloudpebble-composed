@@ -36,7 +36,7 @@ if TRAVIS:
             'NAME':     'travisci',
             'USER':     'postgres',
             'PASSWORD': '',
-            'HOST':     'localhost',
+            'HOST':     '127.0.0.1',
             'PORT':     '',
         }
     }
@@ -169,7 +169,7 @@ C_PRELOAD_ROOT = os.getcwd() + '/c-preload/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = _environ.get('MEDIA_URL', 'http://localhost:8001/builds/')
+MEDIA_URL = _environ.get('MEDIA_URL', 'http://127.0.0.1:8001/builds/')
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -181,7 +181,7 @@ STATIC_ROOT = 'staticfiles'
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
 
-PUBLIC_URL = _environ.get('PUBLIC_URL', 'http://localhost:8000/') # This default is completely useless.
+PUBLIC_URL = _environ.get('PUBLIC_URL', 'http://127.0.0.1:8000/') # This default is completely useless.
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -201,7 +201,7 @@ STATICFILES_FINDERS = (
 
 BOWER_INSTALLED_APPS = (
     'https://github.com/krisk/Fuse.git#2ec2f2c40059e135cabf2b01c8c3f96f808b8809',
-    'jquery#~2.1.4',
+    'jquery#~2.1.3',
     'underscore',
     'backbone',
     'text-encoding',
@@ -210,7 +210,7 @@ BOWER_INSTALLED_APPS = (
     'alexgorbatchev/jquery-textext',
     'codemirror#4.2.0',
     'bluebird#3.3.4',
-    'kanaka/noVNC#v0.6.1',
+    'kanaka/noVNC#v0.5.1',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -375,7 +375,7 @@ DEFAULT_TEMPLATE = None
 
 EXPORT_DIRECTORY = os.getcwd() + '/user_data/export/'
 
-EXPORT_ROOT = _environ.get('EXPORT_ROOT', 'http://localhost:8001/export/')
+EXPORT_ROOT = _environ.get('EXPORT_ROOT', 'http://127.0.0.1:8001/export/')
 
 GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', None)
 GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', None)
@@ -409,7 +409,7 @@ TYPOGRAPHY_CSS = _environ.get('TYPOGRAPHY_CSS', None)
 
 LIBPEBBLE_PROXY = _environ.get('LIBPEBBLE_PROXY', None)
 
-YCM_URLS = _environ.get('YCM_URLS', 'http://localhost:8002/').split(',')
+YCM_URLS = _environ.get('YCM_URLS', 'http://127.0.0.1:8002/').split(',')
 COMPLETION_CERTS = _environ.get('COMPLETION_CERTS', os.getcwd() + '/completion-certs.crt')
 
 QEMU_URLS = _environ.get('QEMU_URLS', 'http://qemu/').split(',')

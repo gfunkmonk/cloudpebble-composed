@@ -1,18 +1,18 @@
-FROM python:2.7.16 AS squashme
+#FROM python:2.7.16 AS squashme
 #FROM gfunkmonk/dev:xenial AS squashme
-#FROM gfunkmonk/python2:bionic AS squashme
+FROM gfunkmonk/python2:bionic AS squashme
 #FROM gfunkmonk/python:trusty-mini2 AS build
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
-   cmake libtinfo5 git curl libclang-dev clang build-essential \
+   cmake libtinfo5 git curl xz-utils \
    --no-install-recommends && rm -rf /var/lib/apt/lists/
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
   git submodule update --init --recursive && \
-  ./build.sh --clang-completer --system-libclang
+  ./build.sh --clang-completer
 
 #FROM gfunkmonk/python:trusty-mini2 AS squashme
 #COPY --from=build /ycmd /ycmd
@@ -20,7 +20,7 @@ RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
   apt-get update && apt-get install --no-install-recommends -y \
-  libtinfo5 curl xz-utils nodejs && rm -rf /var/lib/apt/lists/
+  nodejs && rm -rf /var/lib/apt/lists/
 
 # Grab the toolchain
 RUN mkdir /arm-cs-tools && curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz" | tar --strip-components=1 -xJ -C /arm-cs-tools
