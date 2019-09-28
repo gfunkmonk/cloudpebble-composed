@@ -87,3 +87,9 @@ services:
       - ./.env
     ports:
       - "8003:4569"
+  memecached:
+    #image: memcached:latest
+    build: ./memcached/
+    restart: unless-stopped
+    ports:
+      - "11211:11211"

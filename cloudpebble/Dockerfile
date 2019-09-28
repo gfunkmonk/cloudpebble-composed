@@ -6,11 +6,10 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
   gettext memcached postgresql-client libpq-dev curl git wget xz-utils nodejs \
   && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g jshint jslint bower && pip install psycopg2 django==1.6.2 \
-  && echo '{"allow_root": true}' > /root/.bowerrc
+RUN npm install -g jshint bower && echo '{"allow_root": true}' > /root/.bowerrc
 
+RUN pip install psycopg2 django==1.6.2 
 EXPOSE 8000
-
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
