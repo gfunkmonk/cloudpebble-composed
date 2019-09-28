@@ -9,7 +9,6 @@ VOLUME ["/fakes3_root"]
 
 EXPOSE 4569
 
-#RUN gem install --no-document fakes3 -v ${FAKES3_VERSION}
 RUN apk --no-cache add ruby ruby-io-console && \
   gem install --no-rdoc --no-ri fakes3 -v ${FAKES3_VERSION} && \
   rm -rf /var/cache/apk/*

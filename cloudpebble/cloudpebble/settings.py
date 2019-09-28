@@ -52,14 +52,8 @@ elif 'DATABASE_URL' not in _environ:
 else:
     DATABASES = {
         'default': dj_database_url.config()
-    }
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
 }
+
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__)) + '/../'
 
 LANGUAGE_COOKIE_NAME = 'cloudpebble_language'
@@ -83,10 +77,10 @@ ALLOWED_HOSTS = ['*']
 # List of IP addresses, as strings, that:
 # * See debug comments, when DEBUG is true
 # * Receive x-headers
-#INTERNAL_IPS = ['192.168.128.1' , '172.17.0.1']
+INTERNAL_IPS = ['192.168.128.1' , '172.17.0.1']
 
 # Close the session when user closes the browser
-#SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -199,17 +193,18 @@ STATICFILES_FINDERS = (
 )
 
 BOWER_INSTALLED_APPS = (
-    'https://github.com/krisk/Fuse.git#2ec2f2c40059e135cabf2b01c8c3f96f808b8809',
-    'jquery#~2.1.3',
+    'https://github.com/krisk/Fuse.git#7126187f436e2bcf1a5958c21d85c63ba73e4f8b',
+    'jquery#~2.2.4',
+    'https://github.com/johnny/jquery-sortable.git',
     'underscore',
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.3.1',
+    'html.sortable#~0.4.2',
     'alexgorbatchev/jquery-textext',
     'codemirror#4.2.0',
-    'bluebird#3.3.4',
-    'kanaka/noVNC#v0.5',
+    'bluebird#3.4.2',
+    'kanaka/noVNC#v0.6.1',
 )
 
 # Make this unique, and don't share it with anybody.
