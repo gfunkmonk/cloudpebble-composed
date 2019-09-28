@@ -239,6 +239,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'sslserver',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

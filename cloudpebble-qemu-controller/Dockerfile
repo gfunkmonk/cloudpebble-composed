@@ -1,5 +1,6 @@
 #FROM gfunkmonk/python2:bionic AS build
-FROM gfunkmonk/python2:bionic AS squashme
+#FROM gfunkmonk/python2:disco AS squashme
+FROM python:2.7 AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
@@ -42,7 +43,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 RUN mkdir /qemu-tintin-images && cd /qemu-tintin-images && \
   curl -L https://github.com/gfunkmonk/qemu-tintin-images/archive/v4.3.tar.gz | tar xz --strip 1
 
-RUN apt-get remove --purge git curl xz-utils -y && apt-get autoremove --purge -y
+#RUN apt-get remove --purge git curl xz-utils -y && apt-get autoremove --purge -y
 
 COPY . /code
 
