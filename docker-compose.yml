@@ -4,10 +4,9 @@ services:
     build: cloudpebble/
     restart: always
     ports:
-      - "443:443"
+    - "80:80"
     volumes:
       - "./cloudpebble/:/code"
-      - "./.certs/:/etc/certs"
     links:
       - redis
       - postgres
@@ -20,7 +19,7 @@ services:
       - DEBUG="yes"
       - RUN_WEB="yes"
       - AWS_ENABLED="yes"
-      - PORT=443
+      - PORT=80
       - AWS_S3_FAKE_S3=172.245.74.113:8003
       - MEDIA_URL=http://172.245.74.113:8003/builds.cloudpebble.net/
       - QEMU_URLS=http://172.245.74.113:8001/
@@ -33,7 +32,6 @@ services:
     restart: always
     volumes:
       - "./cloudpebble/:/code"
-      - "./.certs/:/etc/certs"
     links:
       - redis
       - postgres
@@ -51,7 +49,6 @@ services:
     restart: unless-stopped
     volumes:
       - "./cloudpebble-qemu-controller/:/code"
-      - "./.certs/:/etc/certs"
     env_file:
       - ./.env
     ports:
@@ -61,7 +58,6 @@ services:
     restart: unless-stopped
     volumes:
       - "./cloudpebble-ycmd-proxy/:/code"
-      - "./.certs/:/etc/certs"
     env_file:
       - ./.env  
     ports:
@@ -72,7 +68,6 @@ services:
     restart: always
     volumes:
       - "./data/redis:/data"
-      - "./.certs/:/etc/certs"
     ports:
       - 6379:6379
   postgres:
@@ -81,7 +76,6 @@ services:
     restart: always
     volumes: 
       - "./data//postgres:/var/lib/postgresql/data"
-      - "./.certs/:/etc/certs"
     ports:
       - "5432:5432"
   s3:
@@ -90,7 +84,6 @@ services:
     restart: unless-stopped
     volumes:
       - "./data/fakes3/:/fakes3_root"
-      - "./.certs/:/etc/certs"
     env_file:
       - ./.env
     ports:
