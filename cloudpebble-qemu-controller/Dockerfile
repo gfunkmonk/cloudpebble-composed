@@ -43,7 +43,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 RUN mkdir /qemu-tintin-images && cd /qemu-tintin-images && \
   curl -L https://github.com/gfunkmonk/qemu-tintin-images/archive/v4.3.tar.gz | tar xz --strip 1
 
-#RUN apt-get remove --purge git curl xz-utils -y && apt-get autoremove --purge -y
+RUN apt-get remove --purge git curl xz-utils -y && apt-get autoremove --purge -y
 
 COPY . /code
 
