@@ -2,7 +2,7 @@ FROM gfunkmonk/python2:cosmic AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
-   cmake libtinfo5 git curl xz-utils \
+   cmake libtinfo5 git curl xz-utils wget \
    --no-install-recommends && rm -rf /var/lib/apt/lists/
 
 # ycmd
@@ -40,7 +40,8 @@ FROM scratch
 COPY --from=squashme / /
 WORKDIR /code
 
-ENV PATH="$PATH:/arm-cs-tools/bin" YCMD_PEBBLE_SDK2=/sdk2/ YCMD_PEBBLE_SDK3=/sdk3/ \
+ENV PATH="$PATH:/arm-cs-tools/bin" \
+  YCMD_PEBBLE_SDK2=/sdk2/ YCMD_PEBBLE_SDK3=/sdk3/ \
   YCMD_STDLIB=/arm-cs-tools/arm-none-eabi/include/ \
   DEBUG=yes YCMD_PORT=80 YCMD_BINARY=/ycmd/ycmd/__main__.py \
   YCMD_DEFAULT_SETTINGS=/ycmd/ycmd/default_settings.json
