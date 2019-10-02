@@ -1,11 +1,10 @@
-#FROM gfunkmonk/python2:bionic AS build
-FROM gfunkmonk/python2:bionic AS squashme
+FROM gfunkmonk/python2:cosmic AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
   libglib2.0-dev libpixman-1-dev libfdt-dev gnutls-dev findutils make \
   pkgconf zlib1g-dev device-tree-compiler libbluetooth-dev \ 
-  binutils-arm-none-eabi --no-install-recommends \
+  --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 #RUN git clone https://github.com/gfunkmonk/qemu && cd /qemu && \
@@ -20,8 +19,8 @@ RUN mkdir /qemu && cd /qemu && \
      --extra-cflags=-std=gnu99 \
      #--extra-cflags=-DSTM32_UART_NO_BAUD_DELAY \
      #--extra-cflags=-DSTM32_UART_ENABLE_OVERRUN \
-     #--enable-vnc \
-     #--disable-sdl \ 
+     --enable-vnc \
+     --disable-sdl \ 
   && make clean \
   && make -j4
 
@@ -42,7 +41,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 RUN mkdir /qemu-tintin-images && cd /qemu-tintin-images && \
   curl -L https://github.com/gfunkmonk/qemu-tintin-images/archive/v4.3.tar.gz | tar xz --strip 1
 
-RUN apt-get remove --purge git curl xz-utils -y && apt-get autoremove --purge -y
+RUN apt-get remove --purge git curl xz-utils tzdata -y && apt-get autoremove --purge -y
 
 COPY . /code
 

@@ -1,23 +1,30 @@
-FROM gfunkmonk/python2:bionic AS squashme
+FROM gfunkmonk/python2:cosmic AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
-   cmake libtinfo5 git curl xz-utils wget \
+   cmake libtinfo5 git curl xz-utils \
    --no-install-recommends && rm -rf /var/lib/apt/lists/
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
-  #git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
-  git reset --hard 10c456c6e32487c2b75b9ee754a1f6cc6bf38a4f && \
+  git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
+  #git reset --hard 10c456c6e32487c2b75b9ee754a1f6cc6bf38a4f && \
   git submodule update --init --recursive && \
-  #./build.sh --clang-completer
-  python build.py --clang-completer
+  ./build.sh --clang-completer
+  #python build.py --clang-completer
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
   apt-get update && apt-get install --no-install-recommends -y \
   nodejs && rm -rf /var/lib/apt/lists/
 
 # Grab the toolchain
+#RUN curl -o /tmp/arm-cs-tools-4.9-2017.01.tar.xz \
+#  https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz \
+#  && tar -xJf /tmp/arm-cs-tools-4.9-2017.01.tar.xz -C / \
+#  && /bin/rm /tmp/arm-cs-tools-4.9-2017.01.tar.xz
+
+#RUN ln -sf /usr/bin/busybox /usr/bin/rm
+
 RUN curl -o /tmp/arm-cs-tools-4.9-2017.01.tar.xz https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz && tar -xJf /tmp/arm-cs-tools-4.9-2017.01.tar.xz -C / && rm /tmp/arm-cs-tools-4.9-2017.01.tar.xz
 
 # Install SDK 2
@@ -33,7 +40,7 @@ RUN mkdir /sdk3 && \
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-#RUN apt remove --purge curl xz-utils git -y && apt-get autoremove --purge -y
+#RUN apt remove --purge curl xz-utils tzdata -y && apt-get autoremove --purge -y
 
 COPY . /code
 FROM scratch
