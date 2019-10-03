@@ -4,7 +4,7 @@
         var self = this;
         var mIP = ip;
         var mPort = port;
-        var mInstanceID = sPebbleCounter++;
+        var mInstanceID = sPebbleCounter += 1;
 
         // A frame that we can bootstrap.
         var FRAME_SOURCE = "<html><head></head>" +
