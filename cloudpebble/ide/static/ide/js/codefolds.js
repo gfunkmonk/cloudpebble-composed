@@ -13,7 +13,7 @@
                     }
                 });
             }
-            i++;
+            i += 1;
         });
         return folded_line_numbers;
     });

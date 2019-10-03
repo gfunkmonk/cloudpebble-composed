@@ -11,7 +11,9 @@ CloudPebble.Sidebar = (function() {
         var pane = $('#main-pane');
 
         var suspend_function = pane.data('pane-suspend-function');
-        if (suspend_function) suspend_function();
+        if (suspend_function) {
+            suspend_function();
+        }
 
         var list_entry = $('#sidebar-pane-' + pane_id);
         if (list_entry) {

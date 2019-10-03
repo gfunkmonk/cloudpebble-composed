@@ -50,7 +50,9 @@ var EventedWebSocket = function(host) {
             var on_message, on_close, remove_listeners;
             var id = 0;
             // Take the first free ID
-            while(id in ids) id++;
+            while (id in ids) {
+                id += 1;
+            }
             ids[id] = true;
             data._id = id;
 
@@ -120,13 +122,13 @@ CloudPebble.YCM = new (function() {
         _.each(editors, function(editor) {
             editor.patch_list = [];
             editor.patch_sequence = 0;
-            ++pending;
+            pending += 1;
 
             ws_send('create', {
                     filename: editor.file_path,
                     content: editor.getValue()
             }).then(function() {
-                if(--pending == 0) {
+                if((pending -= 1) == 0) {
                     console.log('restart done.');
                     $('.prepare-autocomplete').hide();
                     $('.footer-credits').show();
@@ -284,7 +286,7 @@ CloudPebble.YCM = new (function() {
                 patches: these_patches
             })
         }).then(function(data) {
-            return data['data'];
+            return data.data;
         });
     };
 })();

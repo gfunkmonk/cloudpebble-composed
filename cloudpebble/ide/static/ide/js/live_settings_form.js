@@ -84,7 +84,9 @@ function make_live_settings_form(options) {
         // After the form is saved, flash the 'tick' icon on success or keep a 'changed' icon on error.
         function on_save_error(error) {
             opts.error_function(error);
-            if (element) show_changed_icon(element);
+            if (element) {
+                show_changed_icon(element);
+            }
         }
 
         // If a save is already in progress, queue up another one.
@@ -110,10 +112,14 @@ function make_live_settings_form(options) {
 
         return save_result.then(function (result) {
             // Allow save functions to declare that the form is incomplete. Used in KV-Tables to enforce filling in whole rows.
-            if (result && result.incomplete) return;
+            if (result && result.incomplete) {
+                return;
+            }
 
             clear_changed_icons();
-            if (element) flash_tick_icon(element);
+            if (element) {
+                flash_tick_icon(element);
+            }
             if (_.isFunction(opts.on_save)) {
                 opts.on_save()
             }

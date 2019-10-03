@@ -9,7 +9,9 @@ CloudPebble.GitHub = (function() {
     };
 
     var show_github_pane = function() {
-        if(!USER_SETTINGS.github) return;
+        if (!USER_SETTINGS.github) {
+            return;
+        }
         CloudPebble.Sidebar.SuspendActive();
         if(CloudPebble.Sidebar.Restore("github")) {
             return;

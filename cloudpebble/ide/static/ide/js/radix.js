@@ -50,7 +50,7 @@ THE SOFTWARE.
         this._addNodeOrRecurse = function(key, node, value) {
             var addedToChild = false;
             var newText = node.getMatchingPortionOfString(key);
-            for (var j = 0; j<node.getChildren().length; j++) {
+            for (var j = 0; j<node.getChildren().length; j += 1) {
                 if (node.getChildren()[j].getKey().startsWith(newText.charAt(0))) {
                     addedToChild = true;
                     this._insertInternal(newText, node.getChildren()[j], value);
@@ -168,7 +168,7 @@ THE SOFTWARE.
             }
             if (visitor.shouldRecurse(prefix, node)) {
                 var newText = node.getMatchingPortionOfString(prefix);
-                for (var j = 0; j < node.getChildren().length; j++) {
+                for (var j = 0; j < node.getChildren().length; j += 1) {
                     // recursively search the child nodes
                     if (visitor.shouldVisitChild(newText, node.getChildren()[j])) {
                         this._visitInternal(newText, visitor, node, node.getChildren()[j]);
@@ -186,7 +186,7 @@ THE SOFTWARE.
 
             visitor.visit = function(key, parent, node) {
                 if (node.getIsReal()) {
-                    this.result++;
+                    this.result += 1;
                 }
             };
             visitor.shouldVisit = function(key, node) {
@@ -208,7 +208,7 @@ THE SOFTWARE.
             visitor.result = 0;
 
             visitor.visit = function(key, parent, node) {
-                this.result++;
+                this.result += 1;
             };
             visitor.shouldVisit = function(key, node) {
                 return true;
@@ -294,7 +294,7 @@ THE SOFTWARE.
                 if (key.charAt(result) != this.key.charAt(result)) {
                     break;
                 }
-                result++;
+                result += 1;
             }
             return result;
         };
@@ -336,5 +336,5 @@ THE SOFTWARE.
         };
     }
 
-    window['RadixTree'] = RadixTree;
+    window.RadixTree = RadixTree;
 })();

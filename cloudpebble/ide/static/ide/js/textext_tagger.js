@@ -76,10 +76,11 @@ jQuery.fn.extend({
         };
         function deepExtend(target, source) {
             for (var prop in source)
-                if (prop in target)
+                if (prop in target) {
                     deepExtend(target[prop], source[prop]);
-                else
+                } else {
                     target[prop] = source[prop];
+                }
             return target;
         }
         var final_options = deepExtend(default_options, options);

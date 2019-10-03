@@ -22,7 +22,9 @@ CloudPebble.Dependencies = (function() {
      */
     ModuleCache.prototype.update_modules = function(data) {
         _.extend(this.cache, _.object(_.map(data, function(o) {
-            if (o._id) o.name = o._id;
+            if (o._id) {
+                o.name = o._id;
+            }
             return [o.name, o];
         })));
         this.trigger('update', this.cache);
@@ -58,8 +60,8 @@ CloudPebble.Dependencies = (function() {
         }
         else {
             return Ajax.Get("/ide/packages/search", {q: query}).then(function(result) {
-                this.update_modules(result['packages']);
-                return result['packages'];
+                this.update_modules(result.packages);
+                return result.packages;
             }.bind(this));
         }
     };
@@ -112,7 +114,9 @@ CloudPebble.Dependencies = (function() {
                 var options = {
                     keys: [key]
                 };
-                if (SMALLEST_FIRST) options.sortFn = sort_fn;
+                if (SMALLEST_FIRST) {
+                    options.sortFn = sort_fn;
+                }
                 return (new Fuse(data, options)).search(query);
             }));
         }
@@ -166,7 +170,9 @@ CloudPebble.Dependencies = (function() {
                         return {name: string};
                     },
                     compareItems: function(item1, item2) {
-                        if (!item1 || !item2) return 0;
+                        if (!item1 || !item2) {
+                            return 0;
+                        }
                         return item1.name == item2.name;
                     },
                     itemContains: function(item, needle) {
@@ -227,7 +233,7 @@ CloudPebble.Dependencies = (function() {
                         spinner.addClass('hide');
 
                         // Update the package cache with the new data
-                        cache.update_modules(data['packages']);
+                        cache.update_modules(data.packages);
 
                         // Sort the suggestions based on text similarity
                         if (!query) {
@@ -237,7 +243,7 @@ CloudPebble.Dependencies = (function() {
                             suggestions = dedupe_results(filter_results(cache.get_list(), query));
                         }
                         else {
-                            suggestions = sort_results(data['packages'], query);
+                            suggestions = sort_results(data.packages, query);
                         }
                         $.fn.textext.TextExtAjax.prototype.onComplete.apply(this, [suggestions, query]);
                     },
@@ -276,7 +282,9 @@ CloudPebble.Dependencies = (function() {
             // If we have the package's version number cached or we can fetch it, then add that too.
             e.preventDefault();
             var val = textext.input().val().trim();
-            if (!val) return;
+            if (!val) {
+                return;
+            }
             cache.lookup_module(val).then(function(data) {
                 on_submit(val, data.version ? version_prefix + data.version : null);
                 return null;
@@ -523,7 +531,7 @@ CloudPebble.Dependencies = (function() {
         this.init = function(set_pane) {
             pane = set_pane;
         }
-    });
+    })();
 
 
     /** This sets up the hidden search options pane. */

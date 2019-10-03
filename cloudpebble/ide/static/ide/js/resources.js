@@ -121,7 +121,9 @@ CloudPebble.Resources = (function() {
             if (CloudPebble.ProjectInfo.sdk_version != "2") {
                 tags = JSON.parse(input.value);
             }
-            if (do_sort) tags.sort();
+            if (do_sort) {
+                tags.sort();
+            }
             return [tags];
         }));
     }
@@ -483,7 +485,9 @@ CloudPebble.Resources = (function() {
     var edit_resource = function(resource) {
         CloudPebble.FuzzyPrompt.SetCurrentItemName(resource.file_name);
         CloudPebble.Sidebar.SuspendActive();
-        if(CloudPebble.Sidebar.Restore('resource-' + resource.id)) return;
+        if (CloudPebble.Sidebar.Restore('resource-' + resource.id)) {
+            return;
+        }
         ga('send', 'event', 'resource', 'open');
 
         CloudPebble.ProgressBar.Show();
@@ -504,7 +508,9 @@ CloudPebble.Resources = (function() {
             pane.find('#edit-resource-type').change();
 
             var save = function(e) {
-                if (e) e.preventDefault();
+                if (e) {
+                    e.preventDefault();
+                }
                 process_resource_form(form, false, resource.file_name, "/ide/project/" + PROJECT_ID + "/resource/" + resource.id + "/update").then(function(data) {
                     delete project_resources[resource.file_name];
                     // Update our information about the resource.
@@ -531,7 +537,7 @@ CloudPebble.Resources = (function() {
 
                     // Only show the delete-identifiers button if there is more than one ID.
                     pane.find('.btn-delidentifier').toggle(resource.resource_ids.length > 1);
-                }).catch(function() {/* ignore failure */});;
+                }).catch(function() {/* ignore failure */});
             };
 
             // Generate a preview.
@@ -630,11 +636,10 @@ CloudPebble.Resources = (function() {
                     var row = $('<div class="control-group font-preview"><label class="control-label">' + gettext('Preview') + '</label>');
                     var preview_holder = $('<div class="controls">');
                     var font_tag_preview = $('<div class="font-tag-preview">').appendTo(preview_holder).text(gettext("For ") + (
-                        _.chain(tags)
+                        (_.chain(tags)
                             .map(get_tag_data_for_id)
                             .pluck('name').value()
-                            .join(', ')
-                        || gettext("untagged")) + gettext(" file")
+                            .join(', ') || gettext("untagged"))) + gettext(" file")
                     );
                     var preview = $('<div>').appendTo(preview_holder);
                     var line = ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^& *()_+[]{}\\|;:\'"<>?`'.match(preview_regex) || []).join('');
@@ -713,12 +718,12 @@ CloudPebble.Resources = (function() {
                     group.find('.bitmap-only').remove()
                 }
 
-                var has_target_platforms = _.isArray(value["target_platforms"]);
+                var has_target_platforms = _.isArray(value.target_platforms);
                 if (has_target_platforms) {
                     var target_platforms_checkbox = group.find(".edit-resource-target-platforms-enabled");
                     target_platforms_checkbox.prop('checked', true);
                     _.each(_.keys(PLATFORMS), function(platform) {
-                        group.find(".edit-resource-target-"+platform).prop('checked', _.contains(value["target_platforms"], platform));
+                        group.find(".edit-resource-target-"+platform).prop('checked', _.contains(value.target_platforms, platform));
                     });
                 }
                 group.find(".resource-targets-section input").change(function() {
@@ -853,7 +858,11 @@ CloudPebble.Resources = (function() {
                     // These functions convert between ~tags and Tag Names
                     stringToItem: function(str) {
                         var tag = get_tag_data_for_tag_name(str);
-                        if (tag) return tag.id; else return undefined;
+                        if (tag) {
+                            return tag.id;
+                        } else {
+                            return undefined;
+                        }
                     },
                     itemToString: function(id) {
                         return get_tag_data_for_id(id).name;
@@ -926,7 +935,9 @@ CloudPebble.Resources = (function() {
 
     var create_new_resource = function() {
         CloudPebble.Sidebar.SuspendActive();
-        if(CloudPebble.Sidebar.Restore('new-resource')) return;
+        if (CloudPebble.Sidebar.Restore('new-resource')) {
+            return;
+        }
         var pane = prepare_resource_pane();
         var form = pane.find('form');
 
@@ -1007,7 +1018,7 @@ CloudPebble.Resources = (function() {
             if(!font.family[variant]) {
                 var preview_url = '/ide/project/' + PROJECT_ID + '/resource/' + font.id +'/'+variant+'/get';
                 var style = document.createElement('style');
-                font.family[variant] = 'font-preview-' + font.id + '-' + (++preview_count);
+                font.family[variant] = 'font-preview-' + font.id + '-' + ((preview_count += 1));
                 var rule = '@font-face { font-family: "' + font.family[variant] + '"; src: url(' + preview_url + '#e' + (preview_count) + '); }';
                 style.appendChild(document.createTextNode(rule));
                 $('body').append(style);
