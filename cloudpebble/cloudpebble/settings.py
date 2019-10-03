@@ -54,15 +54,15 @@ elif 'DATABASE_URL' not in _environ:
 else:
     DATABASES = {
         'default': dj_database_url.config()
-    }
+}
 
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         'LOCATION': '127.0.0.1:11211',
-        'TIMEOUT': '600',
     }
 }
+
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__)) + '/../'
 
 LANGUAGE_COOKIE_NAME = 'cloudpebble_language'
@@ -83,13 +83,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ['*']
 
-# List of IP addresses, as strings, that:
-# * See debug comments, when DEBUG is true
-# * Receive x-headers
-INTERNAL_IPS = ['192.168.128.1' , '172.17.0.1']
-
-# Close the session when user closes the browser
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -105,46 +98,13 @@ LANGUAGES = (
     ('es', 'Spanish'),
     ('fr', 'French'),
     ('de', 'German'),
-    ('cy', 'Welsh'),
-    ('pl', 'Polish'),
-    ('ru', 'Russian'),
     ('zh-cn', 'Chinese (simplified'),
     ('zh-tw', 'Chinese (traditional)'),
-    ('ja', 'Japanese'),
-    ('vi', 'Vietnamese')
+
 )
 
 LOCALE_PATHS = (os.getcwd() + "/locale",)
 
-# Settings for language cookie
-LANGUAGE_COOKIE_NAME = 'cloudpebble_language'
-LANGUAGE_COOKIE_AGE = None
-LANGUAGE_COOKIE_DOMAIN = None
-LANGUAGE_COOKIE_PATH = '/'
-
-# Default content type and charset to use for all HttpResponse objects, if a
-# MIME type isn't manually specified. These are used to construct the# Content-Type header.
-DEFAULT_CONTENT_TYPE = 'text/html'
-DEFAULT_CHARSET = 'utf-8'
-
-# Encoding of files read from disk (template and initial SQL files).
-FILE_CHARSET = 'utf-8'
-
-# First day of week, to be used on calendars# 0 means Sunday, 1 means Monday...
-FIRST_DAY_OF_WEEK = 1
-
-# Decimal separator symbol
-DECIMAL_SEPARATOR = '.'
-
-# Boolean that sets whether to add thousand separator when formatting numbers
-USE_THOUSAND_SEPARATOR = True
-
-# Number of digits that will be together, when splitting them by
-# THOUSAND_SEPARATOR. 0 means no grouping, 3 means splitting by thousands...
-NUMBER_GROUPING = 3
-
-# Thousand separator symbol
-THOUSAND_SEPARATOR = ','
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
@@ -217,17 +177,17 @@ else:
     STATICFILES_STORAGE = 'cloudpebble.storage.CompressedManifestPipelineStorage'
 
 BOWER_INSTALLED_APPS = (
-    'https://github.com/krisk/Fuse.git#2ec2f2c40059e135cabf2b01c8c3f96f808b8809',
-    'jquery#~2.1.3',
+    'https://github.com/krisk/Fuse.git#fe1ff83645a55b6ea9f9488893a32495c132529f',
+    'jquery#~3.4.1',
     'underscore',
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.3.1',
+    'html.sortable#~0.9.16',
     'alexgorbatchev/jquery-textext',
     'codemirror#4.2.0',
-    'bluebird#3.3.4',
-    'kanaka/noVNC#v0.5',
+    'bluebird#3.7.0',
+    'kanaka/noVNC#v0.6.1',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -254,7 +214,6 @@ TEMPLATES = [
         }
     }
 ]
-
 
 MIDDLEWARE_CLASSES = (
     'whitenoise.middleware.WhiteNoiseMiddleware',

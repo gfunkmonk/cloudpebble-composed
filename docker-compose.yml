@@ -2,9 +2,9 @@ version: '3'
 services:
   web:
     build: cloudpebble/
-    restart: unless-stopped
+    restart: always
     ports:
-      - "80:80"
+    - "80:80"
     volumes:
       - "./cloudpebble/:/code"
     links:
@@ -29,7 +29,7 @@ services:
       - PEBBLE_AUTH_URL=https://auth.rebble.io
   celery:
     build: cloudpebble/
-    restart: unless-stopped
+    restart: always
     volumes:
       - "./cloudpebble/:/code"
     links:
@@ -63,20 +63,24 @@ services:
     ports:
       - "8002:80"
   redis:
-    #image: redis
-    image: redis:alpine
-    restart: unless-stopped
+    #image: redis:alpine
+    image: redis
+    restart: always
     volumes:
       - "./data/redis:/data"
+    ports:
+      - 6379:6379
   postgres:
-    #image: postgres
-    image: postgres:11-alpine
-    restart: unless-stopped
+    #image: postgres:10-alpine
+    image: postgres
+    restart: always
     volumes: 
       - "./data//postgres:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
   s3:
-    #image: lphoward/fake-s3
-    build: fakes3/
+    image: lphoward/fake-s3
+    #build: fakes3/
     restart: unless-stopped
     volumes:
       - "./data/fakes3/:/fakes3_root"
@@ -85,8 +89,8 @@ services:
     ports:
       - "8003:4569"
   memecached:
-    #image: memcached:latest
-    build: ./memcached/
+    image: memcached:latest
+    #build: ./memcached/
     restart: unless-stopped
     ports:
       - "11211:11211"

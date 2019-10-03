@@ -1,0 +1,6 @@
+.env
+old_shit/
+data/
+Dockerfile.*
+Dockerfile.alpine
+Dockerfile.debian

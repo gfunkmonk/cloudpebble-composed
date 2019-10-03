@@ -52,3 +52,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+Dockerfile.*
+Dockerfile.debian
+Dockerfile.alpine
