@@ -90,9 +90,9 @@ Sha1.hash = function(msg, utf8encode) {
 	var N = Math.ceil(l/16);   // number of 16-integer-blocks required to hold 'l' ints
 	var M = new Array(N);
 
-	for (i=0; i<N; i++) {
+	for (i=0; i<N; i += 1) {
 		M[i] = new Array(16);
-		for (var j=0; j<16; j++) {  // encode 4 chars per integer, big-endian encoding
+		for (var j=0; j<16; j += 1) {  // encode 4 chars per integer, big-endian encoding
 			M[i][j] = (msg.charCodeAt(i*64+j*4)<<24) | (msg.charCodeAt(i*64+j*4+1)<<16) |
 				(msg.charCodeAt(i*64+j*4+2)<<8) | (msg.charCodeAt(i*64+j*4+3));
 		} // note running off the end of msg is ok 'cos bitwise ops on NaN return 0
@@ -113,17 +113,17 @@ Sha1.hash = function(msg, utf8encode) {
 	// HASH COMPUTATION [§6.1.2]
 
 	var W = new Array(80); var a, b, c, d, e;
-	for (i=0; i<N; i++) {
+	for (i=0; i<N; i += 1) {
 
 		// 1 - prepare message schedule 'W'
-		for (t=0;  t<16; t++){ W[t] = M[i][t]; }
-		for (t=16; t<80; t++){ W[t] = Sha1.ROTL(W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16], 1); }
+		for (t=0;  t<16; t += 1){ W[t] = M[i][t]; }
+		for (t=16; t<80; t += 1){ W[t] = Sha1.ROTL(W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16], 1); }
 
 		// 2 - initialise five working variables a, b, c, d, e with previous hash value
 		a = H0; b = H1; c = H2; d = H3; e = H4;
 
 		// 3 - main loop
-		for (t=0; t<80; t++) {
+		for (t=0; t<80; t += 1) {
 			var s = Math.floor(t/20); // seq for blocks of 'f' functions and 'K' constants
 			var T = (Sha1.ROTL(a,5) + Sha1.f(s,b,c,d) + e + K[s] + W[t]) & 0xffffffff;
 			e = d;
@@ -171,7 +171,7 @@ Sha1.ROTL = function(x, n) {
  */
 Sha1.toHexStr = function(n) {
 	var s="", v;
-	for (var i=7; i>=0; i--) { v = (n>>>(i*4)) & 0xf; s += v.toString(16); }
+	for (var i=7; i>=0; i -= 1) { v = (n>>>(i*4)) & 0xf; s += v.toString(16); }
 	return s;
 };
 
