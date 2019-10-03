@@ -1,4 +1,4 @@
-FROM gfunkmonk/python2:xenial AS squashme
+FROM gfunkmonk/python2:disco AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
@@ -6,14 +6,14 @@ RUN apt-get update && apt-get install -y \
    --no-install-recommends && rm -rf /var/lib/apt/lists/
 
 # ycmd
-#RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
-RUN git clone https://github.com/gfunkmonk/ycmd.git -b cloudpebble /ycmd && cd /ycmd && \
+RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
+#RUN git clone https://github.com/gfunkmonk/ycmd.git -b cloudpebble /ycmd && cd /ycmd && \
   #git reset --hard c5ae6c2915e9fb9f7c18b5ec9bf8627d7d5456fd && \
-  #git reset --hard 10c456c6e32487c2b75b9ee754a1f6cc6bf38a4f && \
+  git reset --hard 10c456c6e32487c2b75b9ee754a1f6cc6bf38a4f && \
   git submodule update --init --recursive && \
-  ./build.sh --clang-completer
+  #./build.sh --clang-completer
   #python build.py --clang-completer --system-libclang
-  #python build.py --clang-completer
+  python build.py --clang-completer
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
   apt-get update && apt-get install --no-install-recommends -y \

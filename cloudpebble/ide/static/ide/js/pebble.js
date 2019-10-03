@@ -31,21 +31,21 @@ var SharedPebble = new (function() {
     _.extend(this, Backbone.Events);
 
     var LOADING_STATEMENTS = [
-        gettext("Reticulating splines…"),
-        gettext("Eroding cliffs…"),
-        gettext("Charging watches…"),
-        gettext("Focusing camera…"),
-        gettext("Rendering cats…"),
+        gettext("Going for broke…"),
+        gettext("Rectum?... Darn near killed 'em!"),
+        gettext("Meanwhile, back at the ranch…"),
+        gettext("Mmmmmm beeeer"),
+        gettext("Dogs don't know it's not bacon…"),
         gettext("Solving climate change…"),
-        gettext("Kickstarting emulator project…"),
-        gettext("Herding cats…"),
-        gettext("Polishing monocles…"),
-        gettext("Drafting master plans…"),
-        gettext("Petting unicorns…"),
+        gettext("Pineapple isn't for pizza…"),
+        gettext("Ah, la vache…"),
+        gettext("Tacos are delicious…"),
+        gettext("Punching llamas…"),
+        gettext("Fly? Yes. Land? No.…"),
         gettext("Firing missiles…"),
         gettext("Never giving you up…"),
         gettext("Never letting you down…"),
-        gettext("Here comes Tom!")
+        gettext("Here comes uncle Tom!")
     ];
 
     function isRound(kind) {

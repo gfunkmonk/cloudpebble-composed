@@ -549,7 +549,7 @@ Pebble = function(proxy, token) {
     };
 
     function id_to_uuid(id) {
-        return _.UUID.v5(id + ".pins.developer.getpebble.com", "6ba7b810-9dad-11d1-80b4-00c04fd430c8");
+        return _.UUID.v5(id + ".pins.developer.rebble.io", "6ba7b810-9dad-11d1-80b4-00c04fd430c8");
     }
 
     this.emu_send_pin = function(pin_json) {

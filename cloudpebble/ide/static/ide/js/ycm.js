@@ -87,7 +87,7 @@ var EventedWebSocket = function(host) {
 
 CloudPebble.YCM = new (function() {
     var self = this;
-    var PING_INTERVAL = 90000;
+    var PING_INTERVAL = 50000;
 
     var mInitialised = false;
     var mIsInitialising = false;

@@ -158,13 +158,13 @@ STATICFILES_FINDERS = (
 )
 
 BOWER_INSTALLED_APPS = (
-    'https://github.com/krisk/Fuse.git#fe1ff83645a55b6ea9f9488893a32495c132529f',
-    'jquery#~3.4.1',
+    'https://github.com/krisk/Fuse.git#2e24c9a197987f4b56ede72bac06dc9ac75ddfd8',
+    'jquery#~2.2.4',
     'underscore',
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.9.16',
+    'html.sortable#~0.4.4',
     'alexgorbatchev/jquery-textext',
     'codemirror#4.2.0',
     'bluebird#3.7.0',
@@ -258,6 +258,7 @@ INSTALLED_APPS = (
     'djcelery',
     'registration',
     'djangobower',
+    'robots',
 )
 
 # This logging config prints:

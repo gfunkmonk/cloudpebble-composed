@@ -85,7 +85,7 @@ CloudPebble.Timeline = new (function() {
             electricChars: true,
             matchBrackets: true,
             autoCloseBrackets: true,
-            //highlightSelectionMatches: true,
+            highlightSelectionMatches: true,
             smartIndent: true,
             indentWithTabs: !USER_SETTINGS.use_spaces,
             mode: "application/json",

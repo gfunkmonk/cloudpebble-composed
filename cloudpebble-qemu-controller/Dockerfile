@@ -1,4 +1,4 @@
-FROM gfunkmonk/python2:xenial AS squashme
+FROM gfunkmonk/python2:disco AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
@@ -7,20 +7,20 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/gfunkmonk/qemu && cd /qemu && \
-#RUN mkdir /qemu && cd /qemu && \
-#  curl -L https://github.com/gfunkmonk/qemu/archive/v2.5.0-pebble5b.tar.gz | tar xz --strip 1 && \
+#RUN git clone https://github.com/gfunkmonk/qemu && cd /qemu && \
+RUN mkdir /qemu && cd /qemu && \
+  curl -L https://github.com/gfunkmonk/qemu/archive/v2.5.0-pebble5b.tar.gz | tar xz --strip 1 && \
   ./configure \
-     --extra-ldflags=-g \
+     #--extra-ldflags=-g \
      --enable-debug --disable-werror --target-list="arm-softmmu" \
-     --disable-libiscsi --disable-libnfs --disable-libusb --disable-usb-redir \
+     #--disable-libiscsi --disable-libnfs --disable-libusb --disable-usb-redir \
      #--disable-strip --disable-xen --disable-kvm --disable-user --disable-docs \
-     --disable-gtk --disable-linux-aio --disable-curl --disable-curses --disable-vhdx \
+     #--disable-gtk --disable-linux-aio --disable-curl --disable-curses --disable-vhdx \
      --extra-cflags=-std=gnu99 \
-     #--extra-cflags=-DSTM32_UART_NO_BAUD_DELAY \
+     --extra-cflags=-DSTM32_UART_NO_BAUD_DELAY \
      #--extra-cflags=-DSTM32_UART_ENABLE_OVERRUN \
-     --enable-vnc \
-     --disable-sdl \ 
+     --enable-vnc-ws \
+     #--disable-sdl \ 
   && make clean \
   && make -j4
 
