@@ -1,4 +1,4 @@
-FROM gfunkmonk/python2:cosmic AS squashme
+FROM gfunkmonk/python2:xenial AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
@@ -7,9 +7,9 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
-#RUN git clone https://github.com/gfunkmonk/qemu && cd /qemu && \
-RUN mkdir /qemu && cd /qemu && \
-  curl -L https://github.com/gfunkmonk/qemu/archive/v2.5.0-pebble5b.tar.gz | tar xz --strip 1 && \
+RUN git clone https://github.com/gfunkmonk/qemu && cd /qemu && \
+#RUN mkdir /qemu && cd /qemu && \
+#  curl -L https://github.com/gfunkmonk/qemu/archive/v2.5.0-pebble5b.tar.gz | tar xz --strip 1 && \
   ./configure \
      --extra-ldflags=-g \
      --enable-debug --disable-werror --target-list="arm-softmmu" \
@@ -24,13 +24,13 @@ RUN mkdir /qemu && cd /qemu && \
   && make clean \
   && make -j4
 
-#FROM gfunkmonk/python2:bionic AS squashme
+#FROM gfunkmonk/python2:xenial AS squashme
 #COPY --from=build /qemu /qemu
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   libglib2.0-dev libfdt-dev libpixman-1-dev libbluetooth-dev
 
-RUN git clone https://github.com/gfunkmonk/pypkjs.git --depth 1 --branch master --recursive
+RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch master --recursive
 #RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v1.1.1 --recursive
 
 RUN virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt

@@ -1,7 +1,7 @@
 #!/bin/bash
 source .env
 # Run the general build.
-docker-compose build --compress --pull --force-rm 
+docker-compose build --compress --pull --squash 
 #docker-compose build --pull
 # Do this in the mounted directory, since the Dockerfile did it in a folder we
 # mask by mounting over it.
