@@ -23,7 +23,7 @@
                 F.prototype = cls.prototype;
                 this._resources[id] = {refcount: 1, resource: new F()};
             } else {
-                ++this._resources[id].refcount;
+                this._resources[id].refcount += 1;
             }
             return this._resources[id].resource;
         },
@@ -31,7 +31,7 @@
             if(!(id in this._resources)) {
                 throw new Error("Tried removing a resource that was not added.");
             }
-            if(--this._resources[id].refcount == 0) {
+            if((this._resources[id].refcount -= 1) == 0) {
                 delete this._resources[id];
             }
         },
