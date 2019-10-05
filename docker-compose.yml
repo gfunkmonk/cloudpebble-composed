@@ -22,7 +22,7 @@ services:
       - PORT=80
       - AWS_S3_FAKE_S3=172.245.74.113:8003
       - MEDIA_URL=http://172.245.74.113:8003/builds.cloudpebble.net/
-      - QEMU_URLS=http://172.245.74.113:8001/qemu-us1.cloudpebble.net/
+      - QEMU_URLS=http://172.245.74.113:8001/
       - YCM_URLS=http://172.245.74.113:8002/
       - PUBLIC_URL=http://172.245.74.113/
       - LIBPEBBLE_PROXY=wss://cloudpebble-ws.herokuapp.com/tool
@@ -51,7 +51,7 @@ services:
       - "./cloudpebble-qemu-controller/:/code"
     env_file:
       - ./.env
-    enviromemt:
+    environment:
       - QEMU_LAUNCH_AUTH_HEADER=
       - QEMU_LAUNCH_TIMEOUT=60
     ports:
