@@ -1,4 +1,4 @@
-FROM gfunkmonk/python2:xenial AS squashme
+FROM gfunkmonk/python2:disco AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \

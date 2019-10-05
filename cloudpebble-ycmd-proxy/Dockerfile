@@ -8,7 +8,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
 
 # Grab the toolchain
 RUN mkdir /arm-cs-tools \
-  && curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz" | \
+  && curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-7.4-2019.02.tar.xz" | \
   tar --strip-components=1 -xJ -C /arm-cs-tools
 
 # ycmd

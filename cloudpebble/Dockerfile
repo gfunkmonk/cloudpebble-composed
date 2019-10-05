@@ -14,12 +14,12 @@ RUN npm install -g jshint bower && \
 EXPOSE 8000
 
 ADD requirements.txt /tmp/requirements.txt
-RUN pip install psycopg2 django==1.6.8 && \
+RUN pip install psycopg2 django==1.6.2 && \
   pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Grab the toolchain
 RUN mkdir /arm-cs-tools && \
-  curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz" | \
+  curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-7.4-2019.02.tar.xz" | \
   tar --strip-components=1 -xJ -C /arm-cs-tools
 
 # Install SDK 2
