@@ -58,3 +58,4 @@ python-memcached
 #django-npm
 django-robots==3.0
 django-dotenv==1.4.1
+django-compat==1.1.3
