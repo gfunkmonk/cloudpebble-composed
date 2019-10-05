@@ -31,21 +31,21 @@ var SharedPebble = new (function() {
     _.extend(this, Backbone.Events);
 
     var LOADING_STATEMENTS = [
-        gettext("Going for broke…"),
-        gettext("Rectum?... Darn near killed 'em!"),
-        gettext("Meanwhile, back at the ranch…"),
-        gettext("Mmmmmm beeeer"),
-        gettext("Dogs don't know it's not bacon…"),
+        gettext("Reticulating splines…"),
+        gettext("Eroding cliffs…"),
+        gettext("Charging watches…"),
+        gettext("Focusing camera…"),
+        gettext("Rendering cats…"),
         gettext("Solving climate change…"),
-        gettext("Pineapple isn't for pizza…"),
-        gettext("Ah, la vache…"),
-        gettext("Tacos are delicious…"),
-        gettext("Punching llamas…"),
-        gettext("Fly? Yes. Land? No.…"),
+        gettext("Kickstarting emulator project…"),
+        gettext("Herding cats…"),
+        gettext("Polishing monocles…"),
+        gettext("Drafting master plans…"),
+        gettext("Petting unicorns…"),
         gettext("Firing missiles…"),
         gettext("Never giving you up…"),
         gettext("Never letting you down…"),
-        gettext("Here comes uncle Tom!")
+        gettext("Here comes Tom!")
     ];
 
     function isRound(kind) {
@@ -62,9 +62,7 @@ var SharedPebble = new (function() {
 
         CloudPebble.Prompts.Progress.Show(gettext("Booting emulator…"), gettext("Booting emulator..."));
         statementInterval = setInterval(function() {
-            if (statementInterval === null) {
-                return;
-            }
+            if(statementInterval === null) return;
             CloudPebble.Prompts.Progress.Update(pickElement(randomStatements));
         }, 2500);
         var emulator_container = $('#emulator-container');

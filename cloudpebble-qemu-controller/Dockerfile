@@ -47,7 +47,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 RUN mkdir /qemu-tintin-images && cd /qemu-tintin-images && \
   curl -L https://github.com/pebble/qemu-tintin-images/archive/v4.3.tar.gz | tar xz --strip 1
 
-COPY lib/ /lib
+#COPY lib/ /lib
 
 RUN apt-get remove --purge git xz-utils automake make gcc g++ libmagickcore-dev \
   libmagickwand-dev -y && apt-get autoremove --purge -y

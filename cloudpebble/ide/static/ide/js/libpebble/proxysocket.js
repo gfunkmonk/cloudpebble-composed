@@ -26,9 +26,7 @@
         };
 
         this.close = function() {
-            if (!mSocket) {
-                return;
-            }
+            if(!mSocket) return;
             mSocket.close();
             cleanup();
         };

@@ -107,7 +107,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = False
+USE_I18N = True
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -154,21 +154,21 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'djangobower.finders.BowerFinder',
-    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 BOWER_INSTALLED_APPS = (
-    'https://github.com/krisk/Fuse.git#2e24c9a197987f4b56ede72bac06dc9ac75ddfd8',
-    'jquery#~2.2.3',
+    'https://github.com/krisk/Fuse.git#2ec2f2c40059e135cabf2b01c8c3f96f808b8809',
+    'jquery#~2.1.3',
     'underscore',
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.3.3',
+    'html.sortable#~0.3.1',
     'alexgorbatchev/jquery-textext',
     'codemirror#4.2.0',
-    'bluebird#3.7.0',
-    'kanaka/noVNC#v0.6.1',
+    'bluebird#3.3.4',
+    'kanaka/noVNC#v0.5',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -178,7 +178,7 @@ SECRET_KEY = _environ.get('SECRET_KEY', None)
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-     'django.template.loaders.eggs.Loader',
+#     'django.template.loaders.eggs.Loader',
 )
 
 if not DEBUG:
@@ -300,7 +300,7 @@ LOGGING = {
         '': {
             'handlers': ['console'],
             'level': 'WARNING',
-            'propagate': True
+            'propagate': False
         }
     }
 }
