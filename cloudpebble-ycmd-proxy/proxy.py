@@ -2,7 +2,7 @@
 import gevent.monkey; gevent.monkey.patch_all(subprocess=True)
 from flask import Flask, request, jsonify
 
-from flask.ext.cors import CORS
+from flask_cors import CORS
 import atexit
 import gevent
 from gevent import pywsgi
