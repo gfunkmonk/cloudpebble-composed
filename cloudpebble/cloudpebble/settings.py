@@ -168,7 +168,7 @@ BOWER_INSTALLED_APPS = (
     'alexgorbatchev/jquery-textext',
     'codemirror#4.2.0',
     'bluebird#3.7.0',
-    'kanaka/noVNC#v0.5.1',
+    'kanaka/noVNC#v0.6.1',
 )
 
 # Make this unique, and don't share it with anybody.
