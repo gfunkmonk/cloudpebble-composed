@@ -164,11 +164,11 @@ BOWER_INSTALLED_APPS = (
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.4.1',
+    'html.sortable#~0.3.3',
     'alexgorbatchev/jquery-textext',
     'codemirror#4.2.0',
     'bluebird#3.7.0',
-    'kanaka/noVNC#v0.6.1',
+    'kanaka/noVNC#v0.5.1',
 )
 
 # Make this unique, and don't share it with anybody.
