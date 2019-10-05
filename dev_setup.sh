@@ -1,5 +1,6 @@
 #!/bin/bash
 source .env
+cp .env cloudpebble/.env
 # Run the general build.
 docker-compose build --compress --pull --squash 
 #docker-compose build --pull

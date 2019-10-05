@@ -2,8 +2,8 @@ FROM gfunkmonk/python2:disco AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-  printf "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-  curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+  #printf "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+  #curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   apt-get update && apt-get install -y --no-install-recommends \
   gettext memcached postgresql-client libpq-dev curl git wget xz-utils nodejs yarn \
   && rm -rf /var/lib/apt/lists/*
@@ -14,7 +14,7 @@ RUN npm install -g jshint bower && \
 EXPOSE 8000
 
 ADD requirements.txt /tmp/requirements.txt
-RUN pip install psycopg2 django==1.6.3 && \
+RUN pip install psycopg2 django==1.6.8 && \
   pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Grab the toolchain

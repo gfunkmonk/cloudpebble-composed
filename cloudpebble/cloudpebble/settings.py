@@ -15,10 +15,10 @@ TRAVIS = 'TRAVIS' in _environ and os.environ["TRAVIS"] == "true"
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('admin', 'gfunkmonk@gmail.com'),
+    ('admin', 'admin@cloudpebble.tk'),
 )
 
-DEFAULT_FROM_EMAIL = _environ.get('FROM_EMAIL', 'CloudPebble <cloudpebble@cloudpebble.tk>')
+DEFAULT_FROM_EMAIL = _environ.get('FROM_EMAIL', 'CloudPebble <admin@cloudpebble.tk>')
 
 ON_CLOUDFLARE = _environ.get('CLOUDFLARE') != ''
 if ON_CLOUDFLARE:
@@ -107,7 +107,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -154,17 +154,17 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'djangobower.finders.BowerFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 BOWER_INSTALLED_APPS = (
     'https://github.com/krisk/Fuse.git#2e24c9a197987f4b56ede72bac06dc9ac75ddfd8',
-    'jquery#~2.2.4',
+    'jquery#~2.2.3',
     'underscore',
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.4.4',
+    'html.sortable#~0.4.1',
     'alexgorbatchev/jquery-textext',
     'codemirror#4.2.0',
     'bluebird#3.7.0',
@@ -172,13 +172,13 @@ BOWER_INSTALLED_APPS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = _environ.get('SECRET_KEY', 'y_!-!-i!_txo$v5j(@c7m4uk^jyg)l4bf*0yqrztmax)l2027j')
+SECRET_KEY = _environ.get('SECRET_KEY', None)
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+     'django.template.loaders.eggs.Loader',
 )
 
 if not DEBUG:
@@ -197,6 +197,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTHENTICATION_BACKENDS = (
     'auth.pebble.PebbleOAuth2',
+    'auth.rebble.RebbleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -219,6 +220,12 @@ SOCIAL_AUTH_PEBBLE_SECRET = _environ.get('PEBBLE_AUTH_SECRET', None)
 SOCIAL_AUTH_PEBBLE_ROOT_URL = _environ.get('PEBBLE_AUTH_URL', None)
 PEBBLE_AUTH_ADMIN_TOKEN = _environ.get('PEBBLE_AUTH_ADMIN_TOKEN', None)
 
+SOCIAL_AUTH_PEBBLE_KEY = _environ.get('REBBLE_AUTH_KEY', None)
+SOCIAL_AUTH_PEBBLE_SECRET = _environ.get('REBBLE_AUTH_SECRET', None)
+
+SOCIAL_AUTH_PEBBLE_ROOT_URL = _environ.get('REBBLE_AUTH_URL', None)
+PEBBLE_AUTH_ADMIN_TOKEN = _environ.get('REBBLE_AUTH_ADMIN_TOKEN', None)
+
 SHOULD_BE_SECURE = _environ.get('EXPECT_SSL', '') != ''
 
 SESSION_COOKIE_HTTPONLY = True
@@ -226,6 +233,8 @@ SESSION_COOKIE_SECURE = SHOULD_BE_SECURE
 CSRF_COOKIE_SECURE = SHOULD_BE_SECURE
 
 SOCIAL_AUTH_PEBBLE_REQUIRED = 'PEBBLE_AUTH_REQUIRED' in _environ
+
+SOCIAL_AUTH_PEBBLE_REQUIRED = 'REBBLE_AUTH_REQUIRED' in _environ
 
 ROOT_URLCONF = 'cloudpebble.urls'
 
@@ -300,7 +309,7 @@ LOGGING = {
         '': {
             'handlers': ['console'],
             'level': 'WARNING',
-            'propagate': False
+            'propagate': True
         }
     }
 }
@@ -339,7 +348,7 @@ EXPORT_ROOT = _environ.get('EXPORT_ROOT', 'http://localhost:8001/export/')
 GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', None)
 GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', None)
 
-GITHUB_HOOK_TEMPLATE = _environ.get('GITHUB_HOOK', 'http://example.com/ide/project/%(project)d/github/push_hook?key=%(key)s')
+GITHUB_HOOK_TEMPLATE = _environ.get('GITHUB_HOOK', 'http://cloudpebble.tk/ide/project/%(project)d/github/push_hook?key=%(key)s')
 
 SDK2_PEBBLE_WAF = _environ.get('SDK2_PEBBLE_WAF', '/sdk2/pebble/waf')
 SDK3_PEBBLE_WAF = _environ.get('SDK3_PEBBLE_WAF', '/sdk3/pebble/waf')

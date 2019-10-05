@@ -1,9 +1,15 @@
 FROM gfunkmonk/python2:disco AS squashme
 SHELL ["/bin/bash", "-c"]
 
-RUN apt-get update && apt-get install -y \
-   cmake libtinfo5 git curl xz-utils wget \
-   --no-install-recommends && rm -rf /var/lib/apt/lists/
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt-get update && apt-get install -y \
+    cmake libtinfo5 git curl xz-utils wget libclang-dev nodejs \
+    --no-install-recommends && rm -rf /var/lib/apt/lists/
+
+# Grab the toolchain
+RUN mkdir /arm-cs-tools \
+  && curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz" | \
+  tar --strip-components=1 -xJ -C /arm-cs-tools
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
@@ -13,16 +19,7 @@ RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   git submodule update --init --recursive && \
   #./build.sh --clang-completer
   #python build.py --clang-completer --system-libclang
-  python build.py --clang-completer
-
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-  apt-get update && apt-get install --no-install-recommends -y \
-  nodejs && rm -rf /var/lib/apt/lists/
-
-# Grab the toolchain
-RUN mkdir /arm-cs-tools \
-  && curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz" | \
-  tar --strip-components=1 -xJ -C /arm-cs-tools
+  python build.py --clang-completer --system-libclang	
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
@@ -37,7 +34,7 @@ RUN mkdir /sdk3 && \
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-RUN apt remove --purge curl xz-utils git -y && apt-get autoremove --purge -y
+RUN apt remove --purge curl xz-utils git libmagickcore-dev libmagickwand-dev -y && apt-get autoremove --purge -y
 
 COPY . /code
 FROM scratch
@@ -50,6 +47,6 @@ ENV PATH="$PATH:/arm-cs-tools/bin" \
   DEBUG=yes YCMD_PORT=80 YCMD_BINARY=/ycmd/ycmd/__main__.py \
   YCMD_DEFAULT_SETTINGS=/ycmd/ycmd/default_settings.json
 
-#ENV PATH="$PATH:/ycmd"
+ENV PATH="$PATH:/ycmd"
 
 CMD ["python", "proxy.py"]
