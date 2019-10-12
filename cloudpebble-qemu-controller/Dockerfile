@@ -16,11 +16,11 @@ RUN mkdir /qemu && cd /qemu && \
      #--disable-libiscsi --disable-libnfs --disable-libusb --disable-usb-redir \
      #--disable-strip --disable-xen --disable-kvm --disable-user --disable-docs \
      #--disable-gtk --disable-linux-aio --disable-curl --disable-curses --disable-vhdx \
-     #--extra-cflags=-std=gnu99 \
-     #--extra-cflags=-DSTM32_UART_NO_BAUD_DELAY \
+     --extra-cflags=-std=gnu99 \
+     --extra-cflags=-DSTM32_UART_NO_BAUD_DELAY \
      #--extra-cflags=-DSTM32_UART_ENABLE_OVERRUN \
-     #--enable-vnc \
-     #--disable-sdl \ 
+     --enable-vnc \
+     --disable-sdl \ 
      #--enable-tcg-interpreter --with-coroutine=gthread --enable-debug-tcg \
      #--disable-uuid --enable-fdt --disable-libusb  --disable-usb-redir \
      #--disable-vte  --disable-vhdx --disable-libssh2 --enable-gnutls \
@@ -36,8 +36,8 @@ RUN mkdir /qemu && cd /qemu && \
 #  libglib2.0-dev libfdt-dev libpixman-1-dev libbluetooth-dev \
 #  && rm -rf /var/lib/apt/lists/*
 
-#RUN git clone https://github.com/gfunkmonk/pypkjs.git --depth 1 --branch master --recursive
-RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v1.1.1 --recursive
+RUN git clone https://github.com/gfunkmonk/pypkjs.git --depth 1 --branch master --recursive
+#RUN git clone https://github.com/pebble/pypkjs.git --depth 1 --branch v1.1.1 --recursive
 
 RUN pip install virtualenv && virtualenv /pypkjs/.env && . /pypkjs/.env/bin/activate && pip install -r /pypkjs/requirements.txt
 
@@ -50,7 +50,7 @@ RUN mkdir /qemu-tintin-images && cd /qemu-tintin-images && \
 #COPY lib/ /lib
 
 RUN apt-get remove --purge git xz-utils automake make gcc g++ libmagickcore-dev \
-  libmagickwand-dev -y && apt-get autoremove --purge -y
+  libmagickwand-dev bzr mercurial subversion -y && apt-get autoremove --purge -y
 
 COPY . /code
 

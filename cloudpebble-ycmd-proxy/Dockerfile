@@ -3,13 +3,9 @@ SHELL ["/bin/bash", "-c"]
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get update && apt-get install -y \
-    cmake libtinfo5 git curl xz-utils wget libclang-dev nodejs \
+    #cmake libtinfo5 git curl xz-utils wget libclang-dev nodejs \
+    cmake libtinfo5 git curl xz-utils wget nodejs \
     --no-install-recommends && rm -rf /var/lib/apt/lists/
-
-# Grab the toolchain
-RUN mkdir /arm-cs-tools \
-  && curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-7.4-2019.02.tar.xz" | \
-  tar --strip-components=1 -xJ -C /arm-cs-tools
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
@@ -19,7 +15,13 @@ RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   git submodule update --init --recursive && \
   #./build.sh --clang-completer
   #python build.py --clang-completer --system-libclang
-  python build.py --clang-completer --system-libclang	
+  #python build.py --clang-completer --system-libclang	
+  python build.py --clang-completer
+
+# Grab the toolchain
+RUN mkdir /arm-cs-tools \
+  && curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-7.4-2019.02.tar.xz" | \
+  tar --strip-components=1 -xJ -C /arm-cs-tools
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
@@ -34,7 +36,9 @@ RUN mkdir /sdk3 && \
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-RUN apt remove --purge curl xz-utils git libmagickcore-dev libmagickwand-dev -y && apt-get autoremove --purge -y
+RUN apt remove --purge curl xz-utils git libmagickcore-dev libmagickwand-dev \
+  autotools-dev bzr mercurial subversion python3 python3-minimal hicolor-icon-theme \ 
+  -y && apt-get autoremove --purge -y
 
 COPY . /code
 FROM scratch
