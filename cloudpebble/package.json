@@ -4,29 +4,25 @@
 	"description": "It clouds pebbles, yo",
 	"license": "MIT",
 	"dependencies": {
-		"@novnc/novnc": "novnc/novnc",
+		"@novnc/novnc": "github:kanaka/noVNC",
 		"backbone": "^1.4.0",
 		"bluebird": "^3.7.1",
 		"clean-css-cli": "^4.3.0",
-		"codemirror": "^5.49.0",
-		"fuse.js": "^3.4.5",
+		"codemirror": "https://github.com/components/codemirror/archive/5.49.2.tar.gz",
+		"fuse.js": "github:krisk/Fuse",
 		"html5sortable": "^0.9.17",
 		"jquery": "^3.4.1",
-                "jquery-textext": "gfunkmonk/jquery-textext",
+		"jquery-textext": "github:gfunkmonk/jquery-textext",
 		"jshint": "^2.10.2",
-		"json-loader": "^0.5.4",
-		"restrict-resource-webpack-plugin": "^1.0.0",
 		"rocky-lint": "^2.0.1",
-		"text-encoding": "kugel-soft/text-encoding",
+		"source-map-concat": "^1.0.1",
+		"text-encoding": "^0.7.0",
 		"uglify-js": "^3.6.3",
 		"updatejs": "^0.4.2",
 		"utf8": "^2.1.1"
 	},
 	"engines": {
-		"node": "v12.13.0"
-	},
-	"devDependencies": {
-		"webpack": "^4.41.2",
-		"webpack-cli": "^3.3.9"
+		"node": "v12.13.0",
+		"yarn": "1.19.1"
 	}
 }

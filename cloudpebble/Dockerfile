@@ -3,9 +3,9 @@ SHELL ["/bin/bash", "-c"]
 
 RUN apk update && apk add --no-cache memcached postgresql-client postgresql-dev gettext curl git wget xz \
  gcc g++ make && apk add --no-cache --virtual .build-deps zlib-dev jpeg-dev linux-headers musl-dev python2-dev && \
- rm -rf /var/cache/apk/* && curl -L https://unpkg.com/@pnpm/self-installer | node
+ rm -rf /var/cache/apk/* && curl -L https://unpkg.com/@pnpm/self-installer | node && rm -fr /code/staticfiles && rm -fr /code/node_modules/
 
-#RUN npm install -g jshint bower && echo '{"allow_root": true}' > /root/.bowerrc
+RUN npm install -g jshint bower source-map-concat clean-css-cli rocky-lint uglify-js && echo '{"allow_root": true}' > /root/.bowerrc 
 
 EXPOSE 8000
 
@@ -14,7 +14,7 @@ RUN pip install psycopg2 django==1.9.12 && pip install --no-cache-dir -r /tmp/re
 
 # Grab the toolchain
 RUN mkdir /arm-cs-tools && \
-  curl -L "http://pebble.gfunkmonk.info/secret/arm-cs-tools/GNU/arm-cs-tools-stripped.tar.xz" | \
+  curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz" | \
   tar --strip-components=1 -xJ -C /arm-cs-tools
 
 # Install SDK 2
@@ -35,15 +35,17 @@ COPY . /code
 WORKDIR /code
 
 # Bower is awful.
-#RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
+RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
 RUN python manage.py compilemessages
 RUN make -C /code/c-preload
 
-RUN apk del .build-deps && npm install
+RUN apk del .build-deps
 
 FROM scratch
 COPY --from=squashme / /
 ENV WAF_NODE_PATH=/sdk3/node_modules
 WORKDIR /code
+
+RUN python manage.py collectstatic --noinput -c
 
 CMD ["sh", "docker_start.sh"]

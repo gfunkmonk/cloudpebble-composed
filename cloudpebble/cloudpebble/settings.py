@@ -148,46 +148,52 @@ NODE_MODULES_PATH = _environ.get('NODE_MODULES_PATH', os.path.join(os.getcwd(), 
 def _node_bin(name):
     return os.path.join(NODE_MODULES_PATH, '.bin', name)
 
-NODE_PACKAGE_JSON = os.path.join(BASE_DIR, 'package.json')
-NODE_MODULES_ROOT = os.path.join(BASE_DIR, 'node_modules')
-NODE_PACKAGE_MANAGER_EXECUTABLE = '/usr/bin/npm'
+#NODE_PACKAGE_JSON = os.path.join(BASE_DIR, 'package.json')
+#NODE_MODULES_ROOT = os.path.join(BASE_DIR, 'node_modules')
+#NODE_PACKAGE_MANAGER_EXECUTABLE = '/usr/bin/npm'
+#NODE_PACKAGE_MANAGER_EXECUTABLE = '/usr/bin/yarn'
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-     #os.path.join(os.path.dirname(__file__), '..', 'bower_components'),
-     os.path.join(os.path.dirname(__file__), '..', 'node_modules'),
+     os.path.join(os.path.dirname(__file__), '..', 'bower_components'),
+     #os.path.join(os.path.dirname(__file__), '..', 'node_modules'),
 )
 
 # List of finder classes that know how to find static files in
 # various locations.
+
+#BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'bower_components')
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     #'django.contrib.staticfiles.finders.DefaultStorageFinder',
-    'pipeline.finders.CachedFileFinder',
-    'pipeline.finders.PipelineFinder',
-    'pipeline.finders.FileSystemFinder',
-    'npm.finders.NpmFinder',
+    #'pipeline.finders.CachedFileFinder',
+    #'pipeline.finders.PipelineFinder',
+    #'pipeline.finders.FileSystemFinder',
+    #'npm.finders.NpmFinder',
     #'yarn.finders.YarnFinder',
-    #'djangobower.finders.BowerFinder',
+    'djangobower.finders.BowerFinder',
 )
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+#STATICFILES_STORAGE = 'cloudpebble.storage.CompressedPipelineStorage'
 
 BOWER_INSTALLED_APPS = (
-    'https://github.com/krisk/Fuse.git#2e24c9a197987f4b56ede72bac06dc9ac75ddfd8',
-    'jquery#~2.2.4',
+    'krisk/Fuse',
+    'jquery',
     'underscore',
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.3.1',
+    'html.sortable#0.3.1',
     'alexgorbatchev/jquery-textext',
-    'CodeMirror#4.13.0',
-    'bluebird#~3.4.7',
-    'kanaka/noVNC#v0.6.1',
+    'codemirror/codemirror#5.17.0',
+    'bluebird',
+    'kanaka/noVNC',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -299,7 +305,7 @@ INSTALLED_APPS = (
     #'south',
     #'djcelery',
     'registration',
-    #'djangobower',
+    'djangobower',
     'robots',
 )
 
@@ -309,9 +315,12 @@ PIPELINE = {
     'OUTPUT_SOURCEMAPS': True,
     'JS_COMPRESSOR': 'cloudpebble.compressors.ConcatenatingUglifyJSCompressor',
     'CSS_COMPRESSOR': 'pipeline.compressors.cleancss.CleanCSSCompressor',
-    'CLEANCSS_BINARY': _node_bin('cleancss'),
-    'UGLIFYJS_BINARY': _node_bin('uglifyjs'),
-    'CONCATENATOR_BINARY': _node_bin('source-map-concat'),
+    #'CLEANCSS_BINARY': _node_bin('cleancss'),
+    #'UGLIFYJS_BINARY': _node_bin('uglifyjs'),
+    #'CONCATENATOR_BINARY': _node_bin('source-map-concat'),
+    'CLEANCSS_BINARY': 'cleancss',
+    'UGLIFYJS_BINARY': 'uglifyjs',
+    'CONCATENATOR_BINARY': 'source-map-concat',
     'DISABLE_WRAPPER': True,
     'VERBOSE': True,
     'STYLESHEETS': {
@@ -324,6 +333,19 @@ PIPELINE = {
                 'codemirror/theme/eclipse.css',
                 'codemirror/theme/blackboard.css',
                 'codemirror/theme/solarized.css',
+                'codemirror/theme/3024-day.css',
+                'codemirror/theme/3024-night.css',
+                'codemirror/theme/cobalt.css',
+                'codemirror/theme/colorforth.css',
+                'codemirror/theme/dracula.css',
+                'codemirror/theme/darcula.css',
+                'codemirror/theme/duotone-dark.css',
+                'codemirror/theme/duotone-light.css',
+                'codemirror/theme/lesser-dark.css',
+                'codemirror/theme/midnight.css',
+                'codemirror/theme/tomorrow-night-eighties.css',
+                'codemirror/theme/xq-dark.css',
+                'codemirror/theme/yeti.css',
                 'codemirror/addon/fold/foldgutter.css',
             ),
             'output_filename': 'build/codemirror.css'

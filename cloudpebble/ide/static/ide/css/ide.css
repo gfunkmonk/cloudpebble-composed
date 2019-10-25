@@ -907,6 +907,9 @@ table.build-results tr.pending .build-state {
     cursor: pointer;
 }
 
+.cm-s-xq-dark span.cm.autofiled,
+.cm-s-3024-night span.cm.autofiled,
+.cm-s-tomorrow-night-eighties span.cm.autofiled,
 .cm-s-cloudpebble span.cm-autofilled,
 .cm-s-monokai span.cm-autofilled,
 .cm-s-blackboard span.cm-autofilled,

@@ -37,6 +37,9 @@ class UserSettings(IdeModel):
         ('eclipse', 'Eclipse'),
         ('solarized light', 'Solarized (light)'),
         ('solarized dark', 'Solarized (dark)'),
+        ('tomorrow-night-eighties', 'Tomorrow Night (80s)'),
+        ('3024-night', '3024 (night)'),
+        ('xq-dark', 'xq (dark)'),
     )
 
     USE_SPACES_CHOICES = (

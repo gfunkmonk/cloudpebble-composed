@@ -18,7 +18,7 @@ RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
 
 # Grab the toolchain
 RUN mkdir /arm-cs-tools && \
-  curl -L "http://pebble.gfunkmonk.info/secret/arm-cs-tools/GNU/arm-cs-tools-stripped.tar.xz" | \
+  curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz" | \
   tar --strip-components=1 -xJ -C /arm-cs-tools
 
 # Install SDK 2
