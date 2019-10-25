@@ -45,8 +45,8 @@ RUN apk del .build-deps
 
 COPY . /code
 
-#FROM scratch
-#COPY --from=squashme / /
+FROM scratch
+COPY --from=squashme / /
 WORKDIR /code
 
 ENV QEMU_DIR=/qemu QEMU_BIN=/qemu/arm-softmmu/qemu-system-arm \ 

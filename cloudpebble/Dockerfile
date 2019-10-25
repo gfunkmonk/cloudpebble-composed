@@ -3,7 +3,7 @@ SHELL ["/bin/bash", "-c"]
 
 RUN apk update && apk add --no-cache memcached postgresql-client postgresql-dev gettext curl git wget xz \
  gcc g++ make && apk add --no-cache --virtual .build-deps zlib-dev jpeg-dev linux-headers musl-dev python2-dev && \
- rm -rf /var/cache/apk/*
+ rm -rf /var/cache/apk/* && curl -L https://unpkg.com/@pnpm/self-installer | node
 
 RUN npm install -g jshint bower && echo '{"allow_root": true}' > /root/.bowerrc
 
@@ -14,7 +14,7 @@ RUN pip install psycopg2 django==1.9.12 && pip install --no-cache-dir -r /tmp/re
 
 # Grab the toolchain
 RUN mkdir /arm-cs-tools && \
-  curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz" | \
+  curl -L "http://pebble.gfunkmonk.info/secret/arm-cs-tools/GNU/arm-cs-tools-stripped.tar.xz" | \
   tar --strip-components=1 -xJ -C /arm-cs-tools
 
 # Install SDK 2
@@ -41,9 +41,9 @@ RUN make -C /code/c-preload
 
 RUN apk del .build-deps
 
-#FROM scratch
-#COPY --from=squashme / /
-#ENV WAF_NODE_PATH=/sdk3/node_modules
-#WORKDIR /code
+FROM scratch
+COPY --from=squashme / /
+ENV WAF_NODE_PATH=/sdk3/node_modules
+WORKDIR /code
 
 CMD ["sh", "docker_start.sh"]

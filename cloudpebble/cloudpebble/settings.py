@@ -148,7 +148,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-     os.path.join(os.path.dirname(__file__), '..', 'bower_components')
+     os.path.join(os.path.dirname(__file__), '..', 'bower_components'),
 )
 
 # List of finder classes that know how to find static files in
@@ -169,7 +169,7 @@ BOWER_INSTALLED_APPS = (
     'backbone',
     'text-encoding',
     'jshint/jshint',
-    'html.sortable#~0.4.2',
+    'html.sortable#~0.3.1',
     'alexgorbatchev/jquery-textext',
     'CodeMirror#4.13.0',
     'bluebird#~3.4.7',
