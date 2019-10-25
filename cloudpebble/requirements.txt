@@ -20,8 +20,7 @@ django-bower==5.2.0
 mock==2.0.0
 
 # These are used for Heroku hosting setup.
-whitenoise==3.3.0
-#whitenoise[brotli]
+dj-static==0.0.6
 gunicorn==19.5.0
 dj-database-url==0.5.0
 newrelic==2.50.0.39
@@ -53,7 +52,7 @@ watchdog
 psutil
 ######################
 python-memcached==1.59
-django-npm
+#django-npm
 django-robots==3.0
 django-dotenv==1.4.1
 #django-compat

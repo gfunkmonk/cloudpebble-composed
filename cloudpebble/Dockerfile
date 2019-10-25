@@ -5,11 +5,11 @@ RUN apk update && apk add --no-cache memcached postgresql-client postgresql-dev 
  gcc g++ make && apk add --no-cache --virtual .build-deps zlib-dev jpeg-dev linux-headers musl-dev python2-dev && \
  rm -rf /var/cache/apk/* && curl -L https://unpkg.com/@pnpm/self-installer | node && rm -fr /code/staticfiles && rm -fr /code/node_modules/
 
-RUN npm install -g jshint bower source-map-concat clean-css-cli rocky-lint uglify-js && echo '{"allow_root": true}' > /root/.bowerrc 
+RUN npm install -g jshint bower rocky-lint && echo '{"allow_root": true}' > /root/.bowerrc 
 
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install
-RUN mkdir -p /opt/npm && cp -a /tmp/node_modules /opt/npm/
+RUN mkdir -p /opt/npm && cp -a /tmp/node_modules /opt/npm/ && rm -fr /code/node_modules/
 ENV NODE_MODULES_PATH /opt/npm/node_modules
 
 EXPOSE 8000
@@ -52,6 +52,6 @@ ENV WAF_NODE_PATH=/sdk3/node_modules
 ENV NODE_MODULES_PATH /opt/npm/node_modules
 WORKDIR /code
 
-RUN python manage.py collectstatic --noinput -c
+#RUN python manage.py collectstatic --noinput -c
 
 CMD ["sh", "docker_start.sh"]
