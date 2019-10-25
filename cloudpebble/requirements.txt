@@ -26,9 +26,9 @@ dj-database-url==0.5.0
 newrelic==2.50.0.39
 
 # These are in the SDK requirements.txt and included here to save on Heroku deploy time.
-freetype-py>=2.0
-sh>=1.08
-pypng>=0.0.17
+freetype-py==1.0
+sh==1.08
+pypng==0.0.17
 
 # Additional requirements
 anyjson==0.3.3
@@ -52,7 +52,7 @@ watchdog
 psutil
 ######################
 python-memcached==1.59
-#django-npm
+django-npm
 django-robots==3.0
 django-dotenv==1.4.1
 #django-compat
