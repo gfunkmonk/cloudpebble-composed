@@ -7,6 +7,11 @@ RUN apk update && apk add --no-cache memcached postgresql-client postgresql-dev 
 
 RUN npm install -g jshint bower source-map-concat clean-css-cli rocky-lint uglify-js && echo '{"allow_root": true}' > /root/.bowerrc 
 
+ADD package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN mkdir -p /opt/npm && cp -a /tmp/node_modules /opt/npm/
+ENV NODE_MODULES_PATH /opt/npm/node_modules
+
 EXPOSE 8000
 
 ADD requirements.txt /tmp/requirements.txt
@@ -44,6 +49,7 @@ RUN apk del .build-deps
 FROM scratch
 COPY --from=squashme / /
 ENV WAF_NODE_PATH=/sdk3/node_modules
+ENV NODE_MODULES_PATH /opt/npm/node_modules
 WORKDIR /code
 
 RUN python manage.py collectstatic --noinput -c

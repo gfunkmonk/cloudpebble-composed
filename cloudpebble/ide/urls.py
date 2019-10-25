@@ -81,5 +81,5 @@ urlpatterns = [
     url(r'^whats_new', whats_new, name='whats_new'),
     url(r'^gist/(?P<gist_id>[0-9a-f]+)$', import_gist),
     url(r'^heartbeat$', heartbeat),
-    url(r'^jsi18n/$', javascript_catalog, name='jsi18n')
+    url(r'^jsi18n/$', javascript_catalog, name='jsi18n'),
 ]

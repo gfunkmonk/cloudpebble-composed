@@ -170,12 +170,12 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     #'django.contrib.staticfiles.finders.DefaultStorageFinder',
-    #'pipeline.finders.CachedFileFinder',
-    #'pipeline.finders.PipelineFinder',
+    'djangobower.finders.BowerFinder',
+    'pipeline.finders.CachedFileFinder',
+    'pipeline.finders.PipelineFinder',
     #'pipeline.finders.FileSystemFinder',
     #'npm.finders.NpmFinder',
-    #'yarn.finders.YarnFinder',
-    'djangobower.finders.BowerFinder',
+    #'yarn.finders.YarnFinder',    
 )
 
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
