@@ -1,0 +1,12 @@
+{
+  "allow_root": true,
+  "directory": "/code/bower_components",
+  "registry": "https://registry.bower.io",
+  "color": true,
+  "timeout": 60000,
+  "save": true,
+  "interactive": true,
+  "resolvers": [
+    "bower-npm-resolver"
+   ]
+}

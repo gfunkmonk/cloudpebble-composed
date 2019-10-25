@@ -1,10 +1,9 @@
-FROM gfunkmonk/python2:disco AS squashme
+FROM gfunkmonk/alpine-python-node:3.10 AS squashme
 SHELL ["/bin/bash", "-c"]
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-    apt-get update && apt-get install -y \
-    cmake libtinfo5 git curl xz-utils wget libclang-dev nodejs \
-    --no-install-recommends && rm -rf /var/lib/apt/lists/
+RUN apk update && apk add --no-cache ncurses-dev clang-dev && apk add --no-cache --virtual .build-deps gcc g++  make automake git curl xz wget cmake python2-dev llvm && \
+  rm -rf /var/cache/apk/* && \
+  curl -L https://unpkg.com/@pnpm/self-installer | node
 
 # ycmd
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
@@ -18,8 +17,8 @@ RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   #python build.py --clang-completer
 
 # Grab the toolchain
-RUN mkdir /arm-cs-tools \
-  && curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-7.4-2019.02.tar.xz" | \
+RUN mkdir /arm-cs-tools && \
+  curl -L "https://gfunkmonk.s3.amazonaws.com/arm-cs-tools-4.9-2017.01.tar.xz" | \
   tar --strip-components=1 -xJ -C /arm-cs-tools
 
 # Install SDK 2
@@ -35,13 +34,11 @@ RUN mkdir /sdk3 && \
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-RUN apt remove --purge curl xz-utils git libmagickcore-dev libmagickwand-dev \
-  autotools-dev bzr mercurial subversion python3 python3-minimal hicolor-icon-theme \ 
-  -y && apt-get autoremove --purge -y
+RUN apk del .build-deps
 
 COPY . /code
-FROM scratch
-COPY --from=squashme / /
+#FROM scratch
+#COPY --from=squashme / /
 WORKDIR /code
 
 ENV PATH="$PATH:/arm-cs-tools/bin" \

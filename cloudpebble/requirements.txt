@@ -1,13 +1,11 @@
-Django==1.6.2
-django-registration==1.0
-amqp<2.0,>=1.4.9
-celery==3.1.23
-django-celery==3.1.17
+Django==1.9.12
+django-registration==2.0.4
+amqp==2.5.1
+celery==4.1.0
 flup==1.0.3.dev-20110405
-psycopg2==2.8.3
-South==1.0.2
+psycopg2==2.8.4
 qrcode==6.1
-Pillow==4.2.0
+Pillow==6.2.1
 pygithub==1.14.2
 python-social-auth==0.1.23
 redis==2.10.5
@@ -15,11 +13,9 @@ boto==2.39.0
 gevent==1.1.1
 psycogreen==1.0.1
 requests==2.22.0
-oauth2client==1.5.1
-django-bower==5.1.0
+oauth2client==1.5.2
+django-bower==5.2.0
 mock==2.0.0
-# This is used for Mailchimp integration
-#mailchimp==2.0.9
 
 # These are used for Heroku hosting setup.
 dj-static==0.0.6
@@ -28,17 +24,17 @@ dj-database-url==0.5.0
 newrelic==2.50.0.39
 
 # These are in the SDK requirements.txt and included here to save on Heroku deploy time.
-freetype-py==1.0
-sh==1.08
-pypng==0.0.17
+freetype-py>=2.0
+sh>=1.08
+pypng>=0.0.17
 
 # Additional requirements
 anyjson==0.3.3
-billiard<3.4,>=3.3.0.23
+billiard<3.6.0,>=3.5.0.2
 docopt==0.5.0
 greenlet>=0.4.15
 httplib2==0.9.2
-kombu==3.0.35
+kombu==4.0.2
 oauthlib==1.0.3
 pyasn1==0.1.7
 pyasn1-modules==0.0.5
@@ -48,8 +44,13 @@ requests-oauthlib==0.6.1
 rsa==3.4.1
 six==1.12.0
 static3==0.6.1
+#####################
+#for starting celery now
+watchdog
+psutil
+######################
 python-memcached==1.59
 #django-npm
 django-robots==3.0
 django-dotenv==1.4.1
-django-compat==1.0.13
+django-compat

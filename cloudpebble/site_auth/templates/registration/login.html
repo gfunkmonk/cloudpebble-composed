@@ -1,0 +1,28 @@
+{% extends "registration/base.html" %}
+
+{% block inner_content %}
+    {% if form.errors %}
+    <div class="alert alert-error">Your username and password didn't match. Please try again.</div>
+    {% endif %}
+
+    <form class="form-horizontal" method="post" style="margin-bottom: 0px;">
+    {% csrf_token %}
+    <div class="control-group">
+        <label class="control-label">{{ form.username.label_tag }}</label>
+        <div class="controls">
+            {{ form.username }}
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ form.password.label_tag }}</label>
+        <div class="controls">
+            {{ form.password }}
+        </div>
+    </div>
+    <div class="form-actions" style="margin-bottom: 0px; padding-bottom: 0px;">
+        <p><button class="btn btn-primary" type="submit">Log in</button>
+        <p style="margin-bottom: 0px;"><a href="{% url 'django.contrib.auth.views.password_reset' %}">Forgotten password?</a></p>
+    </div>
+    <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+{% endblock %}

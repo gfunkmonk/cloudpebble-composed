@@ -17,6 +17,7 @@ TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     ('admin', 'admin@cloudpebble.tk'),
 )
+MANAGERS = ADMINS
 
 DEFAULT_FROM_EMAIL = _environ.get('FROM_EMAIL', 'CloudPebble <admin@cloudpebble.tk>')
 
@@ -65,17 +66,17 @@ PROJECT_PATH = os.path.dirname(os.path.abspath(__file__)) + '/../'
 
 LANGUAGE_COOKIE_NAME = 'cloudpebble_language'
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    "social.apps.django_app.context_processors.backends",
-    "social.apps.django_app.context_processors.login_redirect",
-)
+#TEMPLATE_CONTEXT_PROCESSORS = (
+#    "django.contrib.auth.context_processors.auth",
+#    "django.core.context_processors.debug",
+#    "django.core.context_processors.i18n",
+#    "django.core.context_processors.media",
+#    "django.core.context_processors.static",
+#    "django.core.context_processors.tz",
+#    "django.contrib.messages.context_processors.messages",
+#    "social.apps.django_app.context_processors.backends",
+#    "social.apps.django_app.context_processors.login_redirect",
+#)
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -196,7 +197,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'auth.pebble.PebbleOAuth2',
+    'site_auth.pebble.PebbleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -204,11 +205,11 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_details',
     'social.pipeline.social_auth.social_uid',
     'social.pipeline.social_auth.auth_allowed',
-    'auth.pebble.merge_user', # formerly social.pipeline.social_auth.social_user
+    'site_auth.pebble.merge_user', # formerly social.pipeline.social_auth.social_user
     'social.pipeline.user.get_username',
     'social.pipeline.user.create_user',
     'social.pipeline.social_auth.associate_user',
-    'auth.pebble.clear_old_login',
+    'site_auth.pebble.clear_old_login',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details'
 )
@@ -251,11 +252,11 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'social.apps.django_app.default',
     'ide',
-    'auth',
+    'site_auth',
     'root',
     'qr',
-    'south',
-    'djcelery',
+    #'south',
+    #'djcelery',
     'registration',
     'djangobower',
     'robots',
@@ -314,8 +315,11 @@ REDIS_URL = _environ.get('REDIS_URL', None) or _environ.get('REDISCLOUD_URL', 'r
 
 BROKER_URL = REDIS_URL + '/1'
 CELERY_RESULT_BACKEND = BROKER_URL
-CELERY_ACCEPT_CONTENT = ['pickle']
+CELERY_ACCEPT_CONTENT = ['json', 'pickle']
 CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
+#CELERY_ACCEPT_CONTENT = ['json']
+#CELERY_TASK_SERIALIZER = 'json'
 
 CELERYD_TASK_TIME_LIMIT = int(_environ.get('CELERYD_TASK_TIME_LIMIT', 620))
 CELERYD_TASK_SOFT_TIME_LIMIT = int(_environ.get('CELERYD_TASK_SOFT_TIME_LIMIT', 600))
@@ -379,8 +383,11 @@ PHONE_SHORTURL = _environ.get('PHONE_SHORTURL', 'cpbl.io')
 
 WAF_NODE_PATH = _environ.get('WAF_NODE_PATH', None)
 
-import djcelery
-djcelery.setup_loader()
+ROBOTS_USE_SITEMAP = False
+ROBOTS_USE_SCHEME_IN_HOST = True
+ROBOTS_CACHE_TIMEOUT = 60*60*24
+
+USE_THOUSAND_SEPARATOR = True
 
 # import local settings
 try:

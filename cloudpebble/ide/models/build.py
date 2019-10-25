@@ -15,6 +15,8 @@ import utils.s3 as s3
 __author__ = 'katharine'
 
 
+def make_uuid():
+    return str(uuid.uuid4())
 class BuildResult(IdeModel):
 
     STATE_WAITING = 1
@@ -37,7 +39,7 @@ class BuildResult(IdeModel):
     DEBUG_WORKER = 1
 
     project = models.ForeignKey(Project, related_name='builds')
-    uuid = models.CharField(max_length=36, default=lambda: str(uuid.uuid4()), validators=regexes.validator('uuid', _('Invalid UUID.')))
+    uuid = models.CharField(max_length=36, default=make_uuid, validators=regexes.validator('uuid', _('Invalid UUID.')))
     state = models.IntegerField(choices=STATE_CHOICES, default=STATE_WAITING)
     started = models.DateTimeField(auto_now_add=True, db_index=True)
     finished = models.DateTimeField(blank=True, null=True)

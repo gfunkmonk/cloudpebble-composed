@@ -27,7 +27,7 @@
 
 @font-face {
   font-family: 'PFD-Bold-Italic';
-  src: url('/static/common/fonts/PFDinDisplayPro-BoldItal.ttf') format('truetype');
+  src: url('/static/common/fonts/PFDinDisplayPro-BoldItalic.ttf') format('truetype');
 }
 
 .font-bold-italic {
@@ -60,7 +60,7 @@
 
 @font-face {
   font-family: 'PFD-Light-Italic';
-  src: url('/static/common/fonts/PFDinDisplayPro-LightItal.ttf') format('truetype');
+  src: url('/static/common/fonts/PFDinDisplayPro-LightItalic.ttf') format('truetype');
 }
 
 .font-light-italic {
@@ -71,7 +71,7 @@
 
 @font-face {
   font-family: 'PFD-Medium';
-  src: url('/static/common/fonts/PFDinDisplayPro-Med.ttf') format('truetype');
+  src: url('/static/common/fonts/PFDinDisplayPro-Medium.ttf') format('truetype');
 }
 
 .font-medium {
@@ -82,7 +82,7 @@
 
 @font-face {
   font-family: 'PFD-Medium-Italic';
-  src: url('/static/common/fonts/PFDinDisplayPro-MedItal.ttf') format('truetype');
+  src: url('/static/common/fonts/PFDinDisplayPro-MediumItalic.ttf') format('truetype');
 }
 
 .font-medium-italic {
@@ -116,7 +116,7 @@
 
 @font-face {
   font-family: 'PFD-Thin-Italic';
-  src: url('/static/common/fonts/PFDinDisplayPro-ThinItal.ttf') format('truetype');
+  src: url('/static/common/fonts/PFDinDisplayPro-ThinItalic.ttf') format('truetype');
 }
 
 .font-thin-italic {
