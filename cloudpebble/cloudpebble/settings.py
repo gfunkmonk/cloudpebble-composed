@@ -14,6 +14,7 @@ TESTING = 'test' in sys.argv
 TRAVIS = 'TRAVIS' in _environ and os.environ["TRAVIS"] == "true"
 TEMPLATE_DEBUG = DEBUG
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ADMINS = (
     ('admin', 'admin@cloudpebble.tk'),
 )
@@ -134,7 +135,7 @@ MEDIA_URL = _environ.get('MEDIA_URL', 'http://localhost:8001/builds/')
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -147,6 +148,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+     os.path.join(os.path.dirname(__file__), '..', 'bower_components')
 )
 
 # List of finder classes that know how to find static files in
@@ -157,6 +159,8 @@ STATICFILES_FINDERS = (
     'djangobower.finders.BowerFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 BOWER_INSTALLED_APPS = (
     'https://github.com/krisk/Fuse.git#2e24c9a197987f4b56ede72bac06dc9ac75ddfd8',
@@ -186,6 +190,7 @@ if not DEBUG:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
 
 MIDDLEWARE_CLASSES = (
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
