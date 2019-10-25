@@ -2,14 +2,11 @@ FROM gfunkmonk/python2:disco AS squashme
 SHELL ["/bin/bash", "-c"]
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-  #printf "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-  #curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   apt-get update && apt-get install -y --no-install-recommends \
-  gettext memcached postgresql-client libpq-dev curl git wget xz-utils nodejs \
+  gettext memcached postgresql-client libpq-dev curl git wget xz-utils nodejs libfreetype6 \
   && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g jshint
-RUN npm install -g bower && echo '{"allow_root": true}' > /root/.bowerrc
+RUN npm install -g jshint bower && echo '{"allow_root": true}' > /root/.bowerrc
 
 EXPOSE 8000
 
@@ -39,18 +36,18 @@ ENV WAF_NODE_PATH=/sdk3/node_modules
 COPY . /code
 WORKDIR /code
 
-RUN npm install -g bower && echo '{"allow_root": true}' > /root/.bowerrc
-
 # Bower is awful.
-RUN apt-get update && apt-get install nodejs && npm install -g jshint bower
-RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
+RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/ && mv /code/bower_components/codemirror /code/bower_components/CodeMirror/
 RUN python manage.py compilemessages
 RUN make -C /code/c-preload
 
-RUN apt-get remove --purge wget xz-utils autoconf automake libcurl4-openssl-dev libkrb5-dev liblzma-dev libmagickcore-dev libmagickwand-dev autotools-dev bzr mercurial subversion python3 python3-minimal hicolor-icon-theme -y && apt-get autoremove --purge -y
+RUN apt-get remove --purge wget xz-utils autoconf automake libcurl4-openssl-dev libkrb5-dev liblzma-dev libmagickcore-dev libmagickwand-dev autotools-dev \ 
+  bzr mercurial subversion python3 python3-minimal hicolor-icon-theme -y && apt-get autoremove --purge -y
+
 FROM scratch
 COPY --from=squashme / /
+
 ENV WAF_NODE_PATH=/sdk3/node_modules
 WORKDIR /code
-RUN apt-get update && apt-get install nodejs && npm install -g jshint bower
+
 CMD ["sh", "docker_start.sh"]

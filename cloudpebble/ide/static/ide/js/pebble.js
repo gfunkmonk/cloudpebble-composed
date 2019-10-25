@@ -62,7 +62,9 @@ var SharedPebble = new (function() {
 
         CloudPebble.Prompts.Progress.Show(gettext("Booting emulator…"), gettext("Booting emulator..."));
         statementInterval = setInterval(function() {
-            if(statementInterval === null) return;
+            if (statementInterval === null) {
+                return;
+            }
             CloudPebble.Prompts.Progress.Update(pickElement(randomStatements));
         }, 2500);
         var emulator_container = $('#emulator-container');

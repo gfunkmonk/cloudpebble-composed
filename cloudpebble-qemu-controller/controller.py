@@ -103,8 +103,8 @@ def proxy_ws(emu, attr, subprotocols=[]):
     target_url = "ws://localhost:%d/" % getattr(emulator, attr)
     try:
         client_ws = websocket.create_connection(target_url, subprotocols=subprotocols, sslopt={
-#            'ssl_version': ssl.PROTOCOL_TLSv1,
-            'ssl_version': ssl.PROTOCOL_SSLv23,
+            'ssl_version': ssl.PROTOCOL_TLSv1,
+#            'ssl_version': ssl.PROTOCOL_SSLv23,
             'cert_reqs': ssl.CERT_NONE,
             'ca_certs': '%s/ca-cert.pem' % settings.SSL_ROOT,
         })

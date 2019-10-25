@@ -219,10 +219,14 @@ CloudPebble.Utils = {
         ];
 
         var minutes = String(date.getMinutes());
-        while(minutes.length < 2) minutes = '0' + minutes;
+        while (minutes.length < 2) {
+            minutes = '0' + minutes;
+        }
 
         var hours = String(date.getHours());
-        while(hours.length < 2) hours = '0' + hours;
+        while (hours.length < 2) {
+            hours = '0' + hours;
+        }
 
         return date.getDate() + ' ' + months[date.getMonth()] +', \'' + (date.getFullYear() % 100) +
             ' – ' + hours + ":" + minutes;

@@ -63,7 +63,7 @@ CloudPebble.Timeline = new (function() {
     function deletePin() {
         mCurrentAction = 'delete';
         var content = mEditor.getValue();
-        var id = JSON.parse(content)['id'];
+        var id = JSON.parse(content).id;
         SharedPebble.getPebble(ConnectionType.QemuBasalt)
             .then(function(pebble) {
                 pebble.once('timeline:result', handleTimelineResult);

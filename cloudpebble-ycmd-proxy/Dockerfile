@@ -3,8 +3,7 @@ SHELL ["/bin/bash", "-c"]
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get update && apt-get install -y \
-    #cmake libtinfo5 git curl xz-utils wget libclang-dev nodejs \
-    cmake libtinfo5 git curl xz-utils wget nodejs \
+    cmake libtinfo5 git curl xz-utils wget libclang-dev nodejs \
     --no-install-recommends && rm -rf /var/lib/apt/lists/
 
 # ycmd
@@ -15,8 +14,8 @@ RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   git submodule update --init --recursive && \
   #./build.sh --clang-completer
   #python build.py --clang-completer --system-libclang
-  #python build.py --clang-completer --system-libclang	
-  python build.py --clang-completer
+  python build.py --clang-completer --system-libclang	
+  #python build.py --clang-completer
 
 # Grab the toolchain
 RUN mkdir /arm-cs-tools \

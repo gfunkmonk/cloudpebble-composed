@@ -1,0 +1,2 @@
+#!/bin/bash
+docker-clean && uber-clean && ./build && docker-compose up

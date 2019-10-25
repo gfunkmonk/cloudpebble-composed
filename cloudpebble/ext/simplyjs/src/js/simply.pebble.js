@@ -419,8 +419,8 @@ SimplyPebble.onAppMessage = function(e) {
   }
 };
 
-Pebble.addEventListener('showConfiguration', SimplyPebble.onShowConfiguration);
-Pebble.addEventListener('webviewclosed', SimplyPebble.onWebViewClosed);
+// Pebble.addEventListener('showConfiguration', SimplyPebble.onShowConfiguration);
+// Pebble.addEventListener('webviewclosed', SimplyPebble.onWebViewClosed);
 Pebble.addEventListener('appmessage', SimplyPebble.onAppMessage);
 
 return SimplyPebble;

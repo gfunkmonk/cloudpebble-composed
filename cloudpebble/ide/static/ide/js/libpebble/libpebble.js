@@ -106,8 +106,9 @@ Pebble = function(proxy, token) {
         } catch(e) {
             // pass.
         }
-        if(mSocket)
+        if (mSocket) {
             mSocket.close();
+        }
         mSocket = null;
     };
 
@@ -336,7 +337,7 @@ Pebble = function(proxy, token) {
 
     var string_to_bytes = function(string) {
         var bytes = [];
-        for(var i = 0; i < string.length; ++i) {
+        for(var i = 0; i < string.length; i += 1) {
             bytes.push(string.charCodeAt(i));
         }
         return bytes;
@@ -344,7 +345,7 @@ Pebble = function(proxy, token) {
 
     var bytes_to_string = function(bytes) {
         var end = null;
-        for(var i = 0; i  < bytes.length; ++i) {
+        for(var i = 0; i  < bytes.length; i += 1) {
             if(bytes[i] == 0) {
                 end = i;
                 break;
@@ -366,7 +367,9 @@ Pebble = function(proxy, token) {
         var result = '';
         _.each(list, function(number) {
             var hex = number.toString(16);
-            while(hex.length < 2) hex = '0' + hex;
+            while (hex.length < 2) {
+                hex = '0' + hex;
+            }
             result += hex;
         });
         return result;
@@ -375,7 +378,9 @@ Pebble = function(proxy, token) {
     var handle_version = function(message) {
         console.log("Received watch version.");
         var result = unpack("BIS32S8BBBIS32S8BBBIS9S12BBBBBBIIS16", message);
-        if(result[0] != 1) return;
+        if (result[0] != 1) {
+            return;
+        }
         self.trigger('version', {
             running: {
                 timestamp: result[1],
@@ -555,13 +560,13 @@ Pebble = function(proxy, token) {
     this.emu_send_pin = function(pin_json) {
         var json = JSON.parse(pin_json);
         var now = new Date();
-        json['createTime'] = now.toISOString();
-        json['updateTime'] = now.toISOString();
-        json['guid'] = id_to_uuid(json['id']);
-        json['dataSource'] = 'sandbox-uuid:' + CloudPebble.ProjectInfo.app_uuid;
-        json['source'] = 'sdk';
-        json['topicKeys'] = [];
-        delete pin_json['id'];
+        json.createTime = now.toISOString();
+        json.updateTime = now.toISOString();
+        json.guid = id_to_uuid(json.id);
+        json.dataSource = 'sandbox-uuid:' + CloudPebble.ProjectInfo.app_uuid;
+        json.source = 'sdk';
+        json.topicKeys = [];
+        delete pin_json.id;
         mSocket.send(new Uint8Array(pack("BBS", [0xc, 0x01, JSON.stringify(json)])));
     };
 
@@ -589,8 +594,8 @@ Pebble = function(proxy, token) {
 
     var decode_image_1bit = function(incoming_image) {
         var expanded_data = new Uint8Array(incoming_image.width * incoming_image.height * 4);
-        for (var i = 0; i < incoming_image.data.length; ++i) {
-            for (var j = 0; j < 8; ++j) {
+        for (var i = 0; i < incoming_image.data.length; i += 1) {
+            for (var j = 0; j < 8; j += 1) {
                 var pixel = (incoming_image.data[i] >> j) & 1;
                 var colour = pixel * 255;
                 var pos = ((i * 8) + j) * 4;
@@ -605,7 +610,7 @@ Pebble = function(proxy, token) {
 
     var decode_image_8bit = function(incoming_image) {
         var expanded_data = new Uint8Array(incoming_image.width * incoming_image.height * 4);
-        for (var i = 0; i < incoming_image.data.length; ++i) {
+        for (var i = 0; i < incoming_image.data.length; i += 1) {
             var pixel = incoming_image.data[i];
             var pos = i * 4;
             expanded_data[pos + 0] = ((pixel & 0x30) >> 4) * 85;
@@ -684,7 +689,7 @@ Pebble = function(proxy, token) {
             62: 0xfff6d3,
             63: 0xffffff,
         };
-        for (var i = 0; i < incoming_image.data.length; ++i) {
+        for (var i = 0; i < incoming_image.data.length; i += 1) {
             var pixel = incoming_image.data[i];
             var pos = i * 4;
             var corrected = colour_map[pixel & 63];
@@ -730,7 +735,7 @@ Pebble = function(proxy, token) {
              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         roundness = roundness.concat(_.clone(roundness).reverse());
         _.each(roundness, function(skip, y) {
-            for (var x = 0; x < 180; ++x) {
+            for (var x = 0; x < 180; x += 1) {
                 if (x < skip || x >= (180 - skip)) {
                     bitmap[y*180*4+x*4+3] = 0;
                 }
@@ -829,7 +834,7 @@ Pebble = function(proxy, token) {
         var pointer = 0;
         var bytes = [];
         var encoder = new TextEncoder('utf-8');
-        for(var i = 0; i < format.length; ++i) {
+        for(var i = 0; i < format.length; i += 1) {
             if(pointer >= data.length) {
                 throw new Error("Expected more data.");
             }
@@ -837,13 +842,13 @@ Pebble = function(proxy, token) {
             switch(chr) {
             case "b":
             case "B":
-                bytes.push(data[pointer++]);
+                bytes.push(data[pointer += 1]);
                 break;
             case "h":
             case "H":
                 bytes.push((data[pointer] >> 8) & 0xFF);
                 bytes.push(data[pointer] & 0xFF);
-                ++pointer;
+                pointer += 1;
                 break;
             case "l":
             case "L":
@@ -853,11 +858,11 @@ Pebble = function(proxy, token) {
                 bytes.push((data[pointer] >> 16) & 0xFF);
                 bytes.push((data[pointer] >> 8) & 0xFF);
                 bytes.push(data[pointer] & 0xFF);
-                ++pointer;
+                pointer += 1;
                 break;
             case "S":
                 bytes = bytes.concat(Array.prototype.slice.call(encoder.encode(data[pointer])));
-                ++pointer;
+                pointer += 1;
                 break;
             }
         }
@@ -868,7 +873,7 @@ Pebble = function(proxy, token) {
         var pointer = 0;
         var data = [];
         var decoder = new TextDecoder('utf-8');
-        for(var i = 0; i < format.length; ++i) {
+        for(var i = 0; i < format.length; i += 1) {
             if(pointer >= bytes.length) {
                 console.error("ran out of bytes.", format, bytes);
                 throw new Error("Expected more bytes");
@@ -877,7 +882,7 @@ Pebble = function(proxy, token) {
             switch(chr) {
             case "b":
             case "B":
-                data.push(bytes[pointer++]);
+                data.push(bytes[pointer += 1]);
                 break;
             case "h":
             case "H":
@@ -894,14 +899,16 @@ Pebble = function(proxy, token) {
             case "S":
                 var len = '';
                 while(format.charAt(i+1).match(/\d/)) {
-                    len += format.charAt(++i);
+                    len += format.charAt(i += 1);
                 }
                 len = parseInt(len, 10);
                 var start = pointer;
                 var end = pointer + len;
                 while(pointer < end) {
-                    if(bytes[pointer] === 0) break; // assume null-terminated strings.
-                    ++pointer;
+                    if (bytes[pointer] === 0) {
+                        break;
+                    } // assume null-terminated strings.
+                    pointer += 1;
                 }
                 var stop = pointer;
                 var stringBytes = bytes.subarray(start, stop);

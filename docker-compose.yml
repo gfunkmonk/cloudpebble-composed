@@ -25,7 +25,7 @@ services:
       - QEMU_URLS=http://172.245.74.113:8001/
       - YCM_URLS=http://172.245.74.113:8002/
       - PUBLIC_URL=http://172.245.74.113/
-      - LIBPEBBLE_PROXY=wss://cloudpebble-ws.herokuapp.com/tool
+      - LIBPEBBLE_PROXY=wss://cloudpebble-ws-proxy-1/tool
       - PEBBLE_AUTH_URL=https://auth.rebble.io
   celery:
     build: cloudpebble/
@@ -63,7 +63,7 @@ services:
     ports:
       - "8002:80"
   redis:
-    image: redis:alpine
+    image: redis:3.0.6-alpine
     #image: redis
     restart: always
     volumes:
@@ -71,11 +71,11 @@ services:
     ports:
       - 6379:6379
   postgres:
-    image: postgres:11-alpine
+    image: postgres:10-alpine
     #image: postgres
     restart: always
     volumes: 
-      - "./data//postgres:/var/lib/postgresql/data"
+      - "./data/postgres:/var/lib/postgresql/data"
     ports:
       - "5432:5432"
   s3:

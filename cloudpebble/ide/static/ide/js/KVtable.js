@@ -24,8 +24,12 @@ CloudPebble.KVTable = function(table_elm, options) {
         default_value: null
     });
 
-    if (opts.default_value === null && opts.value_type == 'number') opts.default_value = '0';
-    if (opts.default_value === null && opts.value_type == 'text') opts.default_value = '';
+    if (opts.default_value === null && opts.value_type == 'number') {
+        opts.default_value = '0';
+    }
+    if (opts.default_value === null && opts.value_type == 'text') {
+        opts.default_value = '';
+    }
 
     var th_key;
     var th_value;

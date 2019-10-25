@@ -173,21 +173,21 @@ CloudPebble.Settings = (function() {
             });
 
 
-            saved_settings['sdk_version'] = sdk_version;
-            saved_settings['app_short_name'] = short_name;
-            saved_settings['app_long_name'] = long_name;
-            saved_settings['app_company_name'] = company_name;
-            saved_settings['app_version_label'] = version_label;
-            saved_settings['app_uuid'] = app_uuid;
-            saved_settings['app_capabilities'] = app_capabilities;
-            saved_settings['app_is_watchface'] = app_is_watchface;
-            saved_settings['app_is_hidden'] = app_is_hidden;
-            saved_settings['app_is_shown_on_communication'] = app_is_shown_on_communication;
-            saved_settings['app_keys'] = JSON.stringify(app_keys);
-            saved_settings['app_jshint'] = app_jshint;
-            saved_settings['menu_icon'] = menu_icon;
-            saved_settings['app_platforms'] = app_platforms;
-            saved_settings['app_modern_multi_js'] = app_modern_multi_js;
+            saved_settings.sdk_version = sdk_version;
+            saved_settings.app_short_name = short_name;
+            saved_settings.app_long_name = long_name;
+            saved_settings.app_company_name = company_name;
+            saved_settings.app_version_label = version_label;
+            saved_settings.app_uuid = app_uuid;
+            saved_settings.app_capabilities = app_capabilities;
+            saved_settings.app_is_watchface = app_is_watchface;
+            saved_settings.app_is_hidden = app_is_hidden;
+            saved_settings.app_is_shown_on_communication = app_is_shown_on_communication;
+            saved_settings.app_keys = JSON.stringify(app_keys);
+            saved_settings.app_jshint = app_jshint;
+            saved_settings.menu_icon = menu_icon;
+            saved_settings.app_platforms = app_platforms;
+            saved_settings.app_modern_multi_js = app_modern_multi_js;
 
             return Ajax.Post('/ide/project/' + PROJECT_ID + '/save_settings', saved_settings).then(function() {
                 pane.find('.alert').removeClass("alert-success alert-error").addClass("hide");
@@ -298,7 +298,9 @@ CloudPebble.Settings = (function() {
 
         function reset_appkey_table_values(to_array_kind) {
             var was_array_kind = app_uses_array_appkeys();
-            if (to_array_kind == was_array_kind) return;
+            if (to_array_kind == was_array_kind) {
+                return;
+            }
             appkey_table.mapValues(to_array_kind ? 1 : function(k, v, i) {
                 return !!k.trim() ? i : 0;
             });
@@ -413,7 +415,7 @@ CloudPebble.Settings = (function() {
             commands[gettext("Add New Resource")] = CloudPebble.Resources.Create;
             commands[gettext("Compilation")] = CloudPebble.Compile.Show;
             commands[gettext("Settings")] = CloudPebble.Settings.Show;
-            commands["GitHub"] = CloudPebble.GitHub.Show;
+            commands.GitHub = CloudPebble.GitHub.Show;
             commands[gettext("Timeline")] = CloudPebble.Timeline.show;
             commands[gettext("Add New Source File")] = CloudPebble.Editor.Create;
             CloudPebble.FuzzyPrompt.AddCommands(commands);

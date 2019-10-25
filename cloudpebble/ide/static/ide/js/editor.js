@@ -125,22 +125,28 @@ CloudPebble.Editor = (function() {
             if(USER_SETTINGS.keybinds !== '') {
                 settings.keyMap = USER_SETTINGS.keybinds;
             }
-            if(!settings.extraKeys) settings.extraKeys = {};
+            if (!settings.extraKeys) {
+                settings.extraKeys = {};
+            }
             if(language_has_autocomplete && USER_SETTINGS.autocomplete === 2) {
                 settings.extraKeys = {'Ctrl-Space': 'autocomplete'};
             }
             if(language_has_autocomplete && USER_SETTINGS.autocomplete !== 0) {
-                settings.extraKeys['Tab'] = function() {
+                settings.extraKeys.Tab = function() {
                     var marks = code_mirror.getAllMarks();
                     var cursor = code_mirror.getCursor();
                     var closest = null;
                     var closest_mark = null;
                     var distance = 99999999999; // eh
-                    for (var i = marks.length - 1; i >= 0; i--) {
+                    for (var i = marks.length - 1; i >= 0; i -= 1) {
                         var mark = marks[i];
-                        if (mark.className !== "cm-autofilled") continue;
+                        if (mark.className !== "cm-autofilled") {
+                            continue;
+                        }
                         var pos = mark.find();
-                        if(pos === undefined) continue;
+                        if (pos === undefined) {
+                            continue;
+                        }
                         if(cursor.line >= pos.from.line - 5) {
                             if(cursor.line < pos.from.line || cursor.ch <= pos.from.ch) {
                                 var new_distance = 100000 * (pos.from.line - cursor.line) + (pos.from.ch - cursor.ch);
@@ -162,8 +168,8 @@ CloudPebble.Editor = (function() {
             }
             if(USER_SETTINGS.use_spaces) {
                 var spaces = Array(settings.indentUnit + 1).join(' ');
-                var oldTab = settings.extraKeys['Tab'];
-                settings.extraKeys['Tab'] = function(cm) {
+                var oldTab = settings.extraKeys.Tab;
+                settings.extraKeys.Tab = function(cm) {
                     // If we already overrode tab, check that one.
                     if(oldTab) {
                         if(oldTab(cm) !== CodeMirror.Pass) {
@@ -181,7 +187,7 @@ CloudPebble.Editor = (function() {
                             start = end;
                             end = temp;
                         }
-                        for(var line = start; line <= end; ++line) {
+                        for(var line = start; line <= end; line += 1) {
                             cm.replaceRange(spaces, {line: line, ch: 0});
                         }
                     } else {
@@ -189,9 +195,11 @@ CloudPebble.Editor = (function() {
                         cm.replaceSelection(spaces, "end", "+input");
                     }
                 };
-                settings.extraKeys['Backspace'] = function(cm) {
+                settings.extraKeys.Backspace = function(cm) {
                     // Nothing interesting to do if something's selected.
-                    if(cm.somethingSelected()) return CodeMirror.Pass;
+                    if (cm.somethingSelected()) {
+                        return CodeMirror.Pass;
+                    }
                     var pos = cm.getCursor();
                     var content = cm.getRange({line: pos.line, ch:0}, pos);
                     // We only need to do special handling if the line is blank to this point.
@@ -251,7 +259,9 @@ CloudPebble.Editor = (function() {
             });
 
             $(code_mirror.getWrapperElement()).mouseup(function(event) {
-                if(!event.altKey) return;
+                if (!event.altKey) {
+                    return;
+                }
                 var x = event.pageX;
                 var y = event.pageY;
                 var char = code_mirror.coordsChar({left: x, top:y});
@@ -272,8 +282,9 @@ CloudPebble.Editor = (function() {
             if(language_has_autocomplete && USER_SETTINGS.autocomplete === 1) {
                 code_mirror.on('changes', function(instance, changes) {
                     update_patch_list(instance, changes);
-                    if(!is_autocompleting)
+                    if (!is_autocompleting) {
                         CodeMirror.commands.autocomplete(code_mirror);
+                    }
                 });
             }
 
@@ -361,7 +372,9 @@ CloudPebble.Editor = (function() {
 
                     _.each(errors, function(error) {
                         // It is apparently possible to get null errors; omit them.
-                        if(!error) return;
+                        if (!error) {
+                            return;
+                        }
                         // If there are multiple errors on one line, we'll have already placed a marker here.
                         // Instead of replacing it with a new one, just update it.
                         var markers = code_mirror.lineInfo(error.line - 1).gutterMarkers;
@@ -385,7 +398,9 @@ CloudPebble.Editor = (function() {
                 var clang_lines = [];
                 var sChecking = false;
                 var debounced_check = _.debounce(function() {
-                    if(sChecking) return;
+                    if (sChecking) {
+                        return;
+                    }
                     sChecking = true;
                     CloudPebble.YCM.request('errors', code_mirror)
                         .then(function(data) {
@@ -423,7 +438,9 @@ CloudPebble.Editor = (function() {
                             }
                         }).catch(function(e) {
                             // Discard "ycm is generally broken" errors
-                            if (!e.noYCM) throw e;
+                            if (!e.noYCM) {
+                                throw e;
+                            }
                         }).finally(function() {
                             sChecking = false;
                         });
@@ -455,7 +472,7 @@ CloudPebble.Editor = (function() {
             function update_patch_list(instance, changes) {
                 _.each(changes, function(change) {
                     instance.patch_list.push({
-                        sequence: instance.patch_sequence++,
+                        sequence: instance.patch_sequence += 1,
                         start: change.from,
                         end: change.to,
                         text: change.text,
@@ -501,7 +518,7 @@ CloudPebble.Editor = (function() {
                 },
                 onDestroy: function() {
                     if(!was_clean) {
-                        --unsaved_files;
+                        unsaved_files -= 1;
                     }
                     delete open_codemirrors[file.id];
                 }
@@ -512,13 +529,13 @@ CloudPebble.Editor = (function() {
                 if(was_clean) {
                     CloudPebble.Sidebar.SetIcon('source-' + file.id, 'edit');
                     was_clean = false;
-                    ++unsaved_files;
+                    unsaved_files += 1;
                 }
             });
 
             var mark_clean = function() {
                 was_clean = true;
-                --unsaved_files;
+                unsaved_files -= 1;
                 CloudPebble.Sidebar.ClearIcon('source-' + file.id);
             };
 
@@ -796,7 +813,7 @@ CloudPebble.Editor = (function() {
             cm.showHint({hint: CloudPebble.Editor.Autocomplete.complete, completeSingle: false});
         };
         CodeMirror.commands.save = function(cm) {
-            cm.cloudpebble_save().catch(alert);;
+            cm.cloudpebble_save().catch(alert);
         };
         CodeMirror.commands.saveAll = function(cm) {
             save_all().catch(alert);
@@ -905,14 +922,17 @@ CloudPebble.Editor = (function() {
         if(doc.params.length > 0) {
             var table = $('<table class="popover-params">');
             _.each(doc.params, function(param) {
-                if(!param.description) return;
+                if (!param.description) {
+                    return;
+                }
                 var tr = $('<tr>');
                 tr.append($('<td class="param-name">').html(param.name));
                 tr.append($('<td class="param-desc">').html(param.description));
                 table.append(tr);
             });
-            if(table.find('tr').length)
+            if (table.find('tr').length) {
                 result.push([gettext('Parameters'), table]);
+            }
         }
 
         if(doc.warning) {
@@ -949,7 +969,9 @@ CloudPebble.Editor = (function() {
         setTimeout(function() {
             var remove = function() {
                 $('body').off('keyup', handler);
-                if(!popover) return;
+                if (!popover) {
+                    return;
+                }
                 popover.remove();
                 popover = null;
                 cm.focus();
@@ -986,7 +1008,9 @@ CloudPebble.Editor = (function() {
         function get_default_js_name() {
             // If js files don't exist for a certain target, set the name to the default
             // and hide the name input.
-            if (CloudPebble.ProjectInfo.sdk_version == '2') return null;
+            if (CloudPebble.ProjectInfo.sdk_version == '2') {
+                return null;
+            }
             var js_name_override = null;
             var required_js = [
                 {target: 'pkjs', requires: 'index.js'},

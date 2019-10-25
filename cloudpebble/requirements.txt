@@ -12,14 +12,14 @@ pygithub==1.14.2
 python-social-auth==0.1.23
 redis==2.10.5
 boto==2.39.0
-gevent>=1.1.1
+gevent==1.1.1
 psycogreen==1.0.1
 requests==2.22.0
 oauth2client==1.5.1
 django-bower==5.1.0
 mock==2.0.0
 # This is used for Mailchimp integration
-mailchimp==2.0.9
+#mailchimp==2.0.9
 
 # These are used for Heroku hosting setup.
 dj-static==0.0.6
@@ -51,5 +51,5 @@ static3==0.6.1
 python-memcached==1.59
 #django-npm
 django-robots==3.0
-#django-dotenv==1.4.1
-#django-compat==1.0.13
+django-dotenv==1.4.1
+django-compat==1.0.13

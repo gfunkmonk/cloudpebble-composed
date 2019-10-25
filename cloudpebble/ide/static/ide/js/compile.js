@@ -170,7 +170,7 @@ CloudPebble.Compile = (function() {
 
         var targetTabs = pane.find('#run-target-tabs');
         targetTabs.on('shown', function(e) {
-            localStorage['activeTarget'] = $(e.target).data('run-target');
+            localStorage.activeTarget = $(e.target).data('run-target');
         });
 
         $('#modal-android-notes a.btn-primary').click(function(e) {
@@ -207,8 +207,8 @@ CloudPebble.Compile = (function() {
         CloudPebble.ProgressBar.Show();
 
         var targetTabs = pane.find('#run-target-tabs');
-        if(localStorage['activeTarget']) {
-            var target = localStorage['activeTarget'];
+        if(localStorage.activeTarget) {
+            var target = localStorage.activeTarget;
             targetTabs.find('a[data-run-target=' + target + ']').tab('show');
         }
         pane.find('#last-compilation-pbw').click(function() {
@@ -493,20 +493,40 @@ CloudPebble.Compile = (function() {
     };
 
     var get_log_class = function(priority) {
-        if(priority == -1) return 'log-phone';
-        if(priority < 25) return 'log-error';
-        if(priority < 75) return 'log-warning';
-        if(priority < 150) return 'log-note';
-        if(priority < 225) return 'log-debug';
+        if (priority == -1) {
+            return 'log-phone';
+        }
+        if (priority < 25) {
+            return 'log-error';
+        }
+        if (priority < 75) {
+            return 'log-warning';
+        }
+        if (priority < 150) {
+            return 'log-note';
+        }
+        if (priority < 225) {
+            return 'log-debug';
+        }
         return 'log-verbose';
     };
 
     var get_log_label = function(priority) {
-        if(priority == -1) return gettext('[PHONE]');
-        if(priority < 25) return gettext('[ERROR]');
-        if(priority < 75) return gettext('[WARNING]');
-        if(priority < 150) return gettext('[INFO]');
-        if(priority < 225) return gettext('[DEBUG]');
+        if (priority == -1) {
+            return gettext('[PHONE]');
+        }
+        if (priority < 25) {
+            return gettext('[ERROR]');
+        }
+        if (priority < 75) {
+            return gettext('[WARNING]');
+        }
+        if (priority < 150) {
+            return gettext('[INFO]');
+        }
+        if (priority < 225) {
+            return gettext('[DEBUG]');
+        }
         return gettext('[VERBOSE]');
     };
 
@@ -647,8 +667,9 @@ CloudPebble.Compile = (function() {
     var show_app_logs = function(kind) {
         SharedPebble.getPebble(kind).then(function(pebble) {
             pebble.on('close', function() {
-                if(mLogHolder)
+                if (mLogHolder) {
                     mLogHolder.append($('<span>').addClass('log-error').text(gettext("Disconnected from phone.") + "\n"));
+                }
             });
             CloudPebble.Sidebar.SuspendActive();
             if(!mLogHolder) {
@@ -774,7 +795,7 @@ CloudPebble.Compile = (function() {
         a = split(a);
         b = split(b);
         var len = Math.max(a.length, b.length);
-        for(var i = 0; i < len; ++i) {
+        for(var i = 0; i < len; i += 1) {
             var a_part = a[i] || 0;
             var b_part = b[i] || 0;
             console.log(a_part, b_part);
@@ -802,7 +823,7 @@ CloudPebble.Compile = (function() {
          * @returns {number}
          */
         GetPlatformForInstall: function() {
-            if(localStorage['activeTarget'] == 'device') {
+            if(localStorage.activeTarget == 'device') {
                 return ConnectionType.Phone;
             } else {
                 if(SharedPebble.isVirtual()) {

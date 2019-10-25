@@ -147,9 +147,9 @@ CloudPebble.FuzzyPrompt = (function() {
     var current_matches = function() {
         var parts = input.val().split(":", 2);
         if (parts[0].length == 0) {
-            if (_.isUndefined(parts[1]))
+            if (_.isUndefined(parts[1])) {
                 return item_list;
-            else {
+            } else {
                 return _.where(item_list, {name: default_item});
             }
         }
@@ -175,7 +175,9 @@ CloudPebble.FuzzyPrompt = (function() {
                 return false;
             }
         });
-        if (prompt_already_open) return;
+        if (prompt_already_open) {
+            return;
+        }
         previously_active = document.activeElement;
         prompt.modal('show');
         item_list = [];
@@ -208,7 +210,7 @@ CloudPebble.FuzzyPrompt = (function() {
                         menu_item: menu_item,
                         rank: id
                     }));
-                    id++;
+                    id += 1;
                 });
             }
         });

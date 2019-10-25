@@ -56,8 +56,12 @@ CloudPebble.Editor.Autocomplete = new (function() {
         $.each(completion.params, function(index, value) {
             var p = [{line: data.from.line, ch: start}, {line: data.from.line, ch: start + value.length}];
             var mark = createMark(cm, p[0], p[1]);
-            if (first_pos === null) first_pos = p;
-            if (first_mark === null) first_mark = mark;
+            if (first_pos === null) {
+                first_pos = p;
+            }
+            if (first_mark === null) {
+                first_mark = mark;
+            }
             start += value.length + 2;
         });
         if (first_pos === null) {
@@ -92,7 +96,9 @@ CloudPebble.Editor.Autocomplete = new (function() {
     var mCurrentSummaryElement = null;
     var mWaiting = null;
     var renderSummary = function(completion, element) {
-        if (!mCurrentSummaryElement) return;
+        if (!mCurrentSummaryElement) {
+            return;
+        }
         var docs = CloudPebble.Documentation.Lookup(completion.name || completion.text);
         if (docs && docs.description) {
             mCurrentSummaryElement.html(docs.description.replace(/[.;](\s)[\s\S]*/, '.')).show();
@@ -193,9 +199,9 @@ CloudPebble.Editor.Autocomplete = new (function() {
     /** Try to complete a macro, by searching header files if possible or otherwise using YCM. */
     function try_complete_macro(command, editor) {
         var includes = try_complete_header_files(editor);
-        if (!includes.completions)
+        if (!includes.completions) {
             return CloudPebble.YCM.request(command, editor);
-        else {
+        } else {
             return Promise.resolve(includes);
         }
     }
@@ -269,7 +275,9 @@ CloudPebble.Editor.Autocomplete = new (function() {
             finishCompletion(result);
         }).catch(function(e) {
             // Discard "ycm is generally broken" errors
-            if (!e.noYCM) throw e;
+            if (!e.noYCM) {
+                throw e;
+            }
         }).finally(function() {
             mRunning = false;
             run_last();

@@ -358,31 +358,23 @@ simply.loadMainScriptUrl = function(scriptUrl) {
   return scriptUrl;
 };
 
-simply.loadMainScript = function(scriptUrl) {
+simply.loadMainScript = function() {
   simply.reset();
-  scriptUrl = simply.loadMainScriptUrl(scriptUrl);
-  if (!scriptUrl) {
-    return;
-  }
-  try {
-    simply.loadScript(scriptUrl, false);
-  } catch (e) {
-    simply.text({
-      title: 'Failed to load',
-      body: scriptUrl,
-    }, true);
-    return;
+  if(simply.mainScriptSource) {
+    var pkg = simply.makePackage('app.js');
+    loader = simply.fexecPackage(simply.mainScriptSource, pkg);
+    simply.impl.loadPackage.call(this, pkg, loader);
   }
   simply.begin();
 };
 
 simply.basepath = function(path) {
-  path = path || localStorage.getItem('mainJsUrl');
+  path = 'app.js';
   return path.replace(/[^\/]*$/, '');
 };
 
 simply.basename = function(path) {
-  path = path || localStorage.getItem('mainJsUrl');
+  path = 'app.js';
   return path.match(/[^\/]*$/)[0];
 };
 
