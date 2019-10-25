@@ -143,12 +143,21 @@ STATIC_URL = '/static/'
 
 PUBLIC_URL = _environ.get('PUBLIC_URL', 'http://localhost:8000/') # This default is completely useless.
 
+NODE_MODULES_PATH = _environ.get('NODE_MODULES_PATH', os.path.join(os.getcwd(), 'node_modules'))
+
+def _node_bin(name):
+    return os.path.join(NODE_MODULES_PATH, '.bin', name)
+
+NODE_PACKAGE_JSON = os.path.join(BASE_DIR, 'package.json')
+NODE_MODULES_ROOT = os.path.join(BASE_DIR, 'node_modules')
+NODE_PACKAGE_MANAGER_EXECUTABLE = '/usr/bin/npm'
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-     os.path.join(os.path.dirname(__file__), '..', 'bower_components'),
+     #os.path.join(os.path.dirname(__file__), '..', 'bower_components'),
+     os.path.join(os.path.dirname(__file__), '..', 'node_modules'),
 )
 
 # List of finder classes that know how to find static files in
@@ -156,8 +165,13 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'pipeline.finders.CachedFileFinder',
+    'pipeline.finders.PipelineFinder',
+    'pipeline.finders.FileSystemFinder',
+    'npm.finders.NpmFinder',
+    #'yarn.finders.YarnFinder',
+    #'djangobower.finders.BowerFinder',
 )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -258,15 +272,128 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'ide',
     'site_auth',
+    'pipeline',
     'root',
     'qr',
     #'south',
     #'djcelery',
     'registration',
-    'djangobower',
+    #'djangobower',
     'robots',
 )
 
+# Configuration for django-pipeline, used to concatenate and compress JS and CSS sources and
+# output source-maps.
+PIPELINE = {
+    'OUTPUT_SOURCEMAPS': True,
+    'JS_COMPRESSOR': 'cloudpebble.compressors.ConcatenatingUglifyJSCompressor',
+    'CSS_COMPRESSOR': 'pipeline.compressors.cleancss.CleanCSSCompressor',
+    'CLEANCSS_BINARY': _node_bin('cleancss'),
+    'UGLIFYJS_BINARY': _node_bin('uglifyjs'),
+    'CONCATENATOR_BINARY': _node_bin('source-map-concat'),
+    'DISABLE_WRAPPER': True,
+    'VERBOSE': True,
+    'STYLESHEETS': {
+        'codemirror': {
+            'source_filenames': (
+                'codemirror/addon/hint/show-hint.css',
+                'codemirror/addon/dialog/dialog.css',
+                'codemirror/lib/codemirror.css',
+                'codemirror/theme/monokai.css',
+                'codemirror/theme/eclipse.css',
+                'codemirror/theme/blackboard.css',
+                'codemirror/theme/solarized.css',
+                'codemirror/addon/fold/foldgutter.css',
+            ),
+            'output_filename': 'build/codemirror.css'
+        },
+        'textext': {
+            'source_filenames': (
+                'jquery-textext/src/css/textext.core.css',
+                'jquery-textext/src/css/textext.plugin.tags.css',
+                'jquery-textext/src/css/textext.plugin.autocomplete.css',
+                'jquery-textext/src/css/textext.plugin.focus.css',
+                'jquery-textext/src/css/textext.plugin.prompt.css',
+                'jquery-textext/src/css/textext.plugin.arrow.css',
+            ),
+            'output_filename': 'build/textext.css'
+        },
+        'ide': {
+            'source_filenames': (
+                'ide/css/ide.css',
+                'ide/css/ib.css',
+                'ide/css/codemirror-default.css',
+            ),
+            'output_filename': 'build/ide.css'
+        },
+        'base': {
+            'source_filenames': (
+                'common/fonts/fonts.css',
+                'common/css/progress.css',
+                'common/css/common.css',
+                'ide/css/base.css',
+            ),
+            'output_filename': 'build/base.css'
+        }
+    },
+    'JAVASCRIPT': {
+        'ide': {
+            'source_filenames': (
+                'ide/js/cloudpebble.js',
+                'ide/js/editor.js',
+                'ide/js/ib/ib.js',
+                'ide/js/ib/registry.js',
+                'ide/js/*.js',
+                'ide/js/*/*.js',
+            ),
+            'output_filename': 'build/ide.js',
+        },
+        'lib': {
+            'source_filenames': (
+                'react/react.js',
+                'react/react-dom.js',
+                'classnames/index.js',
+                'codemirror/lib/codemirror.js',
+                'codemirror/addon/dialog/dialog.js',
+                'codemirror/addon/search/searchcursor.js',
+                'codemirror/addon/search/search.js',
+                'codemirror/addon/edit/matchbrackets.js',
+                'codemirror/addon/edit/closebrackets.js',
+                'codemirror/addon/comment/comment.js',
+                'codemirror/addon/fold/foldgutter.js',
+                'codemirror/addon/fold/foldcode.js',
+                'codemirror/addon/fold/brace-fold.js',
+                'codemirror/addon/fold/comment-fold.js',
+                'codemirror/addon/runmode/runmode.js',
+                'ide/external/codemirror.hint.js',
+                'fuse.js/dist/fuse.js',
+                'codemirror/mode/clike/clike.js',
+                'codemirror/mode/javascript/javascript.js',
+                'codemirror/keymap/emacs.js',
+                'codemirror/keymap/vim.js',
+                'ide/external/uuid.js',
+                'jshint/dist/jshint.js',
+                'html.sortable/dist/html.sortable.min.js',
+                'text-encoding/lib/encoding.js',
+                'noVNC/include/util.js',
+                'jquery-textext/src/js/*.js',
+            ),
+            'output_filename': 'build/textext.js',
+        },
+        'base': {
+            'source_filenames': (
+                'jquery/dist/jquery.min.js',
+                'common/js/modal.js',
+                'bluebird/js/browser/bluebird.js',
+                'underscore/underscore-min.js',
+                'backbone/backbone-min.js',
+                'common/js/whats_new.js',
+                'common/js/ajax.js'
+            ),
+            'output_filename': 'build/base.js',
+        }
+    }
+}
 # This logging config prints:
 # INFO logs from django
 # INFO or DEBUG logs from 'ide', depending on whether DEBUG=True

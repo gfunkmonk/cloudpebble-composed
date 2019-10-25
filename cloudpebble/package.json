@@ -1,16 +1,32 @@
 {
 	"name": "cloudpebble",
-	"version": "1.0.0",
-	"description": "It clouds pebbles.",
+	"version": "0.2.2",
+	"description": "It clouds pebbles, yo",
+	"license": "MIT",
 	"dependencies": {
+		"@novnc/novnc": "novnc/novnc",
+		"backbone": "^1.4.0",
+		"bluebird": "^3.7.1",
+		"clean-css-cli": "^4.3.0",
+		"codemirror": "^5.49.0",
+		"fuse.js": "^3.4.5",
+		"html5sortable": "^0.9.17",
+		"jquery": "^3.4.1",
+                "jquery-textext": "gfunkmonk/jquery-textext",
+		"jshint": "^2.10.2",
 		"json-loader": "^0.5.4",
 		"restrict-resource-webpack-plugin": "^1.0.0",
-		"rocky-lint": "^2.0.0",
-		"utf8": "^2.1.1",
-		"webpack": "^1.1.3",
-		"webpack-fail-plugin": "^1.0.5"
+		"rocky-lint": "^2.0.1",
+		"text-encoding": "kugel-soft/text-encoding",
+		"uglify-js": "^3.6.3",
+		"updatejs": "^0.4.2",
+		"utf8": "^2.1.1"
 	},
 	"engines": {
-		"node": "^6.11.1"
+		"node": "v12.13.0"
+	},
+	"devDependencies": {
+		"webpack": "^4.41.2",
+		"webpack-cli": "^3.3.9"
 	}
 }

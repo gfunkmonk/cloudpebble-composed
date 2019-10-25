@@ -12,3 +12,4 @@ cloudpebble/settings_local.py
 .idea/
 bower_components
 Dockerfile.*
+node_modules

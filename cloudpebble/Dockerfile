@@ -5,7 +5,7 @@ RUN apk update && apk add --no-cache memcached postgresql-client postgresql-dev 
  gcc g++ make && apk add --no-cache --virtual .build-deps zlib-dev jpeg-dev linux-headers musl-dev python2-dev && \
  rm -rf /var/cache/apk/* && curl -L https://unpkg.com/@pnpm/self-installer | node
 
-RUN npm install -g jshint bower && echo '{"allow_root": true}' > /root/.bowerrc
+#RUN npm install -g jshint bower && echo '{"allow_root": true}' > /root/.bowerrc
 
 EXPOSE 8000
 
@@ -35,11 +35,11 @@ COPY . /code
 WORKDIR /code
 
 # Bower is awful.
-RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/ && mv /code/bower_components/codemirror /code/bower_components/CodeMirror/
+#RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
 RUN python manage.py compilemessages
 RUN make -C /code/c-preload
 
-RUN apk del .build-deps
+RUN apk del .build-deps && npm install
 
 FROM scratch
 COPY --from=squashme / /

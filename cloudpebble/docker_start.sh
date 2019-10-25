@@ -7,7 +7,7 @@ if [ ! -z "$RUN_WEB" ]; then
         #python manage.py makemigrations
 	python manage.py migrate --fake-initial
 
-	python manage.py runserver 0.0.0.0:$PORT
+	python manage.py runserver 0.0.0.0:$PORT --nostatic
 elif [ ! -z "$RUN_CELERY" ]; then
 	sleep 2
 	#C_FORCE_ROOT=true celery -A cloudpebble worker --loglevel=info

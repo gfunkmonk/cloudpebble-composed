@@ -16,7 +16,7 @@
       "required": true
     },
     "BROKER_POOL_LIMIT": "1",
-    "BUILDPACK_URL": "https://github.com/pebble/cloudpebble-buildpack",
+    "BUILDPACK_URL": "https://github.com/pebble/cloudpebble-buildpack.git#pipeline",
     "COMPLETION_CERTS": "/app/completion-certs.crt",
     "ENABLE_KEEN": "yes",
     "FROM_EMAIL": "noreply@cloudpebble.net",
@@ -24,7 +24,7 @@
     "KEEN_WRITE_KEY": {
       "required": true
     },
-    "LIBPEBBLE_PROXY": "wss://cloudpebble-ws.herokuapp.com/tool",
+    "LIBPEBBLE_PROXY": "wss://cloudpebble-ws-proxy-1/tool",
     "MAINTENANCE_PAGE_URL": "//static.cloudpebble.net/maintenance/back-soon.html",
     "PEBBLE_TOOL": "/app/sdk2/bin/pebble",
     "PUBLIC_URL": "/",
