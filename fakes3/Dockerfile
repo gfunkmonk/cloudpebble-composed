@@ -1,5 +1,5 @@
-FROM ruby:2.5-alpine3.8
-#FROM alpine:3.5
+#FROM ruby:2.5-alpine3.8
+FROM andrius/alpine-ruby:3.6
 
 ARG HOST_NAME=s3.amazonaws.com
 ENV FAKES3_VERSION 2.0.0

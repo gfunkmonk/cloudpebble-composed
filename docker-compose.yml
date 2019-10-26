@@ -7,6 +7,7 @@ services:
     - "80:80"
     volumes:
       - "./cloudpebble/:/code"
+      - "./data/node/:/opt/npm/"
     links:
       - redis
       - postgres
@@ -32,6 +33,7 @@ services:
     restart: always
     volumes:
       - "./cloudpebble/:/code"
+      - "./data/node/:/opt/npm/"
     links:
       - redis
       - postgres
@@ -63,7 +65,7 @@ services:
     ports:
       - "8002:80"
   redis:
-    image: redis:3.0.6-alpine
+    image: redis:alpine
     #image: redis
     restart: always
     volumes:
@@ -71,7 +73,7 @@ services:
     ports:
       - 6379:6379
   postgres:
-    image: postgres:10-alpine
+    image: postgres:11-alpine
     #image: postgres
     restart: always
     volumes: 
