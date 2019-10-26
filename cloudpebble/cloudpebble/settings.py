@@ -109,7 +109,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = False
+USE_I18N = True
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -241,6 +241,8 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+     os.path.join(os.path.dirname(__file__), '..', 'ide/templates'),
+     os.path.join(os.path.dirname(__file__), '..', 'root/templates'),
 )
 
 INSTALLED_APPS = (
@@ -269,6 +271,7 @@ INSTALLED_APPS = (
     'djangobower',
     'robots',
     'django_celery_beat',
+    'redisboard',
     'django_extensions',
 )
 # This logging config prints:
@@ -324,12 +327,12 @@ REDIS_URL = _environ.get('REDIS_URL', None) or _environ.get('REDISCLOUD_URL', 'r
 
 BROKER_URL = REDIS_URL + '/1'
 CELERY_RESULT_BACKEND = BROKER_URL
-##CELERY_ACCEPT_CONTENT = ['json', 'pickle']
-##CELERY_TASK_SERIALIZER = 'pickle'
-##CELERY_RESULT_SERIALIZER = 'pickle'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json', 'pickle']
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
+##CELERY_ACCEPT_CONTENT = ['application/json']
+##CELERY_TASK_SERIALIZER = 'json'
+##CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'America/New_York'
 CELERY_ENABLE_UTC = False
 CELERYBEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

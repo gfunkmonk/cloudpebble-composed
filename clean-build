@@ -6,6 +6,7 @@ uber-clean
 #env shit
 source .env
 cp .env cloudpebble/.env
+docker-compose down
 # Run the general build.
 #docker build --compress --force-rm --pull --squash -f cloudpebble-qemu-controller/Dockerfile -t cloudpebble_qemu:latest cloudpebble-qemu-controller/
 #docker build --compress --force-rm --pull --squash -f cloudpebble-ycmd-proxy/Dockerfile -t cloudpebble_ycmd:latest cloudpebble-ycmd-proxy/

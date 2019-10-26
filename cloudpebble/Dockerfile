@@ -51,11 +51,11 @@ RUN make -C /code/c-preload
 
 RUN apk del .build-deps && rm -rf /var/cache/apk/*
 
-FROM scratch
-COPY --from=squashme / /
-ENV WAF_NODE_PATH=/sdk3/node_modules
+#FROM scratch
+#COPY --from=squashme / /
+#ENV WAF_NODE_PATH=/sdk3/node_modules
 #ENV NODE_MODULES_PATH /opt/npm/node_modules
-WORKDIR /code
+#WORKDIR /code
 
 #RUN python manage.py collectstatic --noinput -c
 
