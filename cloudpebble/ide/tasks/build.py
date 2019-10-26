@@ -97,16 +97,12 @@ def run_compile(build_result):
                 for version in dependencies.values():
                     validate_dependency_version(version)
                 npm_command = [settings.NPM_BINARY, "install", "--ignore-scripts", "--no-bin-links"]
-                output = subprocess.check_output(npm_command, stderr=subprocess.STDOUT, preexec_fn=_set_resource_limits)
-                subprocess.check_output([settings.NPM_BINARY, "dedupe"], stderr=subprocess.STDOUT, preexec_fn=_set_resource_limits)
+                output = subprocess.check_output(npm_command, stderr=subprocess.STDOUT, preexec_fn=_set_resource_limits, env=environ)
+                subprocess.check_output([settings.NPM_BINARY, "dedupe"], stderr=subprocess.STDOUT, preexec_fn=_set_resource_limits, env=environ)
 
             if project.sdk_version == '2':
-                environ = os.environ.copy()
-                environ['PATH'] = '{}:{}'.format(settings.ARM_CS_TOOLS, environ['PATH'])
                 command = [settings.SDK2_PEBBLE_WAF, "configure", "build"]
             elif project.sdk_version == '3':
-                environ = os.environ.copy()
-                environ['PATH'] = '{}:{}'.format(settings.ARM_CS_TOOLS, environ['PATH'])
                 if settings.WAF_NODE_PATH:
                     environ['NODE_PATH'] = settings.WAF_NODE_PATH
                 command = [settings.SDK3_PEBBLE_WAF, "configure", "build"]

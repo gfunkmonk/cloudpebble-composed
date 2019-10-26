@@ -89,9 +89,7 @@
         }
 
         function handleMouseDown(e) {
-            if (e.which != 1) {
-                return;
-            } // left mouse button
+            if(e.which != 1) return; // left mouse button
             mNode.one('mouseup', handleMouseUp);
             mNode.on('mousemove', handleDrag);
             $('body').one('mouseup', handlePageMouseUp);
@@ -134,9 +132,7 @@
             if(mMouseDownNode) {
                 var mousePos = eventToPosition(e);
                 var object = mMouseDownNode.data('object');
-                if (!object) {
-                    return;
-                }
+                if(!object) return;
                 if(object instanceof IB.Layer) {
                     object.setPos(mousePos.x - mMouseNodeOffset.x, mousePos.y - mMouseNodeOffset.y);
                     object.render();
@@ -292,7 +288,7 @@
             var prefix = "s_" + layerType.toLowerCase() + "_";
             var counter = 1;
             while((prefix + counter) in mChildren) {
-                counter += 1;
+                ++counter;
             }
             return prefix + counter;
         };

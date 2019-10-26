@@ -129,9 +129,7 @@
         }
 
         function handleCanvasClick() {
-            if (mGrabbedKeyboard) {
-                return true;
-            }
+            if(mGrabbedKeyboard) return true;
             setTimeout(function() {
                 grabKeyboard();
                 $(document).on('click', handleNonCanvasClick);
@@ -178,9 +176,7 @@
         }
 
         function loadScripts() {
-            if (sLoadedScripts) {
-                return Promise.resolve();
-            }
+            if (sLoadedScripts) return Promise.resolve();
             return new Promise(function(resolve, reject) {
                 console.log("loading vnc client...");
                 Util.load_scripts(URL_VNC_INCLUDES);
@@ -314,9 +310,7 @@
         };
 
         this.handleButton = function(button, down) {
-            if (!mRFB) {
-                return;
-            }
+            if(!mRFB) return;
             var buttonMap = {
                 'up': Pebble.Button.Up,
                 'select': Pebble.Button.Select,
