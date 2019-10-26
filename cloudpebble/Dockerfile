@@ -17,7 +17,7 @@ RUN npm install -g jshint bower && printf '{"allow_root": true}' > /root/.bowerr
 EXPOSE 8000
 
 ADD requirements.txt /tmp/requirements.txt
-RUN pip install psycopg2 django==1.9.12 && pip install --no-cache-dir -r /tmp/requirements.txt
+RUN pip install psycopg2 django==1.10 && pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Grab the toolchain
 RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
