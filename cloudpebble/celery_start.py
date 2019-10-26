@@ -13,7 +13,7 @@ import subprocess
 
 code_dir_to_monitor = "/code"
 celery_working_dir = code_dir_to_monitor #happen to be the same. It may be different on your machine
-celery_cmdline = 'celery worker -A cloudpebble -l INFO'.split(" ")
+celery_cmdline = 'celery worker -A cloudpebble -l FATAL'.split(" ")
 
 class MyHandler(PatternMatchingEventHandler):
 

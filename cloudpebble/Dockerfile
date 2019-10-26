@@ -1,5 +1,6 @@
 FROM gfunkmonk/alpine-python-node:3.10 AS squashme
 SHELL ["/bin/bash", "-c"]
+VOLUME ["/opt/node_modules"]
 
 RUN apk update && apk add --no-cache memcached postgresql-client postgresql-dev gettext git freetype \
  gcc g++ && apk add --no-cache --virtual .build-deps zlib-dev jpeg-dev linux-headers musl-dev python2-dev xz wget make curl && \
@@ -17,11 +18,13 @@ RUN npm install -g jshint bower && printf '{"allow_root": true}' > /root/.bowerr
 EXPOSE 8000
 
 ADD requirements.txt /tmp/requirements.txt
-RUN pip install psycopg2 django==1.10 && pip install --no-cache-dir -r /tmp/requirements.txt
+RUN pip install psycopg2 django==1.9.12 && pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Grab the toolchain
-RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
-  tar -xf /tmp/arm-cs-tools.tar -C / && rm /tmp/arm-cs-tools.tar
+RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+  wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-2.29-r0.apk && \
+  apk add glibc-2.29-r0.apk && rm glibc-2.29-r0.apk && \
+  curl -L "http://pebble.gfunkmonk.info/secret/arm-cs-tools/GNU/arm-cs-tools-stripped.tar.xz" | tar -xJ -C /
 
 # Install SDK 2
 RUN mkdir /sdk2 && \
@@ -42,7 +45,7 @@ WORKDIR /code
 
 # Bower is awful.
 RUN python /code/manage.py bower cache clean
-RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/
+RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/ && cd /code/bower_components/
 RUN python manage.py compilemessages
 RUN make -C /code/c-preload
 

@@ -6,7 +6,7 @@ RUN apk update && apk add --no-cache ncurses-dev && apk add --no-cache --virtual
   #&& curl -L https://unpkg.com/@pnpm/self-installer | node
 
 # ycmd
-ADD CMakeLists-v7.txt /tmp/CMakeLists.txt
+ADD CMakeLists-v9.txt /tmp/CMakeLists.txt
 
 RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
 #RUN git clone https://github.com/gfunkmonk/ycmd.git -b cloudpebble /ycmd && cd /ycmd && \
@@ -20,8 +20,10 @@ RUN git clone https://github.com/Valloric/ycmd.git /ycmd && cd /ycmd && \
   python build.py --clang-completer 
 
 # Grab the toolchain
-RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar && \
-  tar -xf /tmp/arm-cs-tools.tar -C / && rm /tmp/arm-cs-tools.tar
+RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+  wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-2.29-r0.apk && \
+  apk add glibc-2.29-r0.apk && rm glibc-2.29-r0.apk && \
+  curl -L "http://pebble.gfunkmonk.info/secret/arm-cs-tools/GNU/arm-cs-tools-stripped.tar.xz" | tar -xJ -C /
 
 # Install SDK 2
 RUN mkdir /sdk2 && \

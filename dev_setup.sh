@@ -4,7 +4,7 @@ cp .env cloudpebble/.env
 # Run the general build.
 #docker build --compress --force-rm --pull --squash -f cloudpebble-qemu-controller/Dockerfile -t cloudpebble_qemu:latest cloudpebble-qemu-controller/
 #docker build --compress --force-rm --pull --squash -f cloudpebble-ycmd-proxy/Dockerfile -t cloudpebble_ycmd:latest cloudpebble-ycmd-proxy/
-docker-compose build --squash --compress --force-rm --pull
+docker-compose build --squash --compress --force-rm --pull --parallel
 #docker-compose build --pull
 # Do this in the mounted directory, since the Dockerfile did it in a folder we
 # mask by mounting over it
