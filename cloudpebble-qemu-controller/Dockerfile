@@ -41,7 +41,7 @@ RUN mkdir /qemu-tintin-images && cd /qemu-tintin-images && \
   curl -L https://github.com/pebble/qemu-tintin-images/archive/v4.3.tar.gz | \
   tar xz --strip 1
 
-RUN apk del .build-deps
+RUN apk del .build-deps && rm -rf /var/cache/apk/*
 
 COPY . /code
 

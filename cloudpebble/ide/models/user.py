@@ -40,6 +40,7 @@ class UserSettings(IdeModel):
         ('tomorrow-night-eighties', 'Tomorrow Night (80s)'),
         ('3024-night', '3024 (night)'),
         ('xq-dark', 'xq (dark)'),
+        ('midnight', 'midnight'),
     )
 
     USE_SPACES_CHOICES = (
