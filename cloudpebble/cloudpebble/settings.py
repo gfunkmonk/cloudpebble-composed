@@ -79,6 +79,28 @@ LANGUAGE_COOKIE_NAME = 'cloudpebble_language'
 #    "social.apps.django_app.context_processors.login_redirect",
 #)
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+           os.path.join(BASE_DIR, "ide/templates"),
+           os.path.join(BASE_DIR, "root/templates"),
+         ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                #'social.apps.django_app.context_processors.backends',
+                #'social.apps.django_app.context_processors.login_redirect',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+             ],
+        },
+    },
+]
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ['*']
@@ -196,6 +218,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -206,16 +229,16 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
     'site_auth.pebble.merge_user', # formerly social.pipeline.social_auth.social_user
-    'social.pipeline.user.get_username',
-    'social.pipeline.user.create_user',
-    'social.pipeline.social_auth.associate_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
     'site_auth.pebble.clear_old_login',
-    'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details'
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details'
 )
 
 SOCIAL_AUTH_PEBBLE_KEY = _environ.get('PEBBLE_AUTH_KEY', None)
@@ -231,6 +254,13 @@ SESSION_COOKIE_SECURE = SHOULD_BE_SECURE
 CSRF_COOKIE_SECURE = SHOULD_BE_SECURE
 
 SOCIAL_AUTH_PEBBLE_REQUIRED = 'PEBBLE_AUTH_REQUIRED' in _environ
+
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
+
+SOCIAL_AUTH_STRATEGY = 'social_django.strategy.DjangoStrategy'
+SOCIAL_AUTH_STORAGE = 'social_django.models.DjangoStorage'
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 ROOT_URLCONF = 'cloudpebble.urls'
 
@@ -260,7 +290,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'social.apps.django_app.default',
+    #'social.apps.django_app.default',
+    'social_django',
     'ide',
     'site_auth',
     'root',
@@ -347,6 +378,7 @@ BROKER_POOL_LIMIT = int(_environ.get('BROKER_POOL_LIMIT', 10))
 LOGIN_REDIRECT_URL = '/ide/'
 
 LOGIN_URL = '/#login'
+
 
 FILE_STORAGE = os.getcwd() + '/user_data/'
 

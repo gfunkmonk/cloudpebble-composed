@@ -44,7 +44,7 @@ COPY . /code
 WORKDIR /code
 
 # Bower is awful.
-RUN python /code/manage.py bower cache clean
+#RUN python /code/manage.py bower cache clean
 RUN rm -rf bower_components && cd /tmp && python /code/manage.py bower install && mv bower_components /code/ && cd /code/bower_components/
 RUN python manage.py compilemessages
 RUN make -C /code/c-preload

@@ -24,10 +24,12 @@ class UserSettings(IdeModel):
     KEYBIND_STANDARD = 'default'
     KEYBIND_VIM = 'vim'
     KEYBIND_EMACS = 'emacs'
+    KEYBIND_SUBLIME = 'sublime'
     KEYBIND_CHOICES = (
         (KEYBIND_STANDARD, _('Standard')),
         (KEYBIND_VIM, _('vim-like')),
         (KEYBIND_EMACS, _('emacs-like')),
+        (KEYBIND_SUBLIME, _('sublime-like')),
     )
 
     THEME_CHOICES = (
