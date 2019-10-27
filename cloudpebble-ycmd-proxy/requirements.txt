@@ -2,7 +2,7 @@ Flask==1.0.1
 Flask-Cors==3.0.2
 Jinja2==2.10.3
 MarkupSafe==0.23
-Werkzeug==0.14
+Werkzeug==0.16.0
 gevent==1.1.1
 gevent-websocket>=0.9.3
 greenlet>=0.4.14
