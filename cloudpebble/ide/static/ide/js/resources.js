@@ -531,7 +531,7 @@ CloudPebble.Resources = (function() {
 
                     // Only show the delete-identifiers button if there is more than one ID.
                     pane.find('.btn-delidentifier').toggle(resource.resource_ids.length > 1);
-                }).catch(function() {/* ignore failure */});;
+                }).catch(function() {/* ignore failure */});
             };
 
             // Generate a preview.

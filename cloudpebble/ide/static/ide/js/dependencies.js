@@ -397,7 +397,7 @@ CloudPebble.Dependencies = (function() {
                 var a_d = a.latest_successful_build;
                 var b_d = b.latest_successful_build;
                 if (!!a_d != !!b_d) {
-                    return !!a_d ? -1 : 1;
+                    return a_d ? -1 : 1;
                 }
                 return (a.package_name > b.package_name)
 
@@ -406,7 +406,7 @@ CloudPebble.Dependencies = (function() {
     }
 
     function render_cloudpebble_dependency(project) {
-        var date_text = !!project.latest_successful_build ? CloudPebble.Utils.FormatDatetime(project.latest_successful_build) : gettext("Never");
+        var date_text = project.latest_successful_build ? CloudPebble.Utils.FormatDatetime(project.latest_successful_build) : gettext("Never");
         return $('<tr>').append([
             $('<td>').append($('<input type="checkbox">')
                 .prop('checked', project.depended_on)

@@ -796,7 +796,7 @@ CloudPebble.Editor = (function() {
             cm.showHint({hint: CloudPebble.Editor.Autocomplete.complete, completeSingle: false});
         };
         CodeMirror.commands.save = function(cm) {
-            cm.cloudpebble_save().catch(alert);;
+            cm.cloudpebble_save().catch(alert);
         };
         CodeMirror.commands.saveAll = function(cm) {
             save_all().catch(alert);
@@ -1011,7 +1011,7 @@ CloudPebble.Editor = (function() {
         }
 
         function get_js_target(selector) {
-            var target = !!selector ? prompt.find(selector + ':visible').val() : null;
+            var target = selector ? prompt.find(selector + ':visible').val() : null;
             if (!target) {
                 target = _.contains(['native', 'package'], CloudPebble.ProjectInfo.type) ? 'pkjs': 'app';
             }
