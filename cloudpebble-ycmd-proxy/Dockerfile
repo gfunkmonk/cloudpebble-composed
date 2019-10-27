@@ -40,6 +40,10 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 RUN apk del .build-deps && rm -rf /var/cache/apk/*
 
+RUN ln -sf /ycmd/libclang.so /ycmd/libclang.so.9 && \
+  ln -sf /ycmd/libclang.so /ycmd/libclang.so.7 && \
+  ln -sf /ycmd/libclang.so /ycmd/libclang.so.5
+
 COPY . /code
 FROM scratch
 COPY --from=squashme / /

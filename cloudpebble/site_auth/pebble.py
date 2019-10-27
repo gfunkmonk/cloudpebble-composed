@@ -1,5 +1,5 @@
 from social_core.backends.oauth import BaseOAuth2, OAuthAuth
-#from social_django.strategy import DjangoStrategy
+from social_django.strategy import DjangoStrategy
 
 from django.conf import settings
 from ide.models.user import UserGithub
@@ -43,7 +43,7 @@ class PebbleOAuth2(BaseOAuth2):
 
 def merge_user(backend, uid, user=None, *args, **kwargs):
     provider = backend.name
-    social = backend.storage.user.get_social_auth(provider, uid)
+    social = backend.strategy.storage.user.get_social_auth(provider, uid)
     if social:
         if user and social.user != user:
             # msg = 'This {0} account is already in use.'.format(provider)
@@ -73,7 +73,7 @@ def merge_user(backend, uid, user=None, *args, **kwargs):
 
 def clear_old_login(backend, uid, user=None, *args, **kwargs):
     provider = backend.name
-    social = backend.storage.user.get_social_auth(provider, uid)
+    social = backend.strategy.storage.user.get_social_auth(provider, uid)
     if user and social and user == social.user:
         if user.has_usable_password():
             user.set_unusable_password()
