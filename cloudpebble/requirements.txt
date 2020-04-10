@@ -35,8 +35,8 @@ pypng==0.0.20
 # Additional requirements
 anyjson==0.3.3
 billiard==3.5.0.3
-docopt==0.6.2 
-greenlet>=0.4.9 
+docopt==0.6.2
+greenlet>=0.4.9
 httplib2==0.17.2
 kombu==4.1.0
 oauthlib==1.0.3
