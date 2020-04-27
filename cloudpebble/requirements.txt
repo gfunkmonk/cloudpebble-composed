@@ -29,7 +29,7 @@ newrelic==2.50.0.39
 
 # These are in the SDK requirements.txt and included here to save on Heroku deploy time.
 freetype-py==1.0
-sh==1.08
+sh==1.13.0
 pypng==0.0.20
 
 # Additional requirements
