@@ -46,7 +46,7 @@ python-openid==2.2.5
 pytz==2016.3
 requests-oauthlib==0.6.1
 rsa==3.4.1
-six==1.10.0
+six==1.15.0
 static3==0.7.0
 #####################
 #for starting celery now
