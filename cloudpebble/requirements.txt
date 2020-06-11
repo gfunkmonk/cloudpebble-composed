@@ -45,7 +45,7 @@ pyasn1-modules==0.2.2
 python-openid==2.2.5
 pytz==2016.3
 requests-oauthlib==0.6.1
-rsa==3.4.1
+rsa==4.1
 six==1.10.0
 static3==0.7.0
 #####################
