@@ -62,4 +62,4 @@ django-admin-interface
 django-extensions==2.1.0
 django-timezone-field==2.0
 django-celery-beat==1.4.0
-django-redisboard==3.0.2
+django-redisboard==4.1.0
