@@ -15,6 +15,8 @@ import utils.s3 as s3
 __author__ = 'katharine'
 
 
+def make_uuid():
+    return str(uuid.uuid4())
 class BuildResult(IdeModel):
 
     STATE_WAITING = 1
@@ -37,7 +39,7 @@ class BuildResult(IdeModel):
     DEBUG_WORKER = 1
 
     project = models.ForeignKey(Project, related_name='builds')
-    uuid = models.CharField(max_length=36, default=lambda: str(uuid.uuid4()), validators=regexes.validator('uuid', _('Invalid UUID.')))
+    uuid = models.CharField(max_length=36, default=make_uuid, validators=regexes.validator('uuid', _('Invalid UUID.')))
     state = models.IntegerField(choices=STATE_CHOICES, default=STATE_WAITING)
     started = models.DateTimeField(auto_now_add=True, db_index=True)
     finished = models.DateTimeField(blank=True, null=True)
@@ -59,27 +61,27 @@ class BuildResult(IdeModel):
 
     @property
     def pbw(self):
-        return '%swatchface.pbw' % self._get_dir()
-
-    @property
-    def package(self):
-        return '%spackage.tar.gz' % self._get_dir()
-
-    @property
-    def package_url(self):
-        return '%spackage.tar.gz' % self.get_url()
-
-    @property
-    def build_log(self):
-        return '%sbuild_log.txt' % self._get_dir()
+        return '%sproject.pbw' % self._get_dir()
 
     @property
     def pbw_url(self):
-        return '%swatchface.pbw' % self.get_url()
+        return '%sproject.pbw' % self.get_url()
+
+    @property
+    def package(self):
+        return '%ssource.tar.gz' % self._get_dir()
+
+    @property
+    def package_url(self):
+        return '%ssource.tar.gz' % self.get_url()
+
+    @property
+    def build_log(self):
+        return '%scompile_log.txt' % self._get_dir()
 
     @property
     def build_log_url(self):
-        return '%sbuild_log.txt' % self.get_url()
+        return '%scompile_log.txt' % self.get_url()
 
     @property
     def simplyjs(self):

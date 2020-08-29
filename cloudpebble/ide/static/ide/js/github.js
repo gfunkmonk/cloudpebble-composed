@@ -187,7 +187,7 @@ CloudPebble.GitHub = (function() {
                 enable_all();
                 $('#github-commit-prompt').find('input, textarea, button').removeAttr('disabled');
             });
-            ga('send', 'event', 'github', 'push');
+            // ga('send', 'event', 'github', 'push');
         });
 
         $('#github-pull-prompt-confirm').click(function() {
@@ -203,7 +203,7 @@ CloudPebble.GitHub = (function() {
                 enable_all();
                 prompt.modal('hide');
             });
-            ga('send', 'event', 'github', 'pull');
+            // ga('send', 'event', 'github', 'pull');
         });
 
         CloudPebble.Sidebar.SetActivePane(pane, {id: 'github'});

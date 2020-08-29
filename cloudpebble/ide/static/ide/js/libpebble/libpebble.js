@@ -134,13 +134,13 @@ Pebble = function(proxy, token) {
     var handle_socket_error = function(e) {
         console.log("Socket error: " + e);
         self.trigger('error', e);
-        ga('send', 'event', 'phone-error');
+        // ga('send', 'event', 'phone-error');
     };
 
     var handle_socket_open = function(e) {
         console.log("Socket open");
         mHasConnected = true;
-        ga('send', 'event', 'phone-connect', 'success');
+        // ga('send', 'event', 'phone-connect', 'success');
         self.trigger('open');
     };
 
@@ -150,13 +150,13 @@ Pebble = function(proxy, token) {
             console.log("Close was unexpected.");
             if(!mHasConnected) {
                 self.trigger("error", "Connection to the phone failed. Check the IP and that developer mode is active.");
-                ga('send', 'event', 'phone-connect', 'failed');
+                // ga('send', 'event', 'phone-connect', 'failed');
             } else {
                 self.trigger("error", "Connection to the phone was interrupted.");
-                ga('send', 'event', 'phone-disconnect', 'dirty');
+                // ga('send', 'event', 'phone-disconnect', 'dirty');
             }
         } else {
-            ga('send', 'event', 'phone-disconnect', 'clean');
+            // ga('send', 'event', 'phone-disconnect', 'clean');
         }
         self.trigger('close');
     };
@@ -256,7 +256,7 @@ Pebble = function(proxy, token) {
             var length = unpack("I", data.subarray(1))[0];
             console.log(length);
             var url = unpack("S" + length, data.subarray(5))[0];
-			url = url.replace("http://clay.pebble.com.s3-website-us-west-2.amazonaws.com/", "https://elijahzawesome.github.io/clay-emulator/emulator.html");
+			url = url.replace("http://clay.pebble.com.s3-website-us-west-2.amazonaws.com/", "https://raw.githack.com/mfiscuss6445/clay-emulator/master/emulator.html");
             console.log("opening url: " + url);
             var new_url = manipulate_url(url);
             console.log("new url: " + new_url);
@@ -549,7 +549,7 @@ Pebble = function(proxy, token) {
     };
 
     function id_to_uuid(id) {
-        return _.UUID.v5(id + ".pins.developer.getpebble.com", "6ba7b810-9dad-11d1-80b4-00c04fd430c8");
+        return _.UUID.v5(id + ".pins.developer.rebble.io", "6ba7b810-9dad-11d1-80b4-00c04fd430c8");
     }
 
     this.emu_send_pin = function(pin_json) {

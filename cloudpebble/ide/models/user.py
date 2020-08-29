@@ -24,10 +24,12 @@ class UserSettings(IdeModel):
     KEYBIND_STANDARD = 'default'
     KEYBIND_VIM = 'vim'
     KEYBIND_EMACS = 'emacs'
+    KEYBIND_SUBLIME = 'sublime'
     KEYBIND_CHOICES = (
         (KEYBIND_STANDARD, _('Standard')),
         (KEYBIND_VIM, _('vim-like')),
         (KEYBIND_EMACS, _('emacs-like')),
+        (KEYBIND_SUBLIME, _('sublime-like')),
     )
 
     THEME_CHOICES = (
@@ -37,6 +39,10 @@ class UserSettings(IdeModel):
         ('eclipse', 'Eclipse'),
         ('solarized light', 'Solarized (light)'),
         ('solarized dark', 'Solarized (dark)'),
+        ('tomorrow-night-eighties', 'Tomorrow Night (80s)'),
+        ('3024-night', '3024 (night)'),
+        ('xq-dark', 'xq (dark)'),
+        ('midnight', 'midnight'),
     )
 
     USE_SPACES_CHOICES = (
@@ -49,9 +55,9 @@ class UserSettings(IdeModel):
 
     autocomplete = models.IntegerField(choices=AUTOCOMPLETE_CHOICES, verbose_name=_("Autocompletion"), default=AUTOCOMPLETE_ALWAYS)
     keybinds = models.CharField(max_length=20, verbose_name=_("Keybinds"), choices=KEYBIND_CHOICES, default=KEYBIND_STANDARD)
-    theme = models.CharField(max_length=50, verbose_name=_("Theme"), choices=THEME_CHOICES, default='cloudpebble')
+    theme = models.CharField(max_length=50, verbose_name=_("Theme"), choices=THEME_CHOICES, default='solarized dark')
     use_spaces = models.BooleanField(default=True, verbose_name=pgettext_lazy("number of spaces", u"Indents"), choices=USE_SPACES_CHOICES)
-    tab_width = models.PositiveSmallIntegerField(default=2, verbose_name=_("Tab width"))
+    tab_width = models.PositiveSmallIntegerField(default=4, verbose_name=_("Tab width"))
 
     # Used for the Pebble ownership transition, when it was set to False.
     accepted_terms = models.BooleanField(default=True)

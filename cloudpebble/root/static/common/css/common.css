@@ -1,6 +1,6 @@
 body {
     color: #969696;
-    background-color: #333;
+    background-color: #1f1f36;
     font-family: PFD-Light,'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: normal;
     margin: 0;
@@ -8,7 +8,7 @@ body {
 }
 
 .main-container {
-    background-color: #333;
+    background-color: #1f1f36;
 }
 
 .header {
@@ -477,7 +477,7 @@ input[type=checkbox]:disabled {
 }
 
 .nav-tabs li.active > a {
-    color: #333;
+    color: #1f1f36;
 }
 
 /* Modals! */
@@ -489,7 +489,7 @@ input[type=checkbox]:disabled {
     z-index: 10001;
     margin-left: -300px;
     width: 600px;
-    background-color: #333;
+    background-color: #1f1f36;
     border: 1px solid #999;
     border: 1px solid rgba(0,0,0,0.3);
     border-radius: 10px;

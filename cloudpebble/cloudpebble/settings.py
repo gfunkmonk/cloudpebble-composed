@@ -14,6 +14,7 @@ TESTING = 'test' in sys.argv
 TRAVIS = 'TRAVIS' in _environ and os.environ["TRAVIS"] == "true"
 TEMPLATE_DEBUG = DEBUG
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ADMINS = (
     ('Administrator', 'example@example.com'),
 )
@@ -52,24 +53,53 @@ elif 'DATABASE_URL' not in _environ:
 else:
     DATABASES = {
         'default': dj_database_url.config()
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
     }
+}
 
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__)) + '/../'
 
 LANGUAGE_COOKIE_NAME = 'cloudpebble_language'
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    "social.apps.django_app.context_processors.backends",
-    "social.apps.django_app.context_processors.login_redirect",
-)
+#TEMPLATE_CONTEXT_PROCESSORS = (
+#    "django.contrib.auth.context_processors.auth",
+#    "django.core.context_processors.debug",
+#    "django.core.context_processors.i18n",
+#    "django.core.context_processors.media",
+#    "django.core.context_processors.static",
+#    "django.core.context_processors.tz",
+#    "django.contrib.messages.context_processors.messages",
+#    "social.apps.django_app.context_processors.backends",
+#    "social.apps.django_app.context_processors.login_redirect",
+#)
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+           os.path.join(BASE_DIR, "ide/templates"),
+           os.path.join(BASE_DIR, "root/templates"),
+         ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                #'social.apps.django_app.context_processors.backends',
+                #'social.apps.django_app.context_processors.login_redirect',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+             ],
+        },
+    },
+]
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ['*']
@@ -82,7 +112,7 @@ TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-gb'
+LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = (
     ('en', 'English'),
@@ -125,7 +155,7 @@ MEDIA_URL = _environ.get('MEDIA_URL', 'http://localhost:8001/builds/')
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -138,6 +168,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+     os.path.join(os.path.dirname(__file__), '..', 'bower_components'),
 )
 
 # List of finder classes that know how to find static files in
@@ -150,21 +181,21 @@ STATICFILES_FINDERS = (
 )
 
 BOWER_INSTALLED_APPS = (
-    'https://github.com/krisk/Fuse.git#2ec2f2c40059e135cabf2b01c8c3f96f808b8809',
+    'https://github.com/krisk/Fuse.git#a546cb3aa2a845e4f4cb2460ad94e0b92ccbe407',
     'jquery#~2.1.3',
     'underscore',
     'backbone',
     'text-encoding',
     'jshint/jshint',
     'html.sortable#~0.3.1',
-    'alexgorbatchev/jquery-textext',
-    'codemirror#4.2.0',
-    'bluebird#3.3.4',
-    'kanaka/noVNC#v0.5',
+    'gfunkmonk/jquery-textext',
+    'CodeMirror#5.15.2',
+    'bluebird#~3.3.5',
+    'kanaka/noVNC#0.5.1',
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = _environ.get('SECRET_KEY', 'y_!-!-i!_txo$v5j(@c7m4uk^jyg)l4bf*0yqrztmax)l2027j')
+SECRET_KEY = _environ.get('SECRET_KEY', None)
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -184,30 +215,31 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
-    'auth.pebble.PebbleOAuth2',
+    'site_auth.pebble.PebbleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
 SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
-    'auth.pebble.merge_user', # formerly social.pipeline.social_auth.social_user
-    'social.pipeline.user.get_username',
-    'social.pipeline.user.create_user',
-    'social.pipeline.social_auth.associate_user',
-    'auth.pebble.clear_old_login',
-    'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details'
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'site_auth.pebble.merge_user', # formerly social.pipeline.social_auth.social_user
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'site_auth.pebble.clear_old_login',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details'
 )
 
-SOCIAL_AUTH_PEBBLE_KEY = _environ.get('PEBBLE_AUTH_KEY', 'bab3e760ede6e592517682837a054beff83c8a80725d8e13fa122e8e87e99c20')
-SOCIAL_AUTH_PEBBLE_SECRET = _environ.get('PEBBLE_AUTH_SECRET', '7bf8b96fd736f3a2ac12d472b0703d44503441913626deed86180c0f47dcbb08')
+SOCIAL_AUTH_PEBBLE_KEY = _environ.get('PEBBLE_AUTH_KEY', None)
+SOCIAL_AUTH_PEBBLE_SECRET = _environ.get('PEBBLE_AUTH_SECRET', None)
 
 SOCIAL_AUTH_PEBBLE_ROOT_URL = _environ.get('PEBBLE_AUTH_URL', None)
 PEBBLE_AUTH_ADMIN_TOKEN = _environ.get('PEBBLE_AUTH_ADMIN_TOKEN', None)
@@ -220,6 +252,13 @@ CSRF_COOKIE_SECURE = SHOULD_BE_SECURE
 
 SOCIAL_AUTH_PEBBLE_REQUIRED = 'PEBBLE_AUTH_REQUIRED' in _environ
 
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
+
+SOCIAL_AUTH_STRATEGY = 'social_django.strategy.DjangoStrategy'
+SOCIAL_AUTH_STORAGE = 'social_django.models.DjangoStorage'
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
 ROOT_URLCONF = 'cloudpebble.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -229,6 +268,8 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+     os.path.join(os.path.dirname(__file__), '..', 'ide/templates'),
+     os.path.join(os.path.dirname(__file__), '..', 'root/templates'),
 )
 
 INSTALLED_APPS = (
@@ -238,19 +279,28 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'admin_interface',
+    #'flat',
+    'flat_responsive',
+    'colorfield',
     # Uncomment the next line to enable the admin:
-    #'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'social.apps.django_app.default',
+    #'social.apps.django_app.default',
+    'social_django',
     'ide',
-    'auth',
+    'site_auth',
     'root',
     'qr',
-    'south',
-    'djcelery',
+    #'south',
+    #'djcelery',
     'registration',
     'djangobower',
+    'robots',
+    'django_celery_beat',
+    'redisboard',
+    'django_extensions',
 )
 
 # This logging config prints:
@@ -306,8 +356,17 @@ REDIS_URL = _environ.get('REDIS_URL', None) or _environ.get('REDISCLOUD_URL', 'r
 
 BROKER_URL = REDIS_URL + '/1'
 CELERY_RESULT_BACKEND = BROKER_URL
-CELERY_ACCEPT_CONTENT = ['pickle']
+CELERY_ACCEPT_CONTENT = ['json', 'pickle']
 CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
+##CELERY_ACCEPT_CONTENT = ['application/json']
+##CELERY_TASK_SERIALIZER = 'json'
+##CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'America/New_York'
+CELERY_ENABLE_UTC = False
+CELERYBEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CELERYD_HIJACK_ROOT_LOGGER = False
 
 CELERYD_TASK_TIME_LIMIT = int(_environ.get('CELERYD_TASK_TIME_LIMIT', 620))
 CELERYD_TASK_SOFT_TIME_LIMIT = int(_environ.get('CELERYD_TASK_SOFT_TIME_LIMIT', 600))
@@ -328,8 +387,8 @@ EXPORT_DIRECTORY = os.getcwd() + '/user_data/export/'
 
 EXPORT_ROOT = _environ.get('EXPORT_ROOT', 'http://localhost:8001/export/')
 
-GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', 'Iv1.0729087a1055e2af')
-GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', '8baac2f3ee06b17ba251c1523c31c707935b5f7c')
+GITHUB_CLIENT_ID = _environ.get('GITHUB_ID', None)
+GITHUB_CLIENT_SECRET = _environ.get('GITHUB_SECRET', None)
 
 GITHUB_HOOK_TEMPLATE = _environ.get('GITHUB_HOOK', 'http://example.com/ide/project/%(project)d/github/push_hook?key=%(key)s')
 
@@ -371,8 +430,14 @@ PHONE_SHORTURL = _environ.get('PHONE_SHORTURL', 'cpbl.io')
 
 WAF_NODE_PATH = _environ.get('WAF_NODE_PATH', None)
 
-import djcelery
-djcelery.setup_loader()
+ROBOTS_USE_SITEMAP = False
+ROBOTS_USE_SCHEME_IN_HOST = True
+ROBOTS_CACHE_TIMEOUT = 60*60*24
+
+USE_THOUSAND_SEPARATOR = True
+
+#import djcelery
+#djcelery.setup_loader()
 
 # import local settings
 try:

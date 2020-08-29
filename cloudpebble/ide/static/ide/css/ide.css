@@ -88,7 +88,7 @@ ul.nav-pills {
 /* Main content */
 
 #pane-parent {
-    background: #333333 url('../img/background-logo.png') no-repeat center;
+    background: #1f1f36 url('../img/background-logo.png') no-repeat center;
     position: absolute;
     top: 0;
     left: 285px;
@@ -97,7 +97,7 @@ ul.nav-pills {
 }
 
 #main-pane {
-    background: #333333;
+    background: #1f1f36;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -115,7 +115,7 @@ ul.nav-pills {
 
 .nav-list .active {
     color: white;
-    background-color: #333333;
+    background-color: #1f1f36;
 }
 
 .nav-list li.nav-section {
@@ -135,7 +135,7 @@ ul.nav-pills {
 
 .nav-list .project-name {
     color: #adadad;
-    border: 2px solid #333333;
+    border: 2px solid #1f1f36;
     display: inline-block;
     border-radius: 5px;
     padding: 4px 15px 2px;
@@ -907,6 +907,10 @@ table.build-results tr.pending .build-state {
     cursor: pointer;
 }
 
+.cm-s-midnight span.cm.autofiled,
+.cm-s-xq-dark span.cm.autofiled,
+.cm-s-3024-night span.cm.autofiled,
+.cm-s-tomorrow-night-eighties span.cm.autofiled,
 .cm-s-cloudpebble span.cm-autofilled,
 .cm-s-monokai span.cm-autofilled,
 .cm-s-blackboard span.cm-autofilled,

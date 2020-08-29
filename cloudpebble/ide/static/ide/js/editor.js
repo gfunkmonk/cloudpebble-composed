@@ -541,7 +541,7 @@ CloudPebble.Editor = (function() {
                 }).then(function(data) {
                     file.lastModified = data.modified;
                     mark_clean();
-                    ga('send', 'event' ,'file', 'save');
+                    // ga('send', 'event' ,'file', 'save');
                 }).finally(function() {
                     save_btn.prop('disabled', false);
                     delete_btn.prop('disabled', false);
@@ -669,7 +669,7 @@ CloudPebble.Editor = (function() {
                         save_btn.removeAttr('disabled');
                         delete_btn.removeAttr('disabled');
                     });
-                    ga('send', 'event', 'file', 'delete');
+                    // ga('send', 'event', 'file', 'delete');
                 });
             });
 
@@ -773,7 +773,7 @@ CloudPebble.Editor = (function() {
             CloudPebble.FuzzyPrompt.ReplaceCommands(commands);
 
             // Tell Google
-            ga('send', 'event', 'file', 'open');
+            // ga('send', 'event', 'file', 'open');
             return code_mirror;
         }).catch(function(error) {
             var error_box = $('<div class="alert alert-error"></div>');
@@ -796,7 +796,7 @@ CloudPebble.Editor = (function() {
             cm.showHint({hint: CloudPebble.Editor.Autocomplete.complete, completeSingle: false});
         };
         CodeMirror.commands.save = function(cm) {
-            cm.cloudpebble_save().catch(alert);;
+            cm.cloudpebble_save().catch(alert);
         };
         CodeMirror.commands.saveAll = function(cm) {
             save_all().catch(alert);
@@ -969,7 +969,7 @@ CloudPebble.Editor = (function() {
         if(_.isString(params)) {
             params = {name: params};
         }
-        ga('send', 'event', 'file', 'create');
+        // ga('send', 'event', 'file', 'create');
         return Ajax.Post("/ide/project/" + PROJECT_ID + "/create_source_file", params).then(function(data) {
             CloudPebble.YCM.createFile(data.file, params.content);
             add_source_file(data.file);
@@ -1011,7 +1011,7 @@ CloudPebble.Editor = (function() {
         }
 
         function get_js_target(selector) {
-            var target = !!selector ? prompt.find(selector + ':visible').val() : null;
+            var target = selector ? prompt.find(selector + ':visible').val() : null;
             if (!target) {
                 target = _.contains(['native', 'package'], CloudPebble.ProjectInfo.type) ? 'pkjs': 'app';
             }
@@ -1129,7 +1129,7 @@ CloudPebble.Editor = (function() {
                                 "}\n"
                         };
                         files = [c_file, h_file];
-                        //CloudPebble.Analytics.addEvent("cloudpebble_created_ui_layout", {name: name}, null, ['cloudpebble']);
+                        // CloudPebble.Analytics.addEvent("cloudpebble_created_ui_layout", {name: name}, null, ['cloudpebble']);
                     }
                 })();
             }

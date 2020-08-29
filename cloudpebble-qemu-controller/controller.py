@@ -6,7 +6,8 @@ gevent.monkey.patch_all(subprocess=True)
 import gevent
 import gevent.pool
 from flask import Flask, request, jsonify, abort
-from flask.ext.cors import CORS
+#from flask.ext.cors import CORS
+from flask_cors import CORS
 from time import time as now
 import ssl
 import os
@@ -103,7 +104,8 @@ def proxy_ws(emu, attr, subprotocols=[]):
     target_url = "ws://localhost:%d/" % getattr(emulator, attr)
     try:
         client_ws = websocket.create_connection(target_url, subprotocols=subprotocols, sslopt={
-            'ssl_version': ssl.PROTOCOL_TLSv1,
+#            'ssl_version': ssl.PROTOCOL_TLSv1,
+            'ssl_version': ssl.PROTOCOL_SSLv23,
             'ca_certs': '%s/ca-cert.pem' % settings.SSL_ROOT,
             'cert_reqs': ssl.CERT_NONE,
         })
@@ -197,7 +199,8 @@ if __name__ == '__main__':
             'keyfile': '%s/server-key.pem' % settings.SSL_ROOT,
             'certfile': '%s/server-cert.pem' % settings.SSL_ROOT,
             'ca_certs': '%s/ca-cert.pem' % settings.SSL_ROOT,
-            'ssl_version': ssl.PROTOCOL_TLSv1_2,
+#            'ssl_version': ssl.PROTOCOL_TLSv1_2,
+            'ssl_version': ssl.PROTOCOL_SSLv23,
             'ciphers': 'EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS !RC4',
         }
     server = pywsgi.WSGIServer(('', settings.PORT), app, handler_class=WebSocketHandler, **ssl_args)

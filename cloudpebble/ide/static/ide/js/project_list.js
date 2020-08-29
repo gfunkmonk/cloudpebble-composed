@@ -96,7 +96,7 @@ $(function() {
             contentType: false,
             dataType: 'json'
         }), active_set);
-        ga('send', 'event', 'project', 'import', 'zip');
+        // ga('send', 'event', 'project', 'import', 'zip');
     };
 
     function do_import(promise, active_set) {
@@ -138,7 +138,7 @@ $(function() {
             branch: branch,
             add_remote: add_remote
         }), active_set);
-        ga('send', 'event', 'project', 'import', 'github');
+        // ga('send', 'event', 'project', 'import', 'github');
     };
 
     var run_project_import = function() {

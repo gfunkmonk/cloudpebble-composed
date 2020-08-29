@@ -30,12 +30,12 @@ CloudPebble.Compile = (function() {
         if(build.state > 1) {
             var a = $('<a href="'+build.log+'" class="btn btn-small">' + gettext("Build log") + '</a>').click(function(e) {
                 if(e.ctrlKey || e.metaKey) {
-                    ga('send', 'event', 'build log', 'show', 'external');
+                    // ga('send', 'event', 'build log', 'show', 'external');
                     return true;
                 }
                 e.preventDefault();
                 show_build_log(build.id);
-                ga('send', 'event', 'build log', 'show', 'in-app');
+                // ga('send', 'event', 'build log', 'show', 'in-app');
             });
             td.append(a);
         }
@@ -238,7 +238,7 @@ CloudPebble.Compile = (function() {
             mRunningBuild = true;
             return update_build_history(pane);
         });
-        ga('send','event', 'build', 'run', {eventValue: ++m_build_count});
+        // ga('send','event', 'build', 'run', {eventValue: ++m_build_count});
     };
 
     var format_build_size = function(size, max_code, max_worker, max_resources) {
@@ -271,12 +271,12 @@ CloudPebble.Compile = (function() {
                 pane.find('#last-compilation-time').removeClass('hide').find('span').text(CloudPebble.Utils.FormatInterval(build.started, build.finished));
                 pane.find('#last-compilation-log').removeClass('hide').attr('href', build.log).off('click').click(function(e) {
                     if(e.ctrlKey || e.metaKey) {
-                        ga('send', 'event', 'build log', 'show', 'external');
+                        // ga('send', 'event', 'build log', 'show', 'external');
                         return true;
                     }
                     e.preventDefault();
                     show_build_log(build.id);
-                    ga('send', 'event', 'build log', 'show', 'in-app');
+                    // ga('send', 'event', 'build log', 'show', 'in-app');
                 });
                 pane.find('#compilation-run-build-button').removeAttr('disabled');
                 if(build.state == 3) {
@@ -535,7 +535,7 @@ CloudPebble.Compile = (function() {
                         });
                         modal.on('hide', stop_logs);
                         modal.find('.progress').addClass('progress-success').removeClass('progress-striped').find('.bar').css({width: '100%'});
-                        ga('send', 'event', 'install', 'direct', 'success');
+                       // ga('send', 'event', 'install', 'direct', 'success');
                         //CloudPebble.Analytics.addEvent('app_install_succeeded', {virtual: SharedPebble.isVirtual()});
                         resolve(pebble);
                     } else {
@@ -544,13 +544,13 @@ CloudPebble.Compile = (function() {
                         } else {
                             reject(new Error(gettext("Installation rejected. Check your phone for details.")));
                         }
-                        ga('send', 'event', 'install', 'direct', 'phone-error');
+                       // ga('send', 'event', 'install', 'direct', 'phone-error');
                         //CloudPebble.Analytics.addEvent('app_install_failed', {cause: 'rejected', virtual: SharedPebble.isVirtual()});
                     }
                 });
                 pebble.on('error', function(e) {
                     reject(new Error("Installation failed: " + e));
-                    ga('send', 'event', 'install', 'direct', 'connection-error');
+                   // ga('send', 'event', 'install', 'direct', 'connection-error');
                     //CloudPebble.Analytics.addEvent('app_install_failed', {cause: 'phone_disconnected', virtual: SharedPebble.isVirtual()});
                 });
 
@@ -637,7 +637,7 @@ CloudPebble.Compile = (function() {
 
     var show_clear_logs_prompt = function() {
         CloudPebble.Prompts.Confirm(gettext("Clear all app logs?"), gettext("This cannot be undone."), function() {
-            ga('send', 'event', 'logs', 'delete');
+           // ga('send', 'event', 'logs', 'delete');
             //CloudPebble.Analytics.addEvent('app_log_clear', {log_length: mPreviousDisplayLogs.length, virtual: SharedPebble.isVirtual()});
             mLogHolder.empty();
             mPreviousDisplayLogs = [];

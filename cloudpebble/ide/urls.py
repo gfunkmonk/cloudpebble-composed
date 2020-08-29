@@ -18,8 +18,9 @@ from ide.views.index import index
 from ide.views.project import view_project, github_hook, build_status, import_gist, qemu_config, enter_phone_token
 from ide.views.settings import settings_page, start_github_auth, remove_github_auth, complete_github_auth
 
-urlpatterns = patterns(
-    '',
+from django.views.i18n import javascript_catalog
+
+urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^import/github/(?P<github_account>.+?)/(?P<github_project>.+?)$', index, name='index'),
     url(r'^projects', get_projects, name='get_projects'),
@@ -80,5 +81,5 @@ urlpatterns = patterns(
     url(r'^whats_new', whats_new, name='whats_new'),
     url(r'^gist/(?P<gist_id>[0-9a-f]+)$', import_gist),
     url(r'^heartbeat$', heartbeat),
-    url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', name='jsi18n'),
-)
+    url(r'^jsi18n/$', javascript_catalog, name='jsi18n'),
+]

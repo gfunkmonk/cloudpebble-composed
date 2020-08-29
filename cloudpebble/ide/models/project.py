@@ -48,7 +48,7 @@ class Project(IdeModel):
     app_is_shown_on_communication = models.BooleanField(default=False)
     app_capabilities = models.CharField(max_length=255, blank=True, null=True)
     app_keys = models.TextField(default="{}")
-    app_jshint = models.BooleanField(default=True)
+    app_jshint = models.BooleanField(default=False)
     app_platforms = models.TextField(max_length=255, blank=True, null=True)
     app_modern_multi_js = models.BooleanField(default=True)
     app_keywords = models.TextField(default='[]')

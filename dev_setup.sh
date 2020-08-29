@@ -1,4 +1,6 @@
 #!/bin/bash
+source .env
+cp .env cloudpebble/.env
 # Run the general build.
 docker-compose build
 # Do this in the mounted directory, since the Dockerfile did it in a folder we

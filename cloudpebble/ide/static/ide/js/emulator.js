@@ -20,10 +20,10 @@ CloudPebble.Emulator = new (function() {
     }
 
     function setDefaults() {
-        self._batteryLevel = 80;
+        self._batteryLevel = 60;
         self._charging = false;
         self._bluetooth = true;
-        self._24h = true;
+        self._24h = false;
         self._timelinePeek = false;
     }
 
