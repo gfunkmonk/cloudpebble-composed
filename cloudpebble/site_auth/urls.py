@@ -1,0 +1,13 @@
+from django.conf.urls import url, include
+from django.conf import settings
+
+from site_auth import views
+
+reg_view = views.IdeRegistrationMissingView.as_view() if settings.SOCIAL_AUTH_PEBBLE_REQUIRED else views.IdeRegistrationView.as_view()
+
+urlpatterns = [
+    url(r'^register/?$', reg_view, name="registration_register"),
+    url(r'^logout/?$', views.logout_view, name="logout"),
+    url(r'^api/login$', views.login_action, name="login"),
+    url(r'', include('registration.backends.simple.urls'))
+]
