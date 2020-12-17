@@ -5,7 +5,8 @@ __author__ = 'joe'
 
 class _Transform(object):
     def __init__(self, func):
-        assert callable(func)
+        if not callable(func):
+            raise AssertionError
         self.func = func
 
     def __call__(self, *args, **kwargs):
@@ -19,8 +20,10 @@ class TransformValue(_Transform):
 class TransformKeyAndValue(_Transform):
     def __call__(self, *args, **kwargs):
         v = self.func(*args, **kwargs)
-        assert isinstance(v, tuple)
-        assert len(v) == 2, "Transform function must return a tuple of (key, value)"
+        if not isinstance(v, tuple):
+            raise AssertionError
+        if len(v) != 2:
+            raise AssertionError("Transform function must return a tuple of (key, value)")
         return v
 
 

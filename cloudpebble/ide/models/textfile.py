@@ -15,7 +15,8 @@ class TextFile(S3File):
     def was_modified_since(self, expected_modification_time):
         if isinstance(expected_modification_time, int):
             expected_modification_time = datetime.datetime.fromtimestamp(expected_modification_time)
-        assert isinstance(expected_modification_time, datetime.datetime)
+        if not isinstance(expected_modification_time, datetime.datetime):
+            raise AssertionError
         return self.last_modified.replace(tzinfo=None, microsecond=0) > expected_modification_time
 
     def save_lines(self, folded_lines):
