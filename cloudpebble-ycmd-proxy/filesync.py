@@ -1,7 +1,7 @@
-__author__ = 'katharine'
+__author__ = "katharine"
 
-import os.path
 import errno
+import os.path
 
 
 class FileSync(object):
@@ -17,33 +17,33 @@ class FileSync(object):
         # But does it matter?
 
         # The patches should arrive in order.
-        patches = sorted(patch_sequence, key=lambda x: x['sequence'])
+        patches = sorted(patch_sequence, key=lambda x: x["sequence"])
 
         for patch in patches:
-            abs_path = self.abs_path(patch['filename'])
+            abs_path = self.abs_path(patch["filename"])
 
             with open(abs_path) as f:
-                lines = [x.decode('utf-8') for x in f.readlines()]
-                start = patch['start']
-                end = patch['end']
+                lines = [x.decode("utf-8") for x in f.readlines()]
+                start = patch["start"]
+                end = patch["end"]
 
                 # Including everything up to the start line
-                content = lines[:start['line']]
+                content = lines[: start["line"]]
                 # Merge the start line, replacement, and end line into a single line
-                merged_line = ''
-                if len(lines) > start['line']:
-                    merged_line += lines[start['line']][:start['ch']]
-                merged_line += "\n".join(patch['text'])
-                if len(lines) > end['line']:
-                    merged_line += lines[end['line']][end['ch']:]
+                merged_line = ""
+                if len(lines) > start["line"]:
+                    merged_line += lines[start["line"]][: start["ch"]]
+                merged_line += "\n".join(patch["text"])
+                if len(lines) > end["line"]:
+                    merged_line += lines[end["line"]][end["ch"] :]
                 content.append(merged_line)
                 # Add the lines from the end through to the end.
-                if len(lines) > end['line'] + 1:
-                    content.extend(lines[end['line'] + 1:])
+                if len(lines) > end["line"] + 1:
+                    content.extend(lines[end["line"] + 1 :])
 
             # Writeback.
-            with open(abs_path, 'w') as f:
-                f.writelines([x.encode('utf-8') for x in content])
+            with open(abs_path, "w") as f:
+                f.writelines([x.encode("utf-8") for x in content])
 
     def create_file(self, path, content):
         path = self.abs_path(path)
@@ -55,7 +55,7 @@ class FileSync(object):
                 pass
             else:
                 raise
-        with open(path, 'w') as f:
+        with open(path, "w") as f:
             f.write(content)
 
     def rename_file(self, path, new_path):

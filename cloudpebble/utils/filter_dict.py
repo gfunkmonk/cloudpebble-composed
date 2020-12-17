@@ -1,6 +1,6 @@
 import collections
 
-__author__ = 'joe'
+__author__ = "joe"
 
 
 class _Transform(object):
@@ -23,12 +23,14 @@ class TransformKeyAndValue(_Transform):
         if not isinstance(v, tuple):
             raise AssertionError
         if len(v) != 2:
-            raise AssertionError("Transform function must return a tuple of (key, value)")
+            raise AssertionError(
+                "Transform function must return a tuple of (key, value)"
+            )
         return v
 
 
 def filter_dict(dictionary, spec):
-    """ Return a dictionary with whitelisted keys only.
+    """Return a dictionary with whitelisted keys only.
     :param dictionary: Object to filter
     :param spec: Specification of keys to filter. The structure of the spec dictionary defines the structure of the output dictionary.
         - Any keys in the spec with a value of "True" represent a value which is copied over
@@ -46,9 +48,9 @@ def _filter_dict(dictionary, spec, strict=False):
         if not strict:
             return dictionary
         else:
-            raise ValueError('First argument must be a collections.Mappable')
+            raise ValueError("First argument must be a collections.Mappable")
     if not isinstance(spec, collections.Mapping):
-        raise ValueError('Second argument must be a collections.Mappable')
+        raise ValueError("Second argument must be a collections.Mappable")
 
     out = {}
     if True in spec.keys():
@@ -80,4 +82,4 @@ def _transform_value(out, key, dictionary, spec_value, strict):
     elif isinstance(spec_value, basestring):
         out[spec_value] = v
     else:
-        raise ValueError('Invalid filter spec value')
+        raise ValueError("Invalid filter spec value")

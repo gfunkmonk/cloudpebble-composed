@@ -1,23 +1,28 @@
 import datetime
 
-from django.utils.timezone import now
 from django.db import models
-
+from django.utils.timezone import now
 from ide.models.s3file import S3File
 
 
 class TextFile(S3File):
     """ TextFile adds support to S3File for last-modified timestamps and code folding """
+
     last_modified = models.DateTimeField(blank=True, null=True, auto_now=True)
     folded_lines = models.TextField(default="[]")
     _create_local_if_not_exists = True
 
     def was_modified_since(self, expected_modification_time):
         if isinstance(expected_modification_time, int):
-            expected_modification_time = datetime.datetime.fromtimestamp(expected_modification_time)
+            expected_modification_time = datetime.datetime.fromtimestamp(
+                expected_modification_time
+            )
         if not isinstance(expected_modification_time, datetime.datetime):
             raise AssertionError
-        return self.last_modified.replace(tzinfo=None, microsecond=0) > expected_modification_time
+        return (
+            self.last_modified.replace(tzinfo=None, microsecond=0)
+            > expected_modification_time
+        )
 
     def save_lines(self, folded_lines):
         if folded_lines:
