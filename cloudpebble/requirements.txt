@@ -25,7 +25,7 @@ mock==2.0.0
 dj-static==0.0.6
 gunicorn==19.5.0
 dj-database-url==0.5.0
-newrelic==2.50.0.39
+newrelic==6.0.1.155
 
 # These are in the SDK requirements.txt and included here to save on Heroku deploy time.
 freetype-py==1.0
